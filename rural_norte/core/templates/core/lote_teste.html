@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{#{% block breadcrumb %}#}
+{#  {{ block.super }}#}
+{#  <li class="breadcrumb-item">#}
+{#    {% if notaEntrada.id != null %}#}
+{#      {{ notaEntrada }}#}
+{#    {% else %}#}
+{#      Nova Nota (Entrada)#}
+{#    {% endif %}#}
+{#  </li>#}
+{#{% endblock %}#}
+
+{% block content %}
+  <div class="card card-register mx-auto" style="max-width: 100%;">
+    <div class="card-header"><b>{{ title }}</b></div>
+    <div class="card-body">
+      <form method="POST" id="my_form" action="{{ form_action }}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {{ form.projeto_assentamento }}
+        {{ form.projeto_assentamento.errors }}
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            {{ form.codigo_sipra.label_tag }}
+            {{ form.codigo_sipra }}
+            {{ form.codigo_sipra.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.data_homologacao.label_tag }}
+            {{ form.data_homologacao }}
+            {{ form.data_homologacao.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.data_visita.label_tag }}
+            {{ form.data_visita }}
+            {{ form.data_visita.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.area.label_tag }}
+            {{ form.area }}
+            {{ form.area.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.numero.label_tag }}
+            {{ form.numero }}
+            {{ form.numero.errors }}
+          </div>
+          <div class="form-group col-md-6">
+            {{ form.entrevistador.label_tag }}
+            {{ form.entrevistador }}
+            {{ form.entrevistador.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.coordenada_x.label_tag }}
+            {{ form.coordenada_x }}
+            {{ form.coordenada_x.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.coordenada_y.label_tag }}
+            {{ form.coordenada_y }}
+            {{ form.coordenada_y.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            {{ form.banda_coordenada.label_tag }}
+            {{ form.banda_coordenada }}
+            {{ form.banda_coordenada.errors }}
+          </div>
+
+
+        <hr>
+        <div class="beneficio_social_inline">
+          <h4>beneficio_social_inline:</h4>
+          {{ beneficio_social_inline.management_form }}
+          {% for beneficio in beneficio_social_inline %}
+            <hr>
+            <h1>{{ forloop.count }}</h1>
+            {{ beneficio }}
+          {% endfor %}
+        </div>
+
+        <hr>
+        <div class="atendimento_saude_inline">
+          <h4>atendimento_saude_inline:</h4>
+          {{ atendimento_saude_inline.management_form }}
+          {% for atendimento_saude in atendimento_saude_inline %}
+            <hr>
+            <h1>{{ forloop.count }}</h1>
+            {{ atendimento_saude }}
+          {% endfor %}
+        </div>
+        <hr>
+        <h4>Familia:</h4>
+        {{ familia_inline.management_form }}
+        {% for familia in familia_inline %}
+          {{ familia }}
+          {% if familia.nested_inline %}
+            <div class="membros_familia">
+              <h4>Membros:</h4>
+              {{ familia.nested_inline.management_form }}
+              {% for membro in familia.nested_inline %}
+                <hr>
+                {{ membro }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+
+
+        {#        {% for inline in inlines %}#}
+        {#            {{ inline }}#}
+        {#        {% endfor %}#}
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a class="btn btn-secondary" href="{{ listar_diagnosticos_por_projeto_assentamento_url }}"
+           style="pointer-events: all;">Voltar</a>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+
+  <script>
+    function updateElementIndex(el, prefix, ndx) {
+      var id_regex = new RegExp('(' + prefix + '-\\d+)');
+      var replacement = prefix + '-' + ndx;
+      if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+      if (el.id) el.id = el.id.replace(id_regex, replacement);
+      if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function addForm(btn, prefix) {
+      var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+      var row = $('.dynamic-form-' + prefix + ':last').clone(true).get(0);
+      $(row).show();
+      $(row).insertAfter($('.dynamic-form-' + prefix + ':last')).children('.hidden').removeClass('hidden');
+      $(row).children().not(':last').children().each(function () {
+        updateElementIndex(this, prefix, formCount);
+        $(this).val('');
+      });
+      if (prefix == 'culturas' || prefix == 'olericulturas' || prefix == 'fruticulturas' || prefix == 'atividades_extrativistas'
+        || prefix == 'producoes_florestais' || prefix == 'bovinoculturas_leiteira' || prefix == 'bovinoculturas_corte'
+        || prefix == 'origens_animais' || prefix == 'processados_beneficiados') {
+        $(row).children().each(function () {
+          if ($(this).is('fieldset')) {
+            $(this).children().children().not(':last').children().each(function () {
+              updateElementIndex(this, prefix, formCount);
+              $(this).val('');
+            });
+          }
+        });
+      }
+
+      $(row).find('.delete-row').click(function () {
+        deleteForm(this, prefix);
+      });
+      $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
+      return false;
+    }
+
+    function deleteForm(btn, prefix) {
+      $(btn).parents('.dynamic-form-' + prefix).hide();
+      {#$(btn).parents('.dynamic-form').remove();#}
+      var id = $(btn).parents('.dynamic-form-' + prefix).children().attr('id').replace('-id', '-DELETE');
+      document.getElementById(id).checked = true;
+      var forms = $('.dynamic-form-' + prefix);
+      $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+      for (var i = 0, formCount = forms.length; i < formCount; i++) {
+        $(forms.get(i)).children().not(':last').children().each(function () {
+          updateElementIndex(this, prefix, i);
+        });
+      }
+      return false;
+    }
+
+    $(document).ready(function () {
+      $(function () {
+        $('.add-row').click(function () {
+          return addForm(this, this.id);
+        });
+        $('.delete-row').click(function () {
+          return deleteForm(this, this.id);
+        })
+      })
+    });
+  </script>
+
+  {% if form %}
+    {{ form.media }}
+  {% endif %}
+  {% if inlines %}
+    {% for inline in inlines %}
+      {{ inline.media }}
+    {% endfor %}
+  {% endif %}
+{% endblock %}

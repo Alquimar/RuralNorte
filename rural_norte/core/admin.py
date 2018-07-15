@@ -279,18 +279,6 @@ class PraticaConservacionistaInlineAdmin(admin.StackedInline):
     insert_after = 'area_preservacao_permanente_cercada'
 
 
-class DestinoLixoDomesticoInlineAdmin(admin.StackedInline):
-    model = models.DestinoLixoDomestico
-    exclude = ['desativado_por', 'desativado_em']
-    insert_after = 'area_preservacao_permanente_cercada'
-
-
-class DestinoMaterialOrganicoInlineAdmin(admin.StackedInline):
-    model = models.DestinoMaterialOrganico
-    exclude = ['desativado_por', 'desativado_em']
-    insert_after = 'area_preservacao_permanente_cercada'
-
-
 class LicenciamentoAmbientalInlineAdmin(admin.StackedInline):
     model = models.LicenciamentoAmbiental
     exclude = ['desativado_por', 'desativado_em']
@@ -462,9 +450,9 @@ class LoteAdmin(nested_admin.NestedModelAdmin):
         'quantas_familias_utilizam_mesma_fonte_agua', 'agua_para_animais_plantio', 'regularidade_abastecimento_agua',
         'tipo_estrada_acesso', 'situacao_estrada_acesso', 'situacao_cercado_lote', 'area_preservacao_permanente',
         'area_preservacao_permanente_cercada', 'necessita_licenciamento_ambiental',
-        'necessita_autoriacao_exploracao_florestal_queima_controlada', 'documentos', 'beneficios', 'autoDeclaracoes',
-        'estruturasOrganizativas', 'fontesAgua', 'tratamentosAgua', 'construcoesLote', 'bensProdutivos',
-        'aplicacoesCredito', 'creditosBancarios'
+        'necessita_autoriacao_exploracao_florestal_queima_controlada', 'documentos', 'beneficios', 'etnias',
+        'estruturas_organizativas', 'fontes_agua', 'tratamentos_agua', 'construcoes_lote', 'bens_produtivos',
+        'aplicacoes_credito', 'creditos_bancarios'
     ]
     inlines = [
         FamiliaInlineAdmin, ContatoInlineAdmin, DocumentoLoteInlineAdmin, BeneficioSocialInlineAdmin,
@@ -476,7 +464,7 @@ class LoteAdmin(nested_admin.NestedModelAdmin):
         BovinoculturaLeiteiraInlineAdmin,
         BovinoculturaCorteInlineAdmin, OrigemAnimalInlineAdmin, NivelTecnologicoProducaoAnimalInlineAdmin,
         ProcessadoBeneficiadoInlineAdmin, ProblemaAmbientalInlineAdmin, PraticaConservacionistaInlineAdmin,
-        DestinoLixoDomesticoInlineAdmin, DestinoMaterialOrganicoInlineAdmin, LicenciamentoAmbientalInlineAdmin,
+        LicenciamentoAmbientalInlineAdmin,
         AtendimentoSaudeInlineAdmin, ProgramaSaudeInlineAdmin, AtividadeFisicaInlineAdmin, EspacoDisponivelInlineAdmin,
         EstabelecimentoEnsinoInlineAdmin, NaoPossuiDocumentoInlineAdmin
     ]

@@ -483,7 +483,7 @@ class BeneficioSocial(AuditoriaAbstractModel):
 
 
 class AutoDeclaracaoEtnia(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='autoDeclaracoes', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='etnias', on_delete=models.CASCADE)
 
     TIPO_DECLARACAO_ETNIA_NEGROS = 10
     TIPO_DECLARACAO_ETNIA_PARDOS = 20
@@ -513,7 +513,7 @@ class AutoDeclaracaoEtnia(AuditoriaAbstractModel):
 
 
 class EstruturaOrganizativa(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='estruturasOrganizativas',
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='estruturas_organizativas',
                              on_delete=models.CASCADE)
 
     TIPO_ESTRUTURA_ORGANIZATIVA_ASSOCIACAO_COMUNITARIA = 10
@@ -556,7 +556,8 @@ class EstruturaOrganizativa(AuditoriaAbstractModel):
     frequencia = models.IntegerField('Frequência', choices=frequencia_choices)
 
     def __str__(self):
-        return '%s - %s' % (self.tipo_estrutura_organizativa_choices[self.tipo_estrutura_organizativa], self.frequencia_choices[self.frequencia])
+        return '%s - %s' % (self.tipo_estrutura_organizativa_choices[self.tipo_estrutura_organizativa],
+                            self.frequencia_choices[self.frequencia])
 
     class Meta:
         verbose_name = 'Estruturas organizativa'
@@ -564,7 +565,7 @@ class EstruturaOrganizativa(AuditoriaAbstractModel):
 
 
 class FonteAgua(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='fontesAgua', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='fontes_agua', on_delete=models.CASCADE)
 
     FONTE_DE_AGUA_POCO_ARTESIANO = 10
     FONTE_DE_AGUA_NASCENTE_OU_VERTENTE = 20
@@ -602,7 +603,7 @@ class FonteAgua(AuditoriaAbstractModel):
 
 
 class TratamentoAgua(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='tratamentosAgua', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='tratamentos_agua', on_delete=models.CASCADE)
 
     TRATAMENTO_AGUA_NAO_HA_TRATAMENTO = 10
     TRATAMENTO_AGUA_CLORACAO = 20
@@ -634,7 +635,7 @@ class TratamentoAgua(AuditoriaAbstractModel):
 
 
 class ConstrucaoLote(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='construcoesLote', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='construcoes_lote', on_delete=models.CASCADE)
 
     CONSTRUCAO_NO_LOTE_GALPAO = 10
     CONSTRUCAO_NO_LOTE_CURRAL = 20
@@ -666,7 +667,8 @@ class ConstrucaoLote(AuditoriaAbstractModel):
     def __str__(self):
         retorno = ''
         if self.outros:
-            retorno = '{} ({}) - {}'.format(self.construcao_no_lote_choices[self.construcao_no_lote], self.outros, self.quantidade)
+            retorno = '{} ({}) - {}'.format(self.construcao_no_lote_choices[self.construcao_no_lote], self.outros,
+                                            self.quantidade)
         retorno = '{} - {}'.format(self.construcao_no_lote_choices[self.construcao_no_lote], self.quantidade)
         return retorno
 
@@ -676,7 +678,7 @@ class ConstrucaoLote(AuditoriaAbstractModel):
 
 
 class BemProdutivo(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='bensProdutivos', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='bens_produtivos', on_delete=models.CASCADE)
 
     BEM_PRODUTIVO_TRATOR = 10
     BEM_PRODUTIVO_CAMINHAO = 20
@@ -735,7 +737,7 @@ class BemProdutivo(AuditoriaAbstractModel):
 
 
 class AplicacaoCredito(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='aplicacoesCredito', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='aplicacoes_credito', on_delete=models.CASCADE)
 
     TIPO_APLICACAO_CREDITO_APOIO_INICIAL_ANTES_DE_2015 = 10
     TIPO_APLICACAO_CREDITO_APOIO_INICIAL_I_APOS_2015 = 20
@@ -770,7 +772,7 @@ class AplicacaoCredito(AuditoriaAbstractModel):
 
 
 class CreditoBancario(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='creditosBancarios', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='creditos_bancarios', on_delete=models.CASCADE)
 
     CREDITO_BANCARIO_MICRO_CREDITO_PRODUTIVO_A = 10
     CREDITO_BANCARIO_A = 20
@@ -805,8 +807,11 @@ class CreditoBancario(AuditoriaAbstractModel):
     def __str__(self):
         retorno = ''
         if self.outros:
-            retorno = '{} ({}) - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario], self.outros, self.valor, self.sim_nao_choices[self.adimplente])
-        retorno = '{} - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario], self.valor, self.sim_nao_choices[self.adimplente])
+            retorno = '{} ({}) - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario],
+                                                                self.outros, self.valor,
+                                                                self.sim_nao_choices[self.adimplente])
+        retorno = '{} - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario], self.valor,
+                                                       self.sim_nao_choices[self.adimplente])
         return retorno
 
     class Meta:
@@ -815,7 +820,7 @@ class CreditoBancario(AuditoriaAbstractModel):
 
 
 class ProducaoVegetal(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoesVegetais', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoes_vegetais', on_delete=models.CASCADE)
 
     CLASSIFICACAO_CULTURA = 1
     CLASSIFICACAO_OLERICULTURA = 2
@@ -833,15 +838,15 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     TIPO_PRODUCAO_MILHO = 90
 
     CULTURA = Choices(
-            (TIPO_PRODUCAO_AMENDOIM, 'Amendoim'),
-               (TIPO_PRODUCAO_ARROZ, 'Arroz'),
-               (TIPO_PRODUCAO_BATATA_DOCE, 'Batata-doce'),
-               (TIPO_PRODUCAO_CANA_DE_ACUCAR, 'Cana-de-Açúcar'),
-               (TIPO_PRODUCAO_FEIJAO, 'Feijão'),
-               (TIPO_PRODUCAO_MAMONA, 'Mamona'),
-               (TIPO_PRODUCAO_MANDIOCA_DE_FARINHA, 'Mandioca de / Farinha'),
-               (TIPO_PRODUCAO_MANDIOCA_DE_MESA, 'Mandioca de / Mesa'),
-               (TIPO_PRODUCAO_MILHO, 'Milho'))
+        (TIPO_PRODUCAO_AMENDOIM, 'Amendoim'),
+        (TIPO_PRODUCAO_ARROZ, 'Arroz'),
+        (TIPO_PRODUCAO_BATATA_DOCE, 'Batata-doce'),
+        (TIPO_PRODUCAO_CANA_DE_ACUCAR, 'Cana-de-Açúcar'),
+        (TIPO_PRODUCAO_FEIJAO, 'Feijão'),
+        (TIPO_PRODUCAO_MAMONA, 'Mamona'),
+        (TIPO_PRODUCAO_MANDIOCA_DE_FARINHA, 'Mandioca de / Farinha'),
+        (TIPO_PRODUCAO_MANDIOCA_DE_MESA, 'Mandioca de / Mesa'),
+        (TIPO_PRODUCAO_MILHO, 'Milho'))
 
     TIPO_PRODUCAO_ALFACE = 100
     TIPO_PRODUCAO_CEBOLINHA = 110
@@ -981,12 +986,15 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     canal_comercializacao_choices = Choices(
         (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, 'Venda direta ao consumidor (de casa em casa)'),
         (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, 'Venda em feiras'),
-        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES, 'Entrega para supermercados, mercearias, açougues, etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS, 'Venda p/ indústrias, e/ou agroindústrias (laticínios etc)'),
+        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES,
+         'Entrega para supermercados, mercearias, açougues, etc'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS,
+         'Venda p/ indústrias, e/ou agroindústrias (laticínios etc)'),
         (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
         (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
     )
-    canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização', choices=canal_comercializacao_choices, blank=True, null=True)
+    canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
+                                                choices=canal_comercializacao_choices, blank=True, null=True)
 
     MERCADO_INSTITUCIONAL_PAA_CONAB = 10
     MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS = 20
@@ -1001,7 +1009,8 @@ class ProducaoVegetal(AuditoriaAbstractModel):
         (MERCADO_INSTITUCIONAL_BIODIESEL, 'Biodiesel'),
         (MERCADO_INSTITUCIONAL_OUTROS, 'Outros')
     )
-    mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices, blank=True, null=True)
+    mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices,
+                                                blank=True, null=True)
 
 
 class CulturaManager(models.Manager):
@@ -1033,7 +1042,8 @@ class Cultura(ProducaoVegetal):
 
 class OlericulturaManager(models.Manager):
     def get_queryset(self):
-        return super(OlericulturaManager, self).get_queryset().filter(classificacao=Olericultura.CLASSIFICACAO_OLERICULTURA)
+        return super(OlericulturaManager, self).get_queryset().filter(
+            classificacao=Olericultura.CLASSIFICACAO_OLERICULTURA)
 
 
 class Olericultura(ProducaoVegetal):
@@ -1059,7 +1069,8 @@ class Olericultura(ProducaoVegetal):
 
 class FruticulturaManager(models.Manager):
     def get_queryset(self):
-        return super(FruticulturaManager, self).get_queryset().filter(classificacao=Fruticultura.CLASSIFICACAO_FRUTICULTURA)
+        return super(FruticulturaManager, self).get_queryset().filter(
+            classificacao=Fruticultura.CLASSIFICACAO_FRUTICULTURA)
 
 
 class Fruticultura(ProducaoVegetal):
@@ -1085,7 +1096,7 @@ class Fruticultura(ProducaoVegetal):
 
 
 class AtividadeExtrativista(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='atividadesExtrativistas',
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='atividades_extrativistas',
                              on_delete=models.CASCADE)
 
     ESPECIFICACAO_ACAI = 10
@@ -1150,8 +1161,11 @@ class AtividadeExtrativista(AuditoriaAbstractModel):
     def __str__(self):
         retorno = ''
         if self.outros:
-            retorno = '{} ({}) - {} fruto(s), {} palmito(s)'.format(self.especificacao_choices[self.especificacao], self.outros, self.quantidade_frutos_ano, self.quantidade_palmitos_ano)
-        retorno = '{} - {} fruto(s), {} palmito(s)'.format(self.especificacao_choices[self.especificacao], self.quantidade_frutos_ano, self.quantidade_palmitos_ano)
+            retorno = '{} ({}) - {} fruto(s), {} palmito(s)'.format(self.especificacao_choices[self.especificacao],
+                                                                    self.outros, self.quantidade_frutos_ano,
+                                                                    self.quantidade_palmitos_ano)
+        retorno = '{} - {} fruto(s), {} palmito(s)'.format(self.especificacao_choices[self.especificacao],
+                                                           self.quantidade_frutos_ano, self.quantidade_palmitos_ano)
         return retorno
 
     class Meta:
@@ -1160,7 +1174,7 @@ class AtividadeExtrativista(AuditoriaAbstractModel):
 
 
 class ProducaoFlorestal(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoesFlorestais', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoes_florestais', on_delete=models.CASCADE)
 
     ESPECIFICACAO_EUCALIPTO = 10
     ESPECIFICACAO_TECA = 20
@@ -1201,8 +1215,6 @@ class ProducaoFlorestal(AuditoriaAbstractModel):
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
 
-
-
     def __str__(self):
         retorno = ''
         if self.outros:
@@ -1217,7 +1229,7 @@ class ProducaoFlorestal(AuditoriaAbstractModel):
 
 
 class ProducaoAnimal(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoesAnimais', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='producoes_animais', on_delete=models.CASCADE)
 
     CLASSIFICACAO_BOVINOCULTURA = 1
     CLASSIFICACAO_OUTRA_CRIACAO = 2
@@ -1242,11 +1254,11 @@ class ProducaoAnimal(AuditoriaAbstractModel):
     ESPECIFICACAO_BOI = 60
 
     BOVINOCULTURA = Choices((ESPECIFICACAO_TOUROS, 'Touros'),
-                     (ESPECIFICACAO_VACAS, 'Vacas'),
-                     (ESPECIFICACAO_NOVILHAS_MAIS_DE_2_ANOS, 'Novilhas(os) + de 02 anos'),
-                     (ESPECIFICACAO_NOVILHAS_MAIS_DE_1_ANO, 'Novilhas(os) + de 01 ano'),
-                     (ESPECIFICACAO_BEZERRAS, 'Bezerras(os)'),
-                     (ESPECIFICACAO_BOI, 'Boi'),)
+                            (ESPECIFICACAO_VACAS, 'Vacas'),
+                            (ESPECIFICACAO_NOVILHAS_MAIS_DE_2_ANOS, 'Novilhas(os) + de 02 anos'),
+                            (ESPECIFICACAO_NOVILHAS_MAIS_DE_1_ANO, 'Novilhas(os) + de 01 ano'),
+                            (ESPECIFICACAO_BEZERRAS, 'Bezerras(os)'),
+                            (ESPECIFICACAO_BOI, 'Boi'), )
 
     ESPECIFICACAO_FRANGO_DE_CORTE_CAIPIRA = 70
     ESPECIFICACAO_GALINHA_CAIPIRA_SOMENTE_FRANGOS_E_ADULTOS = 80
@@ -1256,12 +1268,12 @@ class ProducaoAnimal(AuditoriaAbstractModel):
     ESPECIFICACAO_CAPRINOS = 120
 
     OUTRA_CRIACAO = Choices((ESPECIFICACAO_FRANGO_DE_CORTE_CAIPIRA, 'Frango de corte caipira'),
-                     (ESPECIFICACAO_GALINHA_CAIPIRA_SOMENTE_FRANGOS_E_ADULTOS,
-                      'Galinha caipira (somente frangos(as) e adultos)'),
-                     (ESPECIFICACAO_SUINOS, 'Suínos'),
-                     (ESPECIFICACAO_OUVINOS, 'Ovinos'),
-                     (ESPECIFICACAO_EQUINOS_MUARES, 'Equinos / Muares'),
-                     (ESPECIFICACAO_CAPRINOS, 'Caprinos'),)
+                            (ESPECIFICACAO_GALINHA_CAIPIRA_SOMENTE_FRANGOS_E_ADULTOS,
+                             'Galinha caipira (somente frangos(as) e adultos)'),
+                            (ESPECIFICACAO_SUINOS, 'Suínos'),
+                            (ESPECIFICACAO_OUVINOS, 'Ovinos'),
+                            (ESPECIFICACAO_EQUINOS_MUARES, 'Equinos / Muares'),
+                            (ESPECIFICACAO_CAPRINOS, 'Caprinos'), )
 
     ESPECIFICACAO_OUTROS = 999
 
@@ -1275,14 +1287,17 @@ class ProducaoAnimal(AuditoriaAbstractModel):
 
 class BovinoculturaManager(models.Manager):
     def get_queryset(self):
-        return super(BovinoculturaManager, self).get_queryset().filter(classificacao=Bovinocultura.CLASSIFICACAO_BOVINOCULTURA)
+        return super(BovinoculturaManager, self).get_queryset().filter(
+            classificacao=Bovinocultura.CLASSIFICACAO_BOVINOCULTURA)
 
 
 class Bovinocultura(ProducaoAnimal):
     objects = BovinoculturaManager()
 
     def __str__(self):
-        return '{} - {}: {} cabeça(s), R$ {} por cabeça'.format(self.tipo_criacao_choices[self.tipo_criacao], self.especificacao_choices[self.especificacao], self.quantidade_cabecas, self.valor_cabeca)
+        return '{} - {}: {} cabeça(s), R$ {} por cabeça'.format(self.tipo_criacao_choices[self.tipo_criacao],
+                                                                self.especificacao_choices[self.especificacao],
+                                                                self.quantidade_cabecas, self.valor_cabeca)
 
     def save(self, *args, **kwargs):
         self.classificacao = self.CLASSIFICACAO_BOVINOCULTURA
@@ -1296,14 +1311,16 @@ class Bovinocultura(ProducaoAnimal):
 
 class OutraCriacaoManager(models.Manager):
     def get_queryset(self):
-        return super(OutraCriacaoManager, self).get_queryset().filter(classificacao=OutraCriacao.CLASSIFICACAO_OUTRA_CRIACAO)
+        return super(OutraCriacaoManager, self).get_queryset().filter(
+            classificacao=OutraCriacao.CLASSIFICACAO_OUTRA_CRIACAO)
 
 
 class OutraCriacao(ProducaoAnimal):
     objects = OutraCriacaoManager()
 
     def __str__(self):
-        return '{}: {} cabeça(s), R$ {} por cabeça'.format(self.especificacao_choices[self.especificacao], self.quantidade_cabecas, self.valor_cabeca)
+        return '{}: {} cabeça(s), R$ {} por cabeça'.format(self.especificacao_choices[self.especificacao],
+                                                           self.quantidade_cabecas, self.valor_cabeca)
 
     def save(self, *args, **kwargs):
         self.classificacao = self.CLASSIFICACAO_OUTRA_CRIACAO
@@ -1317,7 +1334,7 @@ class OutraCriacao(ProducaoAnimal):
 
 
 class DescarteAnimal(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='descartesAnimais', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='descartes_animais', on_delete=models.CASCADE)
 
     TIPO_CRIACAO_GADO_LEITEIRO = 1
     TIPO_CRIACAO_GADO_DE_CORTE = 2
@@ -1363,7 +1380,8 @@ class DescarteAnimal(AuditoriaAbstractModel):
 
 class BovinoculturaLeiteiraManager(models.Manager):
     def get_queryset(self):
-        return super(BovinoculturaLeiteiraManager, self).get_queryset().filter(tipo_criacao=BovinoculturaLeiteira.TIPO_CRIACAO_GADO_LEITEIRO)
+        return super(BovinoculturaLeiteiraManager, self).get_queryset().filter(
+            tipo_criacao=BovinoculturaLeiteira.TIPO_CRIACAO_GADO_LEITEIRO)
 
 
 class BovinoculturaLeiteira(DescarteAnimal):
@@ -1386,7 +1404,8 @@ class BovinoculturaLeiteira(DescarteAnimal):
 
 class BovinoculturaCorteManager(models.Manager):
     def get_queryset(self):
-        return super(BovinoculturaCorteManager, self).get_queryset().filter(tipo_criacao=BovinoculturaCorte.TIPO_CRIACAO_GADO_DE_CORTE)
+        return super(BovinoculturaCorteManager, self).get_queryset().filter(
+            tipo_criacao=BovinoculturaCorte.TIPO_CRIACAO_GADO_DE_CORTE)
 
 
 class BovinoculturaCorte(DescarteAnimal):
@@ -1408,7 +1427,7 @@ class BovinoculturaCorte(DescarteAnimal):
 
 
 class Produto(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='produtosOrigemAnimal', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='produtos_origem_animal', on_delete=models.CASCADE)
 
     CLASSIFICACAO_ORIGEM_ANIMAL = 1
     CLASSIFICACAO_PROCESSADO_BENEFICIADO = 2
@@ -1422,10 +1441,10 @@ class Produto(AuditoriaAbstractModel):
     ESPECIFICACAO_PEIXES = 50
 
     ORIGEM_ANIMAL = Choices((ESPECIFICACAO_CARNE, 'Carne(Kg)'),
-                     (ESPECIFICACAO_LEITE, 'Leite(L)'),
-                     (ESPECIFICACAO_MEL, 'Mel(Kg)'),
-                     (ESPECIFICACAO_OVOS, 'Ovos(Dz)'),
-                     (ESPECIFICACAO_PEIXES, 'Peixes(Kg)'),)
+                            (ESPECIFICACAO_LEITE, 'Leite(L)'),
+                            (ESPECIFICACAO_MEL, 'Mel(Kg)'),
+                            (ESPECIFICACAO_OVOS, 'Ovos(Dz)'),
+                            (ESPECIFICACAO_PEIXES, 'Peixes(Kg)'), )
 
     ESPECIFICACAO_BANHA = 60
     ESPECIFICACAO_CONSERVAS = 70
@@ -1437,13 +1456,13 @@ class Produto(AuditoriaAbstractModel):
     ESPECIFICACAO_RAPADURA = 130
 
     PROCESSADO_BENEFICIADO = Choices((ESPECIFICACAO_BANHA, 'Banha(Kg)'),
-                              (ESPECIFICACAO_CONSERVAS, 'Conservas(Un)'),
-                              (ESPECIFICACAO_DOCES, 'Doces(Un)'),
-                              (ESPECIFICACAO_FARINHA_DE_MANDIOCA, 'Farinha Mandioca(Kg'),
-                              (ESPECIFICACAO_LINGUICA, 'Linguiça(Kg)'),
-                              (ESPECIFICACAO_POVILHO_DE_MANDIOCA, 'Polvilho de Mandioca(Kg)'),
-                              (ESPECIFICACAO_QUEIJO, 'Queijo(Kg)'),
-                              (ESPECIFICACAO_RAPADURA, 'Rapadura(Kg)'),)
+                                     (ESPECIFICACAO_CONSERVAS, 'Conservas(Un)'),
+                                     (ESPECIFICACAO_DOCES, 'Doces(Un)'),
+                                     (ESPECIFICACAO_FARINHA_DE_MANDIOCA, 'Farinha Mandioca(Kg'),
+                                     (ESPECIFICACAO_LINGUICA, 'Linguiça(Kg)'),
+                                     (ESPECIFICACAO_POVILHO_DE_MANDIOCA, 'Polvilho de Mandioca(Kg)'),
+                                     (ESPECIFICACAO_QUEIJO, 'Queijo(Kg)'),
+                                     (ESPECIFICACAO_RAPADURA, 'Rapadura(Kg)'), )
 
     ESPECIFICACAO_OUTROS = 999
 
@@ -1495,14 +1514,16 @@ class Produto(AuditoriaAbstractModel):
 
 class OrigemAnimalManager(models.Manager):
     def get_queryset(self):
-        return super(OrigemAnimalManager, self).get_queryset().filter(classificacao=OrigemAnimal.CLASSIFICACAO_ORIGEM_ANIMAL)
+        return super(OrigemAnimalManager, self).get_queryset().filter(
+            classificacao=OrigemAnimal.CLASSIFICACAO_ORIGEM_ANIMAL)
 
 
 class OrigemAnimal(Produto):
     objects = OrigemAnimalManager()
 
     def __str__(self):
-        return '{} - Consumo: {}, Comércio: {}'.format(self.especificacao_choices[self.especificacao], self.producao_consumo, self.producao_comercio)
+        return '{} - Consumo: {}, Comércio: {}'.format(self.especificacao_choices[self.especificacao],
+                                                       self.producao_consumo, self.producao_comercio)
 
     def save(self, *args, **kwargs):
         self.classificacao = self.CLASSIFICACAO_ORIGEM_ANIMAL
@@ -1515,7 +1536,8 @@ class OrigemAnimal(Produto):
 
 
 class NivelTecnologicoProducaoAnimal(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='niveisTecnologicosProducaoAnimal', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='niveis_tecnologicos_producao_animal',
+                             on_delete=models.CASCADE)
 
     TIPO_CAPINEIRA_CANA = 10
     TIPO_CAPINEIRA_NAPIER = 20
@@ -1533,7 +1555,6 @@ class NivelTecnologicoProducaoAnimal(AuditoriaAbstractModel):
 
     def __str__(self):
         return '{}: {}ha'.format(self.tipo_capineira_choices[self.tipo_capineira], self.area_capineira)
-        return str(self.tipo_capineira)
 
     class Meta:
         verbose_name = ''
@@ -1542,7 +1563,8 @@ class NivelTecnologicoProducaoAnimal(AuditoriaAbstractModel):
 
 class ProcessadoBeneficiadoManager(models.Manager):
     def get_queryset(self):
-        return super(ProcessadoBeneficiadoManager, self).get_queryset().filter(classificacao=ProcessadoBeneficiado.CLASSIFICACAO_PROCESSADO_BENEFICIADO)
+        return super(ProcessadoBeneficiadoManager, self).get_queryset().filter(
+            classificacao=ProcessadoBeneficiado.CLASSIFICACAO_PROCESSADO_BENEFICIADO)
 
 
 class ProcessadoBeneficiado(Produto):
@@ -1563,7 +1585,7 @@ class ProcessadoBeneficiado(Produto):
 
 
 class ProblemaAmbiental(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='problemasAmbientais', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='problemas_ambientais', on_delete=models.CASCADE)
 
     TIPO_PROBLEMA_EROSAO = 10
     TIPO_PROBLEMA_COMPACTACAO_DO_SOLO = 20
@@ -1609,7 +1631,7 @@ class ProblemaAmbiental(AuditoriaAbstractModel):
 
 
 class PraticaConservacionista(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='praticasConservacionistas',
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='praticas_conservacionistas',
                              on_delete=models.CASCADE)
 
     TIPO_PRATICA_ADUBACAO_VERDE = 10
@@ -1642,66 +1664,8 @@ class PraticaConservacionista(AuditoriaAbstractModel):
         verbose_name_plural = '41. Quais são as práticas conservacionistas praticadas na propriedade?'
 
 
-class DestinoLixoDomestico(AuditoriaAbstractModel):
-    lote = models.OneToOneField(
-        Lote, verbose_name='Lote', related_name='destinosLixoDomestico', on_delete=models.CASCADE,
-        primary_key=True,
-    )
-
-    DESTINO_ESPALHADO_NO_LOTE = 10
-    DESTINO_QUEIMA = 20
-    DESTINO_ENTERRA = 30
-    DESTINO_JOGA_NOS_CURSOS_DAGUA = 40
-    DESTINO_RECICLA_REAPROVEITA_LIXO_INORGANICO = 50
-    DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 60
-
-    destino_choices = Choices(
-        (DESTINO_ESPALHADO_NO_LOTE, 'Espalhado no lote'),
-        (DESTINO_QUEIMA, 'Queima'),
-        (DESTINO_ENTERRA, 'Enterra'),
-        (DESTINO_JOGA_NOS_CURSOS_DAGUA, "Joga nos cursos d'água"),
-        (DESTINO_RECICLA_REAPROVEITA_LIXO_INORGANICO, 'Recicla/reaproveita lixo inorgânico'),
-        (DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE, 'Deposita a céu aberto no lote')
-    )
-    destino = models.IntegerField('Destino', choices=destino_choices)
-
-    def __str__(self):
-        return self.destino_choices[self.destino]
-
-    class Meta:
-        verbose_name = ''
-        verbose_name_plural = '42. Qual o destino do lixo doméstico não orgânico?'
-
-
-class DestinoMaterialOrganico(AuditoriaAbstractModel):
-    lote = models.OneToOneField(
-        Lote, verbose_name='Lote', related_name='destinosMaterialOrganico', on_delete=models.CASCADE,
-        primary_key=True,
-    )
-
-    DESTINO_USO_PARA_ALIMENTACAO_DE_ANIMAIS = 10
-    DESTINO_FAZ_COMPOSTAGEM = 20
-    DESTINO_ENTERRA_JUNTO_COM_INORGANICO = 30
-    DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 40
-
-    destino_choices = Choices(
-        (DESTINO_USO_PARA_ALIMENTACAO_DE_ANIMAIS, 'Uso para alimentação de animais'),
-        (DESTINO_FAZ_COMPOSTAGEM, 'Faz compostagem'),
-        (DESTINO_ENTERRA_JUNTO_COM_INORGANICO, 'Enterra junto com inorgânico'),
-        (DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE, 'Deposita a céu aberto no lote')
-    )
-    destino = models.IntegerField('Destino', choices=destino_choices)
-
-    def __str__(self):
-        return self.destino_choices[self.destino]
-
-    class Meta:
-        verbose_name = ''
-        verbose_name_plural = '43. Qual o destino do material orgânico?'
-
-
 class LicenciamentoAmbiental(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='licenciamentosAmbientais',
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='licenciamentos',
                              on_delete=models.CASCADE)
 
     CHOICE_SIM = 1
@@ -1742,7 +1706,7 @@ class LicenciamentoAmbiental(AuditoriaAbstractModel):
 
 class AtendimentoSaude(AuditoriaAbstractModel):
     lote = models.OneToOneField(
-        Lote, verbose_name='Lote', related_name='atendimentosSaude', on_delete=models.CASCADE,
+        Lote, verbose_name='Lote', related_name='atendimentos_saude', on_delete=models.CASCADE,
         primary_key=True,
     )
 
@@ -1770,7 +1734,7 @@ class AtendimentoSaude(AuditoriaAbstractModel):
 
 
 class ProgramaSaude(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='programasSaude', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='programas_saude', on_delete=models.CASCADE)
 
     PROGRAMA_SAUDE_PSF = 10
     PROGRAMA_SAUDE_AGENTES_COMUNITARIOS_DE_SAUDE = 20
@@ -1798,7 +1762,7 @@ class ProgramaSaude(AuditoriaAbstractModel):
 
 
 class AtividadeFisica(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='atividadesFisicas', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='atividades_fisicas', on_delete=models.CASCADE)
 
     ATIVIDADE_FISICA_FUTEBOL = 10
     ATIVIDADE_FISICA_CAMINHADA_CORRIDA = 20
@@ -1826,7 +1790,7 @@ class AtividadeFisica(AuditoriaAbstractModel):
 
 
 class EspacoDisponivel(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='espacosDisponiveis', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='espacos_disponiveis', on_delete=models.CASCADE)
 
     ESPACO_DISPONIVEL_QUADRA_DE_ESPORTES = 10
     ESPACO_DISPONIVEL_CAMPO_DE_FUTEBOL = 20
@@ -1850,7 +1814,7 @@ class EspacoDisponivel(AuditoriaAbstractModel):
 
 
 class EstabelecimentoEnsino(AuditoriaAbstractModel):
-    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='estabelecimentosEnsino', on_delete=models.CASCADE)
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='estabelecimentos_ensino', on_delete=models.CASCADE)
 
     ESTABELECIMENTO_ENSINO_PRE_ESCOLAR_CRECHE = 10
     ESTABELECIMENTO_ENSINO_ENSINO_FUNDAMENTAL = 20
@@ -1888,12 +1852,15 @@ class NaoPossuiDocumento(AuditoriaAbstractModel):
     certidao_nascimento = models.IntegerField('Certidão de Nascimento', blank=True, null=True)
     identidade = models.IntegerField('Identidade (RG) - a partir de 12 anos', blank=True, null=True)
     cpf = models.IntegerField('Cadastro de Pessoa Física (CPF)', blank=True, null=True)
-    carteira_de_trabalho = models.IntegerField('Carteira de Trabalho (CTPS) - a partir de 14 anos', blank=True, null=True)
-    certidao_de_casamento_ou_uniao_estavel = models.IntegerField('Certidão de Casamento ou União Estável', blank=True, null=True)
+    carteira_de_trabalho = models.IntegerField('Carteira de Trabalho (CTPS) - a partir de 14 anos', blank=True,
+                                               null=True)
+    certidao_de_casamento_ou_uniao_estavel = models.IntegerField('Certidão de Casamento ou União Estável', blank=True,
+                                                                 null=True)
 
     def __str__(self):
         return 'Certidão de Nascimento: {}, Identidade (RG): {}, CPF: {}, Carteira de Trabalho (CTPS): {}, Certidão de Casamento ou União Estável: {}'.format(
-            self.certidao_nascimento, self.identidade, self.cpf, self.carteira_de_trabalho, self.certidao_de_casamento_ou_uniao_estavel
+            self.certidao_nascimento, self.identidade, self.cpf, self.carteira_de_trabalho,
+            self.certidao_de_casamento_ou_uniao_estavel
         )
 
     class Meta:
@@ -2111,7 +2078,6 @@ class UsoFrequente(AuditoriaAbstractModel):
 
     def __str__(self):
         return self.uso_frequente_choices[self.uso_frequente]
-
 
     class Meta:
         verbose_name = 'Faz o uso frequente de'

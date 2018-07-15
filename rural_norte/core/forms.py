@@ -1,5 +1,6 @@
 from django import forms
-from django.forms import BaseInlineFormSet
+from django.forms import BaseInlineFormSet, inlineformset_factory
+
 from . import models
 
 
@@ -58,6 +59,99 @@ class BaseModelWithImagesFormset(BaseInlineFormSet):
                     form.nested.save(commit=commit)
 
         return result
+
+
+
+
+##############
+class MembroForm(forms.ModelForm):
+    class Meta:
+        model = models.Membro
+        fields = '__all__'
+
+MembroFormSet = forms.modelformset_factory(
+    models.Membro,
+    form=MembroForm,
+    extra=0
+)
+
+MembroInlineFormSet = forms.inlineformset_factory(
+    models.Familia,
+    models.Membro,
+    extra=1,
+    fields=('nome', 'parentesco', 'idade', 'escolaridade', 'estuda', 'cpf', 'trabalho_antes_do_lote'),
+    formset=MembroFormSet,
+    can_delete=True,
+    widgets={
+        'nome': forms.TextInput(
+            attrs={
+                'class': 'form-control valor',
+                'placeholder': 'Informe o nome'
+            }
+        ),
+        'parentesco': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        ),
+        'idade': forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Informe a idade'
+            }
+        ),
+        'escolaridade': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        ),
+        'estuda': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        ),
+        'cpf': forms.TextInput(
+            attrs={
+                'class': 'form-control valor',
+                'placeholder': 'Informe o CPF'
+            }
+        ),
+        'trabalho_antes_do_lote': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        )
+    }
+)
+
+
+###############
+
+
+class BaseFamiliaWithImagesFormset(BaseModelWithImagesFormset):
+    nested_formset = MembroInlineFormSet
+
+
+# This is the formset for the Books belonging to a Publisher and the
+# BookImages belonging to those Books.
+#
+# You'd use this by passing in a Publisher:
+#     PublisherBooksWithImagesFormset(**form_kwargs, instance=self.object)
+LoteFamiliasWithImagesFormset = inlineformset_factory(
+    models.Lote,
+    models.Familia,
+    formset=BaseFamiliaWithImagesFormset,
+    # We need to specify at least one Book field:
+    fields='__all__',
+    extra=1,
+    # If you don't want to be able to delete Publishers:
+    # can_delete=False
+)
+
 
 class ContatoForm(forms.ModelForm):
     class Meta:
@@ -1605,70 +1699,6 @@ class NaoPossuiDocumentoForm(forms.ModelForm):
                 }
             )
         }
-
-# class MembroForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Membro
-#         fields = '__all__'
-#
-# MembroFormSet = forms.modelformset_factory(
-#     models.Membro,
-#     form=MembroForm,
-#     extra=0
-# )
-#
-# MembroInlineFormSet = forms.inlineformset_factory(
-#     models.Familia,
-#     models.Membro,
-#     extra=1,
-#     fields=('nome', 'parentesco', 'idade', 'escolaridade', 'estuda', 'cpf', 'trabalho_antes_do_lote'),
-#     formset=MembroFormSet,
-#     can_delete=True,
-#     widgets={
-#         'nome': forms.TextInput(
-#             attrs={
-#                 'class': 'form-control valor',
-#                 'placeholder': 'Informe o nome'
-#             }
-#         ),
-#         'parentesco': forms.Select(
-#             attrs={
-#                 'class': 'form-control',
-#                 'style': 'margin-bottom: 1rem;'
-#             }
-#         ),
-#         'idade': forms.NumberInput(
-#             attrs={
-#                 'class': 'form-control',
-#                 'placeholder': 'Informe a idade'
-#             }
-#         ),
-#         'escolaridade': forms.Select(
-#             attrs={
-#                 'class': 'form-control',
-#                 'style': 'margin-bottom: 1rem;'
-#             }
-#         ),
-#         'estuda': forms.Select(
-#             attrs={
-#                 'class': 'form-control',
-#                 'style': 'margin-bottom: 1rem;'
-#             }
-#         ),
-#         'cpf': forms.TextInput(
-#             attrs={
-#                 'class': 'form-control valor',
-#                 'placeholder': 'Informe o CPF'
-#             }
-#         ),
-#         'trabalho_antes_do_lote': forms.Select(
-#             attrs={
-#                 'class': 'form-control',
-#                 'style': 'margin-bottom: 1rem;'
-#             }
-#         )
-#     }
-# )
 
 class DiagnosticoForm(forms.ModelForm):
     class Meta:

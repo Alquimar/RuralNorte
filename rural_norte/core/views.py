@@ -6,7 +6,20 @@ from django.views import generic
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django_tables2 import RequestConfig
+from extra_views import UpdateWithInlinesView, CreateWithInlinesView, NamedFormsetsMixin
 
+from rural_norte.core.inlines import (
+    FamiliaInlineNovo,
+    BeneficioSocialInline,
+    AtendimentoSaudeInline,
+    ContatoInline,
+    DocumentoLoteInline, AutoDeclaracaoEtniaInline, EstruturaOrganizativaInline, FonteAguaInline, TratamentoAguaInline,
+    ConstrucaoLoteInline, BemProdutivoInline, AplicacaoCreditoInline, CreditoBancarioInline, CulturaInline,
+    OlericulturaInline, FruticulturaInline, AtividadeExtrativistaInline, ProducaoFlorestalInline, BovinoculturaInline,
+    OutraCriacaoInline, BovinoculturaLeiteiraInline, BovinoculturaCorteInline, OrigemAnimalInline,
+    ProcessadoBeneficiadoInline, NivelTecnologicoProducaoAnimalInline, ProblemaAmbientalInline,
+    PraticaConservacionistaInline, LicenciamentoAmbientalInline, ProgramaSaudeInline, AtividadeFisicaInline,
+    EspacoDisponivelInline, EstabelecimentoEnsinoInline, NaoPossuiDocumentoInline, FamiliaMembrosInline)
 from . import models
 from . import tables
 from . import forms
@@ -492,8 +505,8 @@ def novo_diagnostico(request, pa_id):
             instance=models.NaoPossuiDocumento()
         )
 
-        if form.is_valid() and atendimento_saude_forms.is_valid() and nao_possui_documento_forms.is_valid() \
-            and all([item.is_valid() for item in inlines]):
+        if (form.is_valid() and atendimento_saude_forms.is_valid() and nao_possui_documento_forms.is_valid()
+            and all([item.is_valid() for item in inlines])):
             lote = form.save(commit=False)
             lote.save()
 
@@ -582,123 +595,136 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
     )
     auto_declaracoes_forms = forms.AutoDeclaracaoEtniaInlineFormSet(
         prefix='auto_declaracoes',
-        queryset=form.instance.autoDeclaracoes.all()
+        queryset=form.instance.etnias.all()
     )
     estruturas_organizativas_forms = forms.EstruturaOrganizativaInlineFormSet(
         prefix='estruturas_organizativas',
-        queryset=form.instance.estruturasOrganizativas.all()
+        queryset=form.instance.estruturas_organizativas.all()
     )
     fontes_agua_forms = forms.FonteAguaInlineFormSet(
         prefix='fontes_agua',
-        queryset=form.instance.fontesAgua.all()
+        queryset=form.instance.fontes_agua.all()
     )
     tratamentos_agua_forms = forms.TratamentoAguaInlineFormSet(
         prefix='tratamentos_agua',
-        queryset=form.instance.tratamentosAgua.all()
+        queryset=form.instance.tratamentos_agua.all()
     )
     construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
         prefix='construcoes_lote',
-        queryset=form.instance.construcoesLote.all()
+        queryset=form.instance.construcoes_lote.all()
     )
     bens_produtivos_forms = forms.BemProdutivoInlineFormSet(
         prefix='bens_produtivos',
-        queryset=form.instance.bensProdutivos.all()
+        queryset=form.instance.bens_produtivos.all()
     )
     aplicacoes_creditos_forms = forms.AplicacaoCreditoInlineFormSet(
         prefix='aplicacoes_creditos',
-        queryset=form.instance.aplicacoesCredito.all()
+        queryset=form.instance.aplicacoes_credito.all()
     )
     creditos_bancarios_forms = forms.CreditoBancarioInlineFormSet(
         prefix='creditos_bancarios',
-        queryset=form.instance.creditosBancarios.all()
+        queryset=form.instance.creditos_bancarios.all()
     )
     culturas_forms = forms.CulturaInlineFormSet(
         prefix='culturas',
-        queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_CULTURA)
+        queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_CULTURA)
     )
     olericulturas_forms = forms.OlericulturaInlineFormSet(
         prefix='olericulturas',
-        queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_OLERICULTURA)
+        queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_OLERICULTURA)
     )
     fruticulturas_forms = forms.FruticulturaInlineFormSet(
         prefix='fruticulturas',
-        queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_FRUTICULTURA)
+        queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_FRUTICULTURA)
     )
     atividades_extrativistas_forms = forms.AtividadeExtrativistaInlineFormSet(
         prefix='atividades_extrativistas',
-        queryset=form.instance.atividadesExtrativistas.all()
+        queryset=form.instance.atividades_extrativistas.all()
     )
     producoes_florestais_forms = forms.ProducaoFlorestalInlineFormSet(
         prefix='producoes_florestais',
-        queryset=form.instance.producoesFlorestais.all()
+        queryset=form.instance.producoes_florestais.all()
     )
     bovinoculturas_forms = forms.BovinoculturaInlineFormSet(
         prefix='bovinoculturas',
-        queryset=form.instance.producoesAnimais.filter(classificacao=models.Bovinocultura.CLASSIFICACAO_BOVINOCULTURA)
+        queryset=form.instance.producoes_animais.filter(classificacao=models.Bovinocultura.CLASSIFICACAO_BOVINOCULTURA)
     )
     outras_criacoes_forms = forms.OutraCriacaoInlineFormSet(
         prefix='outras_criacoes',
-        queryset=form.instance.producoesAnimais.filter(classificacao=models.Bovinocultura.CLASSIFICACAO_OUTRA_CRIACAO)
+        queryset=form.instance.producoes_animais.filter(classificacao=models.Bovinocultura.CLASSIFICACAO_OUTRA_CRIACAO)
     )
     bovinoculturas_leiteira_forms = forms.BovinoculturaLeiteiraInlineFormSet(
         prefix='bovinoculturas_leiteira',
-        queryset=form.instance.descartesAnimais.filter(
+        queryset=form.instance.descartes_animais.filter(
             tipo_criacao=models.BovinoculturaLeiteira.TIPO_CRIACAO_GADO_LEITEIRO)
     )
     bovinoculturas_corte_forms = forms.BovinoculturaCorteInlineFormSet(
         prefix='bovinoculturas_corte',
-        queryset=form.instance.descartesAnimais.filter(
+        queryset=form.instance.descartes_animais.filter(
             tipo_criacao=models.BovinoculturaCorte.TIPO_CRIACAO_GADO_DE_CORTE)
     )
     origens_animais_forms = forms.OrigemAnimalInlineFormSet(
         prefix='origens_animais',
-        queryset=form.instance.produtosOrigemAnimal.filter(
+        queryset=form.instance.produtos_origem_animal.filter(
             classificacao=models.OrigemAnimal.CLASSIFICACAO_ORIGEM_ANIMAL)
     )
     niveis_tecnologicos_producao_animal_forms = forms.NivelTecnologicoProducaoAnimalInlineFormSet(
         prefix='niveis_tecnologicos_producao_animal',
-        queryset=form.instance.niveisTecnologicosProducaoAnimal.all()
+        queryset=form.instance.niveis_tecnologicos_producao_animal.all()
     )
     processados_beneficiados_forms = forms.ProcessadoBeneficiadoInlineFormSet(
         prefix='processados_beneficiados',
-        queryset=form.instance.produtosOrigemAnimal.filter(
+        queryset=form.instance.produtos_origem_animal.filter(
             classificacao=models.ProcessadoBeneficiado.CLASSIFICACAO_PROCESSADO_BENEFICIADO)
     )
     problemas_ambientais_forms = forms.ProblemaAmbientalInlineFormSet(
         prefix='problemas_ambientais',
-        queryset=form.instance.problemasAmbientais.all()
+        queryset=form.instance.problemas_ambientais.all()
     )
     praticas_conservacionistas_forms = forms.PraticaConservacionistaInlineFormSet(
         prefix='praticas_conservacionistas',
-        queryset=form.instance.praticasConservacionistas.all()
+        queryset=form.instance.praticas_conservacionistas.all()
     )
     licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
         prefix='licenciamentos_ambientais',
-        queryset=form.instance.licenciamentosAmbientais.all()
+        queryset=form.instance.licenciamentos.all()
     )
+    atendimentos_saude_instance = None
+    if hasattr(form.instance, 'atendimentos_saude') and form.instance.atendimentos_saude:
+        atendimentos_saude_instance = form.instance.atendimentos_saude
+
     atendimento_saude_forms = forms.AtendimentoSaudeForm(
         prefix='atendimento_saude',
-        instance=form.instance.atendimentosSaude
+        instance=atendimentos_saude_instance
     )
     programas_saude_forms = forms.ProgramaSaudeInlineFormSet(
         prefix='programas_saude',
-        queryset=form.instance.programasSaude.all()
+        queryset=form.instance.programas_saude.all()
     )
     atividades_fisicas_forms = forms.AtividadeFisicaInlineFormSet(
         prefix='atividades_fisicas',
-        queryset=form.instance.atividadesFisicas.all()
+        queryset=form.instance.atividades_fisicas.all()
     )
     espacos_disponiveis_forms = forms.EspacoDisponivelInlineFormSet(
         prefix='espacos_disponiveis',
-        queryset=form.instance.espacosDisponiveis.all()
+        queryset=form.instance.espacos_disponiveis.all()
     )
     estabelecimentos_ensino_forms = forms.EstabelecimentoEnsinoInlineFormSet(
         prefix='estabelecimentos_ensino',
-        queryset=form.instance.estabelecimentosEnsino.all()
+        queryset=form.instance.estabelecimentos_ensino.all()
     )
+    nao_possui_documento_instance = None
+
+    if hasattr(form.instance, 'nao_possui_documento') and form.instance.nao_possui_documento:
+        nao_possui_documento_instance = form.instance.nao_possui_documento
     nao_possui_documento_forms = forms.NaoPossuiDocumentoForm(
         prefix='nao_possui_documento',
-        instance=form.instance.nao_possui_documento
+        instance=nao_possui_documento_instance
+    )
+
+    familia_membros_inline = FamiliaInlineNovo(
+        prefix='familia_mebros',
+        instance=form.instance.familias.all()
     )
 
     if request.method == "POST":
@@ -764,70 +790,70 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
             request.POST,
             prefix='construcoes_lote',
-            queryset=form.instance.construcoesLote.all()
+            queryset=form.instance.construcoes_lote.all()
         )
         inlines.append(construcoes_lote_forms)
 
         bens_produtivos_forms = forms.BemProdutivoInlineFormSet(
             request.POST,
             prefix='bens_produtivos',
-            queryset=form.instance.bensProdutivos.all()
+            queryset=form.instance.bens_produtivos.all()
         )
         inlines.append(bens_produtivos_forms)
 
         aplicacoes_creditos_forms = forms.AplicacaoCreditoInlineFormSet(
             request.POST,
             prefix='aplicacoes_creditos',
-            queryset=form.instance.aplicacoesCredito.all()
+            queryset=form.instance.aplicacoes_credito.all()
         )
         inlines.append(aplicacoes_creditos_forms)
 
         creditos_bancarios_forms = forms.CreditoBancarioInlineFormSet(
             request.POST,
             prefix='creditos_bancarios',
-            queryset=form.instance.creditosBancarios.all()
+            queryset=form.instance.creditos_bancarios.all()
         )
         inlines.append(creditos_bancarios_forms)
 
         culturas_forms = forms.CulturaInlineFormSet(
             request.POST,
             prefix='culturas',
-            queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_CULTURA)
+            queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_CULTURA)
         )
         inlines.append(culturas_forms)
 
         olericulturas_forms = forms.OlericulturaInlineFormSet(
             request.POST,
             prefix='olericulturas',
-            queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_OLERICULTURA)
+            queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_OLERICULTURA)
         )
         inlines.append(olericulturas_forms)
 
         fruticulturas_forms = forms.FruticulturaInlineFormSet(
             request.POST,
             prefix='fruticulturas',
-            queryset=form.instance.producoesVegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_FRUTICULTURA)
+            queryset=form.instance.producoes_vegetais.filter(classificacao=models.Cultura.CLASSIFICACAO_FRUTICULTURA)
         )
         inlines.append(fruticulturas_forms)
 
         atividades_extrativistas_forms = forms.AtividadeExtrativistaInlineFormSet(
             request.POST,
             prefix='atividades_extrativistas',
-            queryset=form.instance.atividadesExtrativistas.all()
+            queryset=form.instance.atividades_extrativistas.all()
         )
         inlines.append(atividades_extrativistas_forms)
 
         producoes_florestais_forms = forms.ProducaoFlorestalInlineFormSet(
             request.POST,
             prefix='producoes_florestais',
-            queryset=form.instance.producoesFlorestais.all()
+            queryset=form.instance.producoes_florestais.all()
         )
         inlines.append(producoes_florestais_forms)
 
         bovinoculturas_forms = forms.BovinoculturaInlineFormSet(
             request.POST,
             prefix='bovinoculturas',
-            queryset=form.instance.producoesAnimais.filter(
+            queryset=form.instance.producoes_animais.filter(
                 classificacao=models.Bovinocultura.CLASSIFICACAO_BOVINOCULTURA)
         )
         inlines.append(bovinoculturas_forms)
@@ -835,7 +861,7 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         outras_criacoes_forms = forms.OutraCriacaoInlineFormSet(
             request.POST,
             prefix='outras_criacoes',
-            queryset=form.instance.producoesAnimais.filter(
+            queryset=form.instance.producoes_animais.filter(
                 classificacao=models.Bovinocultura.CLASSIFICACAO_OUTRA_CRIACAO)
         )
         inlines.append(outras_criacoes_forms)
@@ -843,7 +869,7 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         bovinoculturas_leiteira_forms = forms.BovinoculturaLeiteiraInlineFormSet(
             request.POST,
             prefix='bovinoculturas_leiteira',
-            queryset=form.instance.descartesAnimais.filter(
+            queryset=form.instance.descartes_animais.filter(
                 tipo_criacao=models.BovinoculturaLeiteira.TIPO_CRIACAO_GADO_LEITEIRO)
         )
         inlines.append(bovinoculturas_leiteira_forms)
@@ -851,7 +877,7 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         bovinoculturas_corte_forms = forms.BovinoculturaCorteInlineFormSet(
             request.POST,
             prefix='bovinoculturas_corte',
-            queryset=form.instance.descartesAnimais.filter(
+            queryset=form.instance.descartes_animais.filter(
                 tipo_criacao=models.BovinoculturaCorte.TIPO_CRIACAO_GADO_DE_CORTE)
         )
         inlines.append(bovinoculturas_corte_forms)
@@ -859,7 +885,7 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         origens_animais_forms = forms.OrigemAnimalInlineFormSet(
             request.POST,
             prefix='origens_animais',
-            queryset=form.instance.produtosOrigemAnimal.filter(
+            queryset=form.instance.produtos_origem_animal.filter(
                 classificacao=models.OrigemAnimal.CLASSIFICACAO_ORIGEM_ANIMAL)
         )
         inlines.append(origens_animais_forms)
@@ -867,14 +893,14 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         niveis_tecnologicos_producao_animal_forms = forms.NivelTecnologicoProducaoAnimalInlineFormSet(
             request.POST,
             prefix='niveis_tecnologicos_producao_animal',
-            queryset=form.instance.niveisTecnologicosProducaoAnimal.all()
+            queryset=form.instance.niveis_tecnologicos_producao_animal.all()
         )
         inlines.append(niveis_tecnologicos_producao_animal_forms)
 
         processados_beneficiados_forms = forms.ProcessadoBeneficiadoInlineFormSet(
             request.POST,
             prefix='processados_beneficiados',
-            queryset=form.instance.produtosOrigemAnimal.filter(
+            queryset=form.instance.produtos_origem_animal.filter(
                 classificacao=models.ProcessadoBeneficiado.CLASSIFICACAO_PROCESSADO_BENEFICIADO)
         )
         inlines.append(processados_beneficiados_forms)
@@ -882,63 +908,77 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         problemas_ambientais_forms = forms.ProblemaAmbientalInlineFormSet(
             request.POST,
             prefix='problemas_ambientais',
-            queryset=form.instance.problemasAmbientais.all()
+            queryset=form.instance.problemas_ambientais.all()
         )
         inlines.append(problemas_ambientais_forms)
 
         praticas_conservacionistas_forms = forms.PraticaConservacionistaInlineFormSet(
             request.POST,
             prefix='praticas_conservacionistas',
-            queryset=form.instance.praticasConservacionistas.all()
+            queryset=form.instance.praticas_conservacionistas.all()
         )
         inlines.append(praticas_conservacionistas_forms)
 
         licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
             request.POST,
             prefix='licenciamentos_ambientais',
-            queryset=form.instance.licenciamentosAmbientais.all()
+            queryset=form.instance.licenciamentos.all()
         )
         inlines.append(licenciamentos_ambientais_forms)
+
+        atendimentos_saude_instance = None
+        if hasattr(form.instance, 'atendimentos_saude') and form.instance.atendimentos_saude:
+            atendimentos_saude_instance = form.instance.atendimentos_saude
 
         atendimento_saude_forms = forms.AtendimentoSaudeForm(
             request.POST,
             prefix='atendimento_saude',
-            instance=form.instance.atendimentosSaude
+            instance=atendimentos_saude_instance
         )
 
         programas_saude_forms = forms.ProgramaSaudeInlineFormSet(
             request.POST,
             prefix='programas_saude',
-            queryset=form.instance.programasSaude.all()
+            queryset=form.instance.programas_saude.all()
         )
         inlines.append(programas_saude_forms)
 
         atividades_fisicas_forms = forms.AtividadeFisicaInlineFormSet(
             request.POST,
             prefix='atividades_fisicas',
-            queryset=form.instance.atividadesFisicas.all()
+            queryset=form.instance.atividades_fisicas.all()
         )
         inlines.append(atividades_fisicas_forms)
 
         espacos_disponiveis_forms = forms.EspacoDisponivelInlineFormSet(
             request.POST,
             prefix='espacos_disponiveis',
-            queryset=form.instance.espacosDisponiveis.all()
+            queryset=form.instance.espacos_disponiveis.all()
         )
         inlines.append(espacos_disponiveis_forms)
 
         estabelecimentos_ensino_forms = forms.EstabelecimentoEnsinoInlineFormSet(
             request.POST,
             prefix='estabelecimentos_ensino',
-            queryset=form.instance.estabelecimentosEnsino.all()
+            queryset=form.instance.estabelecimentos_ensino.all()
         )
         inlines.append(estabelecimentos_ensino_forms)
+        nao_possui_documento_instance = None
 
+        if hasattr(form.instance, 'nao_possui_documento') and form.instance.nao_possui_documento:
+            nao_possui_documento_instance = form.instance.nao_possui_documento
         nao_possui_documento_forms = forms.NaoPossuiDocumentoForm(
             request.POST,
             prefix='nao_possui_documento',
-            instance=form.instance.nao_possui_documento
+            instance=nao_possui_documento_instance
         )
+
+        familia_membros_inline = FamiliaInlineNovo(
+            request.POST,
+            prefix='familia_mebros',
+            instance=form.instance.familias.all()
+        )
+        inlines.append(familia_membros_inline)
 
         if form.is_valid() and all([item.is_valid() for item in inlines]):
             lote = form.save(commit=False)
@@ -1003,9 +1043,11 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         'EspacoDisponivelInlineFormSet': espacos_disponiveis_forms,
         'EstabelecimentoEnsinoInlineFormSet': estabelecimentos_ensino_forms,
         'NaoPossuiDocumentoForm': nao_possui_documento_forms,
+        'familia_membros_inline': familia_membros_inline,
         'title': 'Editar Diagnóstico'
     }
     return render(request, template_name, context)
+
 
 # def excluir_diagnostico(request, pa_id, diagnostico_id):
 #     diagnostico = get_object_or_404(models.Lote, id=pa_id)
@@ -1027,3 +1069,176 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
 #         # 'diagnostico': True
 #     }
 #     return render(request, template_name, context)
+
+
+class FormActionMixin:
+    form_action = None
+
+    def get_form_action(self):
+        return self.form_action
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_action'] = self.get_form_action()
+        return context
+
+
+class LoteFamiliaCreateWithInlinesView(FormActionMixin, NamedFormsetsMixin, CreateWithInlinesView):
+    template_name = 'core/editar_diagnostico2.html'
+    model = models.Lote
+    form_class = forms.DiagnosticoForm
+    projeto_assentamento = None
+    inlines_names = [
+        'familia_inline',
+    ]
+    inlines = [
+        FamiliaMembrosInline,
+    ]
+
+    def dispatch(self, request, *args, **kwargs):
+        pa_id = self.kwargs['pa_id']
+        self.projeto_assentamento = get_object_or_404(models.ProjetoAssentamento, id=pa_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_action(self):
+        a = reverse('core:novo_diagnostico2',
+                    kwargs={
+                        'pa_id': self.projeto_assentamento.pk
+                    }
+                    )
+        return a
+
+    def get_success_url(self):
+        a = reverse('core:listar_diagnosticos_por_projeto_assentamento',
+                    kwargs={
+                        'contrato_id': self.projeto_assentamento.contrato_id,
+                        'pa_id': self.projeto_assentamento.pk
+                    }
+                    )
+        return a
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['listar_diagnosticos_por_projeto_assentamento_url'] = self.get_success_url()
+        familia_inline = context['familia_inline']
+        return context
+
+
+class LoteFamiliaUpdateWithInlinesView(FormActionMixin, NamedFormsetsMixin, UpdateWithInlinesView):
+    template_name = 'core/editar_diagnostico2.html'
+    model = models.Lote
+    pk_url_kwarg = 'lote_id'
+    form_class = forms.DiagnosticoForm
+    projeto_assentamento = None
+    inlines_names = [
+        'familia_membros_inline',
+        'beneficio_social_inline',
+        'contato_inline',
+        'documento_lote_inline',
+        'auto_declaracao_etnia_inline',
+        'estrutura_organizativa_inline',
+        'fonte_agua_inline',
+        'tratamento_agua_inline',
+        'construcao_lote_inline',
+        'bem_produtivo_inline',
+        'aplicacao_credito_inline',
+        'credito_bancario_inline',
+        'cultura_inline',
+        'olericultura_inline',
+        'fruticultura_inline',
+        'atividade_extrativista_inline',
+        'producao_florestal_inline',
+        'bovinocultura_inline',
+        'outra_criacao_inline',
+        'bovinocultura_leiteira_inline',
+        'bovinocultura_corte_inline',
+        'origem_animal_inline',
+        'processado_beneficiado_inline',
+        'nivel_tecnologico_producao_animal_inline',
+        'problema_ambiental_inline',
+        'pratica_conservacionista_inline',
+        'licenciamento_ambiental_inline',
+        'atendimento_saude_inline',
+        'programa_saude_inline',
+        'atividade_fisica_inline',
+        'espaco_disponivel_inline',
+        'estabelecimento_ensino_inline',
+        'nao_possui_documento_inline',
+    ]
+    inlines = [
+        FamiliaMembrosInline,
+        BeneficioSocialInline,
+        ContatoInline,
+        DocumentoLoteInline,
+        AutoDeclaracaoEtniaInline,
+        EstruturaOrganizativaInline,
+        FonteAguaInline,
+        TratamentoAguaInline,
+        ConstrucaoLoteInline,
+        BemProdutivoInline,
+        AplicacaoCreditoInline,
+        CreditoBancarioInline,
+        CulturaInline,
+        OlericulturaInline,
+        FruticulturaInline,
+        AtividadeExtrativistaInline,
+        ProducaoFlorestalInline,
+        BovinoculturaInline,
+        OutraCriacaoInline,
+        BovinoculturaLeiteiraInline,
+        BovinoculturaCorteInline,
+        OrigemAnimalInline,
+        ProcessadoBeneficiadoInline,
+        NivelTecnologicoProducaoAnimalInline,
+        ProblemaAmbientalInline,
+        PraticaConservacionistaInline,
+        LicenciamentoAmbientalInline,
+        AtendimentoSaudeInline,
+        ProgramaSaudeInline,
+        AtividadeFisicaInline,
+        EspacoDisponivelInline,
+        EstabelecimentoEnsinoInline,
+        NaoPossuiDocumentoInline,
+    ]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(projeto_assentamento=self.projeto_assentamento)
+        return qs
+
+    def dispatch(self, request, *args, **kwargs):
+        pa_id = self.kwargs['pa_id']
+        self.projeto_assentamento = get_object_or_404(models.ProjetoAssentamento, id=pa_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_action(self):
+        a = reverse('core:editar_diagnostico2',
+                    kwargs={
+                        'lote_id': self.object.pk,
+                        'pa_id': self.projeto_assentamento.pk
+                    }
+                    )
+        return a
+
+    def get_success_url(self):
+        a = reverse('core:listar_diagnosticos_por_projeto_assentamento',
+                    kwargs={
+                        'contrato_id': self.projeto_assentamento.contrato_id,
+                        'pa_id': self.projeto_assentamento.pk
+                    }
+                    )
+        return a
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['listar_diagnosticos_por_projeto_assentamento_url'] = self.get_success_url()
+        return context
+
+    def forms_invalid(self, form, inlines):
+        ret = super().forms_invalid(form, inlines)
+        a = '1'
+
+        return ret
+
+    def get_inlines(self):
+        return super().get_inlines()

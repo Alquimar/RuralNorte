@@ -17,7 +17,7 @@
   <div class="card card-register mx-auto" style="max-width: 100%;">
     <div class="card-header"><b>{{ title }}</b></div>
     <div class="card-body">
-      <form method="POST" id="my_form">
+      <form method="POST" id="my_form" action="{{ form_action }}">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -79,33 +79,178 @@
               </b>
             </div>
             <div class="card-body">
-              <h4>Familia:</h4>
-              {{ familia_membros_inline.management_form }}
-              {% for familia in familia_membros_inline %}
-                {{ familia }}
-                {% if familia.nested_inline %}
-                  <div class="membros_familia">
-                    <h4>Membros:</h4>
-                    {{ familia.nested_inline.management_form }}
-                    {% for membro in familia.nested_inline %}
-                      <hr>
-                      {{ membro }}
-                    {% endfor %}
+              <div class="form-group col-md-12">
+
+                {{ familia_membros_inline.management_form }}
+
+                <div class="card card-register">
+                  <div class="card-header"><b>Família(s):</b></div>
+                  <div class="card-body">
+                    <div>
+                      {% for familia in familia_membros_inline %}
+                        <div id="{{ familia.prefix }}-row" class="dynamic-form-producoes_florestais form-row">
+                          {{ familia.id }}
+                          <fieldset class="border p-2" style="width: 100%;">
+                            {% if forloop.last %}
+                              <legend><b style="font-size: 1rem;">Família #</b></legend>
+                            {% else %}
+                              <legend><b style="font-size: 1rem;">Família #{{ forloop.counter }}</b></legend>
+                            {% endif %}
+                            <div class="row">
+
+                              <div class="form-group col-md-12">
+
+                                <div class="card card-register">
+                                  <div class="card-header"><b>Membro(s):</b></div>
+                                  <div class="card-body">
+                                    <div>
+                                      {% for membro in familia.nested_inline %}
+
+                                        {{ membro.management_form }}
+
+                                        <div id="{{ membro.prefix }}-row" class="dynamic-form-familias_membros form-row">
+                                          {{ membro.id }}
+                                          <fieldset class="border p-2" style="width: 100%;">
+                                            {% if forloop.last %}
+                                              <legend><b style="font-size: 1rem;">Membro #</b></legend>
+                                            {% else %}
+                                              <legend><b style="font-size: 1rem;">Membro #{{ forloop.counter }}</b></legend>
+                                            {% endif %}
+                                            <div class="row">
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.nome.label_tag }}
+                                                {{ membro.nome }}
+                                                {{ membro.nome.errors }}
+                                              </div>
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.parentesco.label_tag }}
+                                                {{ membro.parentesco }}
+                                                {{ membro.parentesco.errors }}
+                                              </div>
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.idade.label_tag }}
+                                                {{ membro.idade }}
+                                                {{ membro.idade.errors }}
+                                              </div>
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.escolaridade.label_tag }}
+                                                {{ membro.escolaridade }}
+                                                {{ membro.escolaridade.errors }}
+                                              </div>
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.cpf.label_tag }}
+                                                {{ membro.cpf }}
+                                                {{ membro.cpf.errors }}
+                                              </div>
+                                              <div class="col-md-3" style="padding-right: 0px;">
+                                                {{ membro.trabalho_antes_do_lote.label_tag }}
+                                                {{ membro.trabalho_antes_do_lote }}
+                                                {{ membro.trabalho_antes_do_lote.errors }}
+                                              </div>
+                                              <div class="col-md-1" style="margin-top: 2rem; padding-left: 1.5rem;">
+                                                <a id="familias_membros" href="javascript:void(0)"
+                                                   class="btn btn-danger delete-row"
+                                                   title="Excluir Membro">
+                                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                                </a>
+                                                <div hidden="true">{{ form.DELETE }}</div>
+                                              </div>
+                                            </div>
+                                          </fieldset>
+                                        </div>
+                                      {% endfor %}
+                                    </div>
+                                    <div>
+                                      <a id="familias_membros" href="javascript:void(0)"
+                                         class="btn btn-success add-row" title="Novo Membro"
+                                         style="margin-top: 1rem;">
+                                        <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-1" style="margin-top: 0.5rem;">
+                                <a id="producoes_florestais" href="javascript:void(0)" class="btn btn-danger delete-row"
+                                   title="Excluir Produção Florestal">
+                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </a>
+                                <div hidden="true">{{ form.DELETE }}</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      <a id="producoes_florestais" href="javascript:void(0)" class="btn btn-success add-row"
+                         title="Nova Produção Florestal" style="margin-top: 1rem;">
+                        <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                      </a>
+                    </div>
                   </div>
-                {% endif %}
-              {% endfor %}
+                </div>
+              </div>
+
+
+{#              <h4>Familia:</h4>#}
+{#              {{ familia_membros_inline.management_form }}#}
+{#              {% for familia in familia_membros_inline %}#}
+{#                {{ familia }}#}
+{#                {% if familia.nested_inline %}#}
+{#                  <div class="membros_familia">#}
+{#                    {{ familia.nested_inline.management_form }}#}
+{#                    <div class="form-group col-md-12">#}
+{##}
+{#                      {{ contato_inline.management_form }}#}
+{##}
+{#                      <div class="card card-register">#}
+{#                        <div class="card-header"><b>Membro(s):</b></div>#}
+{#                        <div class="card-body">#}
+{#                          <div>#}
+{#                            {% for membro in familia.nested_inline %}#}
+{#                              <div id="{{ membro.prefix }}-row" class="dynamic-form-membros form-row">#}
+{#                                {{ membro.id }}#}
+{#                                <div class="col-md-11">#}
+{#                                  {{ membro.nome.label_tag }}#}
+{#                                  {{ membro.nome }}#}
+{#                                  {{ membro.nome.errors }}#}
+{#                                </div>#}
+{#                                <div class="col-md-1" style="margin-top: 6%;">#}
+{#                                  <a id="membros" href="javascript:void(0)" class="btn btn-danger delete-row"#}
+{#                                     title="Excluir Membro">#}
+{#                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>#}
+{#                                  </a>#}
+{#                                  <div hidden="true">{{ membro.DELETE }}</div>#}
+{#                                </div>#}
+{#                              </div>#}
+{#                            {% endfor %}#}
+{#                          </div>#}
+{#                          <div>#}
+{#                            <a id="membros" href="javascript:void(0)" class="btn btn-success add-row"#}
+{#                               title="Novo Membro">#}
+{#                              <i class="fa fa-plus fa-lg" aria-hidden="true"></i>#}
+{#                            </a>#}
+{#                          </div>#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                {% endif %}#}
+{#              {% endfor %}#}
             </div>
           </div>
 
           {#          <div class="form-group col-md-6">#}
           {##}
-          {#            {{ ContatoInlineFormSet.management_form }}#}
+          {#            {{ contato_inline.management_form }}#}
           {##}
           {#            <div class="card card-register">#}
           {#              <div class="card-header"><b>Contato(s):</b></div>#}
           {#              <div class="card-body">#}
           {#                <div class="form-row">#}
-          {#                  {% for form in ContatoInlineFormSet %}#}
+          {#                  {% for form in contato_inline %}#}
           {#                    {{ form.id }}#}
           {#                    <div class="col-md-10">#}
           {#                      {{ form.telefone.label_tag }}#}
@@ -128,13 +273,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ ContatoInlineFormSet.management_form }}
+            {{ contato_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>Contato(s):</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in ContatoInlineFormSet %}
+                  {% for form in contato_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-contatos form-row">
                       {{ form.id }}
                       <div class="col-md-11">
@@ -185,13 +330,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ DocumentoLoteInlineFormSet.management_form }}
+            {{ documento_lote_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>1. Qual documento o lote possui?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in DocumentoLoteInlineFormSet %}
+                  {% for form in documento_lote_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-documentos_lote form-row">
                       {{ form.id }}
                       <div class="col-md-11">
@@ -225,13 +370,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ BeneficioSocialInlineFormSet.management_form }}
+            {{ beneficio_social_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>4. Quais os tipos de benefício?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in BeneficioSocialInlineFormSet %}
+                  {% for form in beneficio_social_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-beneficios_sociais form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -264,13 +409,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ AutoDeclaracaoEtniaInlineFormSet.management_form }}
+            {{ auto_declaracao_etnia_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>5. Quantos moradores se declaram...</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in AutoDeclaracaoEtniaInlineFormSet %}
+                  {% for form in auto_declaracao_etnia_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-auto_declaracoes form-row">
                       {{ form.id }}
                       <div class="col-md-3">
@@ -308,13 +453,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ EstruturaOrganizativaInlineFormSet.management_form }}
+            {{ estrutura_organizativa_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>6. Das estruturas organizativas internas ao assentamento diga qual existe no assentamento e de quais os membros da família participam</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in EstruturaOrganizativaInlineFormSet %}
+                  {% for form in estrutura_organizativa_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-estruturas_organizativas form-row">
                       {{ form.id }}
                       <div class="col-md-6">
@@ -368,13 +513,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ FonteAguaInlineFormSet.management_form }}
+            {{ fonte_agua_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>11. De onde vem a água que abastece a família?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in FonteAguaInlineFormSet %}
+                  {% for form in fonte_agua_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-fontes_agua form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -407,13 +552,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ TratamentoAguaInlineFormSet.management_form }}
+            {{ tratamento_agua_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>12. Qual a forma tratamento da água para consumo?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in TratamentoAguaInlineFormSet %}
+                  {% for form in tratamento_agua_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-tratamentos_agua form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -497,13 +642,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ ConstrucaoLoteInlineFormSet.management_form }}
+            {{ construcao_lote_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>21. O que tem construído no lote?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in ConstrucaoLoteInlineFormSet %}
+                  {% for form in construcao_lote_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-construcoes_lote form-row">
                       {{ form.id }}
                       {#                    <fieldset class="border p-2" style="width: 100%;">#}
@@ -550,13 +695,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ BemProdutivoInlineFormSet.management_form }}
+            {{ bem_produtivo_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>22. Bens produtivos disponíveis no lote...</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in BemProdutivoInlineFormSet %}
+                  {% for form in bem_produtivo_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-bens_produtivos form-row">
                       {{ form.id }}
                       {#                    <fieldset class="border p-2" style="width: 100%;">#}
@@ -603,13 +748,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ AplicacaoCreditoInlineFormSet.management_form }}
+            {{ aplicacao_credito_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>23. Com relação aos créditos, como está a aplicação no lote?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in AplicacaoCreditoInlineFormSet %}
+                  {% for form in aplicacao_credito_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-aplicacoes_creditos form-row">
                       {{ form.id }}
                       {#                    <fieldset class="border p-2" style="width: 100%;">#}
@@ -651,13 +796,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ CreditoBancarioInlineFormSet.management_form }}
+            {{ credito_bancario_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>24. Com relação aos créditos bancários, como está a aplicação na parcela?</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in CreditoBancarioInlineFormSet %}
+                  {% for form in credito_bancario_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-creditos_bancarios form-row">
                       {{ form.id }}
                       {#                    <fieldset class="border p-2" style="width: 100%;">#}
@@ -709,7 +854,7 @@
 
           <div class="form-group col-md-12">
 
-            {{ CulturaInlineFormSet.management_form }}
+            {{ cultura_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header">
@@ -718,7 +863,7 @@
               </div>
               <div class="card-body">
                 <div>
-                  {% for form in CulturaInlineFormSet %}
+                  {% for form in cultura_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-culturas form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -817,7 +962,7 @@
 
           <div class="form-group col-md-12">
 
-            {{ OlericulturaInlineFormSet.management_form }}
+            {{ olericultura_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header">
@@ -826,7 +971,7 @@
               </div>
               <div class="card-body">
                 <div>
-                  {% for form in OlericulturaInlineFormSet %}
+                  {% for form in olericultura_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-olericulturas form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -930,7 +1075,7 @@
 
           <div class="form-group col-md-12">
 
-            {{ FruticulturaInlineFormSet.management_form }}
+            {{ fruticultura_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header">
@@ -939,7 +1084,7 @@
               </div>
               <div class="card-body">
                 <div>
-                  {% for form in FruticulturaInlineFormSet %}
+                  {% for form in fruticultura_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-fruticulturas form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1038,13 +1183,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ AtividadeExtrativistaInlineFormSet.management_form }}
+            {{ atividade_extrativista_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>29. Produtos de atividade extrativista do último ano agrícola</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in AtividadeExtrativistaInlineFormSet %}
+                  {% for form in atividade_extrativista_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-atividades_extrativistas form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1111,13 +1256,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ ProducaoFlorestalInlineFormSet.management_form }}
+            {{ producao_florestal_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>30. Produção Florestal do último ano agrícola</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in ProducaoFlorestalInlineFormSet %}
+                  {% for form in producao_florestal_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-producoes_florestais form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1179,13 +1324,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ BovinoculturaInlineFormSet.management_form }}
+            {{ bovinocultura_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>31. Sobre o Efetivo Animal do último ano agrícola</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in BovinoculturaInlineFormSet %}
+                  {% for form in bovinocultura_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-bovinoculturas form-row">
                       {{ form.id }}
                       <div class="col-md-3">
@@ -1232,13 +1377,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ OutraCriacaoInlineFormSet.management_form }}
+            {{ outra_criacao_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>Outras Criações Animais</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in OutraCriacaoInlineFormSet %}
+                  {% for form in outra_criacao_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-outras_criacoes form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -1276,13 +1421,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ BovinoculturaLeiteiraInlineFormSet.management_form }}
+            {{ bovinocultura_leiteira_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>Descarte Animal - Bovinocultura Leiteira</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in BovinoculturaLeiteiraInlineFormSet %}
+                  {% for form in bovinocultura_leiteira_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-bovinoculturas_leiteira form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1344,13 +1489,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ BovinoculturaCorteInlineFormSet.management_form }}
+            {{ bovinocultura_corte_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>Descarte Animal - Bovinocultura de Corte</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in BovinoculturaCorteInlineFormSet %}
+                  {% for form in bovinocultura_corte_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-bovinoculturas_corte form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1412,13 +1557,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ OrigemAnimalInlineFormSet.management_form }}
+            {{ origem_animal_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>32. Sobre os produtos de origem animal produzidos no último ano agrícola</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in OrigemAnimalInlineFormSet %}
+                  {% for form in origem_animal_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-origens_animais form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1485,7 +1630,7 @@
 
           <div class="form-group col-md-6">
 
-            {{ NivelTecnologicoProducaoAnimalInlineFormSet.management_form }}
+            {{ nivel_tecnologico_producao_animal_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header">
@@ -1494,7 +1639,7 @@
               </div>
               <div class="card-body">
                 <div>
-                  {% for form in NivelTecnologicoProducaoAnimalInlineFormSet %}
+                  {% for form in nivel_tecnologico_producao_animal_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-niveis_tecnologicos_producao_animal form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -1547,13 +1692,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ ProcessadoBeneficiadoInlineFormSet.management_form }}
+            {{ processado_beneficiado_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>36. Sobre os produtos processados ou beneficiados no estabelecimento, no último ano agrícola (agroindústria)</b></div>
               <div class="card-body">
                 <div>
-                  {% for form in ProcessadoBeneficiadoInlineFormSet %}
+                  {% for form in processado_beneficiado_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-processados_beneficiados form-row">
                       {{ form.id }}
                       <fieldset class="border p-2" style="width: 100%;">
@@ -1631,13 +1776,13 @@
 
           <div class="form-group col-md-12">
 
-            {{ ProblemaAmbientalInlineFormSet.management_form }}
+            {{ problema_ambiental_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>40. Quais são os problemas ambientais existentes no lote?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in ProblemaAmbientalInlineFormSet %}
+                  {% for form in problema_ambiental_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-problemas_ambientais form-row">
                       {{ form.id }}
                       <div class="col-md-6">
@@ -1670,13 +1815,13 @@
 
           <div class="form-group col-md-8">
 
-            {{ PraticaConservacionistaInlineFormSet.management_form }}
+            {{ pratica_conservacionista_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>41. Quais são as práticas conservacionistas praticadas na propriedade?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in PraticaConservacionistaInlineFormSet %}
+                  {% for form in pratica_conservacionista_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-praticas_conservacionistas form-row">
                       {{ form.id }}
                       <div class="col-md-10">
@@ -1717,13 +1862,13 @@
 
           <div class="form-group col-md-8">
 
-            {{ LicenciamentoAmbientalInlineFormSet.management_form }}
+            {{ licenciamento_ambiental_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>44. Necessita de licenciamento ambiental de quais atividades?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in LicenciamentoAmbientalInlineFormSet %}
+                  {% for form in licenciamento_ambiental_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-licenciamentos_ambientais form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -1764,7 +1909,7 @@
 
           <div class="form-group col-md-6">
 
-            {{ AtendimentoSaudeForm.management_form }}
+            {{ atendimento_saude_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>46. Onde é feito o atendimento à saúde para as famílias do assentamento?</b><br/></div>
@@ -1773,29 +1918,29 @@
                   {{ form.id }}
                   <div class="row">
                     <div class="col-md-4" style="padding-right: 0px;">
-                      {{ AtendimentoSaudeForm.hospital.label_tag }}
-                      {{ AtendimentoSaudeForm.hospital }}
-                      {{ AtendimentoSaudeForm.hospital.errors }}
+                      {{ atendimento_saude_inline.hospital.label_tag }}
+                      {{ atendimento_saude_inline.hospital }}
+                      {{ atendimento_saude_inline.hospital.errors }}
                     </div>
                     <div class="col-md-4" style="padding-right: 0px;">
-                      {{ AtendimentoSaudeForm.posto_saude.label_tag }}
-                      {{ AtendimentoSaudeForm.posto_saude }}
-                      {{ AtendimentoSaudeForm.posto_saude.errors }}
+                      {{ atendimento_saude_inline.posto_saude.label_tag }}
+                      {{ atendimento_saude_inline.posto_saude }}
+                      {{ atendimento_saude_inline.posto_saude.errors }}
                     </div>
                     <div class="col-md-4">
-                      {{ AtendimentoSaudeForm.farmacia.label_tag }}
-                      {{ AtendimentoSaudeForm.farmacia }}
-                      {{ AtendimentoSaudeForm.farmacia.errors }}
+                      {{ atendimento_saude_inline.farmacia.label_tag }}
+                      {{ atendimento_saude_inline.farmacia }}
+                      {{ atendimento_saude_inline.farmacia.errors }}
                     </div>
                     <div class="col-md-4" style="padding-right: 0px;">
-                      {{ AtendimentoSaudeForm.outros.label_tag }}
-                      {{ AtendimentoSaudeForm.outros }}
-                      {{ AtendimentoSaudeForm.outros.errors }}
+                      {{ atendimento_saude_inline.outros.label_tag }}
+                      {{ atendimento_saude_inline.outros }}
+                      {{ atendimento_saude_inline.outros.errors }}
                     </div>
                     <div class="col-md-8">
-                      {{ AtendimentoSaudeForm.outros_especificacao.label_tag }}
-                      {{ AtendimentoSaudeForm.outros_especificacao }}
-                      {{ AtendimentoSaudeForm.outros_especificacao.errors }}
+                      {{ atendimento_saude_inline.outros_especificacao.label_tag }}
+                      {{ atendimento_saude_inline.outros_especificacao }}
+                      {{ atendimento_saude_inline.outros_especificacao.errors }}
                     </div>
                   </div>
                 </div>
@@ -1811,13 +1956,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ ProgramaSaudeInlineFormSet.management_form }}
+            {{ programa_saude_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>47. Quais os programas ou tipos de atendimento à saúde são disponibilizados no P.A?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in ProgramaSaudeInlineFormSet %}
+                  {% for form in programa_saude_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-programas_saude form-row">
                       {{ form.id }}
                       <div class="col-md-10">
@@ -1845,13 +1990,13 @@
 
           <div class="form-group col-md-8">
 
-            {{ AtividadeFisicaInlineFormSet.management_form }}
+            {{ atividade_fisica_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>50. Quais são os esportes/atividades físicas praticados pelos familiares com maior frequência?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in AtividadeFisicaInlineFormSet %}
+                  {% for form in atividade_fisica_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-atividades_fisicas form-row">
                       {{ form.id }}
                       <div class="col-md-5">
@@ -1896,13 +2041,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ EspacoDisponivelInlineFormSet.management_form }}
+            {{ espaco_disponivel_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>52. No assentamento quais são os espaços disponíveis para a prática de esporte ou para a recreação?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in EspacoDisponivelInlineFormSet %}
+                  {% for form in espaco_disponivel_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-espacos_disponiveis form-row">
                       {{ form.id }}
                       <div class="col-md-10">
@@ -1930,13 +2075,13 @@
 
           <div class="form-group col-md-6">
 
-            {{ EstabelecimentoEnsinoInlineFormSet.management_form }}
+            {{ estabelecimento_ensino_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>53. Que tipo de estabelecimento de ensino está disponível no assentamento?</b><br/></div>
               <div class="card-body">
                 <div>
-                  {% for form in EstabelecimentoEnsinoInlineFormSet %}
+                  {% for form in estabelecimento_ensino_inline %}
                     <div id="{{ form.prefix }}-row" class="dynamic-form-estabelecimentos_ensino form-row">
                       {{ form.id }}
                       <div class="col-md-10">
@@ -1971,7 +2116,7 @@
           </div>
 
           <div class="form-group col-md-6">
-            {{ NaoPossuiDocumentoForm.management_form }}
+            {{ nao_possui_documento_inline.management_form }}
 
             <div class="card card-register">
               <div class="card-header"><b>56. Com relação à documentação, quantas pessoas NÃO POSSUEM os documentos relacionados abaixo?</b><br/></div>
@@ -1980,29 +2125,29 @@
                   {{ form.id }}
                   <div class="row">
                     <div class="col-md-6" style="padding-right: 0px;">
-                      {{ NaoPossuiDocumentoForm.certidao_nascimento.label_tag }}
-                      {{ NaoPossuiDocumentoForm.certidao_nascimento }}
-                      {{ NaoPossuiDocumentoForm.certidao_nascimento.errors }}
+                      {{ nao_possui_documento_inline.certidao_nascimento.label_tag }}
+                      {{ nao_possui_documento_inline.certidao_nascimento }}
+                      {{ nao_possui_documento_inline.certidao_nascimento.errors }}
                     </div>
                     <div class="col-md-6">
-                      {{ NaoPossuiDocumentoForm.identidade.label_tag }}
-                      {{ NaoPossuiDocumentoForm.identidade }}
-                      {{ NaoPossuiDocumentoForm.identidade.errors }}
+                      {{ nao_possui_documento_inline.identidade.label_tag }}
+                      {{ nao_possui_documento_inline.identidade }}
+                      {{ nao_possui_documento_inline.identidade.errors }}
                     </div>
                     <div class="col-md-6" style="margin-top: 1rem; padding-right: 0px;">
-                      {{ NaoPossuiDocumentoForm.cpf.label_tag }}
-                      {{ NaoPossuiDocumentoForm.cpf }}
-                      {{ NaoPossuiDocumentoForm.cpf.errors }}
+                      {{ nao_possui_documento_inline.cpf.label_tag }}
+                      {{ nao_possui_documento_inline.cpf }}
+                      {{ nao_possui_documento_inline.cpf.errors }}
                     </div>
                     <div class="col-md-6" style="margin-top: 1rem;">
-                      {{ NaoPossuiDocumentoForm.carteira_de_trabalho.label_tag }}
-                      {{ NaoPossuiDocumentoForm.carteira_de_trabalho }}
-                      {{ NaoPossuiDocumentoForm.carteira_de_trabalho.errors }}
+                      {{ nao_possui_documento_inline.carteira_de_trabalho.label_tag }}
+                      {{ nao_possui_documento_inline.carteira_de_trabalho }}
+                      {{ nao_possui_documento_inline.carteira_de_trabalho.errors }}
                     </div>
                     <div class="col-md-6" style="margin-top: 1rem; padding-right: 0px;">
-                      {{ NaoPossuiDocumentoForm.certidao_de_casamento_ou_uniao_estavel.label_tag }}
-                      {{ NaoPossuiDocumentoForm.certidao_de_casamento_ou_uniao_estavel }}
-                      {{ NaoPossuiDocumentoForm.certidao_de_casamento_ou_uniao_estavel.errors }}
+                      {{ nao_possui_documento_inline.certidao_de_casamento_ou_uniao_estavel.label_tag }}
+                      {{ nao_possui_documento_inline.certidao_de_casamento_ou_uniao_estavel }}
+                      {{ nao_possui_documento_inline.certidao_de_casamento_ou_uniao_estavel.errors }}
                     </div>
                   </div>
                 </div>
@@ -2012,7 +2157,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Salvar</button>
-        <a class="btn btn-secondary" href="{% url 'core:listar_diagnosticos_por_projeto_assentamento' projeto_assentamento.contrato_id projeto_assentamento.pk %}" style="pointer-events: all;">Voltar</a>
+        <a class="btn btn-secondary" href="{{ listar_diagnosticos_por_projeto_assentamento_url }}" style="pointer-events: all;">Voltar</a>
       </form>
     </div>
   </div>
@@ -2040,7 +2185,7 @@
       });
       if (prefix == 'culturas' || prefix == 'olericulturas' || prefix == 'fruticulturas' || prefix == 'atividades_extrativistas'
         || prefix == 'producoes_florestais' || prefix == 'bovinoculturas_leiteira' || prefix == 'bovinoculturas_corte'
-        || prefix == 'origens_animais' || prefix == 'processados_beneficiados') {
+        || prefix == 'origens_animais' || prefix == 'processados_beneficiados'  || prefix == 'familias_membros') {
         $(row).children().each(function () {
           if($(this).is('fieldset')) {
             $(this).children().children().not(':last').children().each(function () {
@@ -2076,6 +2221,7 @@
     $(document).ready(function () {
       $(function () {
         $('.add-row').click(function() {
+          alert(this.id);
           return addForm(this, this.id);
         });
         $('.delete-row').click(function() {
