@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'widget_tweaks',
     'stronghold',
+    'input_mask',
 ]
 LOCAL_APPS = [
     'rural_norte.users.apps.UsersConfig',
