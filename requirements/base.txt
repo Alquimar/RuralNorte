@@ -20,6 +20,9 @@ django-nested-admin==3.0.21  # https://github.com/theatlantic/django-nested-admi
 django-tables2==1.21.2  # https://github.com/jieter/django-tables2
 django-stronghold==0.3.0
 
+-e git+https://github.com/luzfcb/django-input-mask@v3_dj20_pt_br#egg=django-input-mask
+
+
 # Django REST Framework
 djangorestframework==3.8.2  # https://github.com/encode/django-rest-framework
 coreapi==2.3.3  # https://github.com/core-api/python-client
