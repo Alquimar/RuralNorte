@@ -2084,4 +2084,18 @@
       })
     });
   </script>
+
+  {% if form and form.media %}
+      {{ form.media }}
+  {% endif %}
+  
+  {% for inline in inline %}
+      {% if inline.media %}
+          {{ inline.media }}
+          {% if inline.nested_inline and inline.nested_inline.media %}
+              {{ inline.nested_inline.media }}
+          {% endif %}
+      {% endif %}
+  {% endfor %}
+
 {% endblock %}
