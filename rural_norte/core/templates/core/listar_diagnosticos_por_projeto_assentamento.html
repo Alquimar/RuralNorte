@@ -88,10 +88,8 @@
               <td style="text-align: center;">{{ diagnostico.codigo_sipra }}</td>
               <td style="text-align: center;">{{ diagnostico.entrevistador }}</td>
               <td>
-                {% for familia in diagnostico.familias.all %}
-                  {% for membro in familia.membros.all %}
-                    ({{ membro.get_parentesco_display }}) {{ membro.nome }}
-                  {% endfor %}
+                {% for membro in diagnostico.membros.all %}
+                  ({{ membro.get_parentesco_display }}) {{ membro.nome }}
                 {% endfor %}
               </td>
               <td>

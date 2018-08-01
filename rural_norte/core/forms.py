@@ -1308,7 +1308,7 @@ ProblemaAmbientalInlineFormSet = forms.inlineformset_factory(
         ),
         'outros': forms.TextInput(
             attrs={
-                'class': 'form-control valor',
+                'class': 'form-control',
                 'placeholder': 'Especifique'
             }
         )
@@ -1372,7 +1372,7 @@ LicenciamentoAmbientalInlineFormSet = forms.inlineformset_factory(
         ),
         'outros': forms.TextInput(
             attrs={
-                'class': 'form-control valor',
+                'class': 'form-control',
                 'placeholder': 'Especifique'
             }
         )
@@ -1410,7 +1410,7 @@ class AtendimentoSaudeForm(forms.ModelForm):
             ),
             'outros_especificacao': forms.TextInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Especifique'
                 }
             )
@@ -1473,7 +1473,7 @@ AtividadeFisicaInlineFormSet = forms.inlineformset_factory(
         ),
         'outros': forms.TextInput(
             attrs={
-                'class': 'form-control valor',
+                'class': 'form-control',
                 'placeholder': 'Especifique'
             }
         )
@@ -1545,32 +1545,32 @@ class NaoPossuiDocumentoForm(forms.ModelForm):
         widgets = {
             'certidao_nascimento': forms.NumberInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Informe a quantidade'
                 }
             ),
             'identidade': forms.NumberInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Informe a quantidade'
                 }
             ),
             'cpf': forms.NumberInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Informe a quantidade',
                     'style': 'margin-top: 1.5rem;'
                 }
             ),
             'carteira_de_trabalho': forms.NumberInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Informe a quantidade'
                 }
             ),
             'certidao_de_casamento_ou_uniao_estavel': forms.NumberInput(
                 attrs={
-                    'class': 'form-control valor',
+                    'class': 'form-control',
                     'placeholder': 'Informe a quantidade'
                 }
             )
@@ -1603,7 +1603,7 @@ MembroInlineFormSet = forms.inlineformset_factory(
     widgets={
         'nome': forms.TextInput(
             attrs={
-                'class': 'form-control valor',
+                'class': 'form-control',
                 'placeholder': 'Informe o nome'
             }
         ),
@@ -1633,7 +1633,7 @@ MembroInlineFormSet = forms.inlineformset_factory(
         ),
         'cpf': forms.TextInput(
             attrs={
-                'class': 'form-control valor',
+                'class': 'form-control cpf',
                 'placeholder': 'Informe o CPF'
             }
         ),
@@ -1728,13 +1728,13 @@ class DiagnosticoForm(forms.ModelForm):
             ),
             'data_homologacao': forms.DateInput(
                 attrs={
-                    'class': 'form-control',
+                    'class': 'form-control data',
                     # 'type': 'date'
                 }
             ),
             'data_visita': forms.DateInput(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control data'
                     # 'type': 'date'
                 }
             ),

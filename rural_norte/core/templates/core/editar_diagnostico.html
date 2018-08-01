@@ -1430,7 +1430,7 @@
                             {{ form.quantidade_cabecas_comercio }}
                             {{ form.quantidade_cabecas_comercio.errors }}
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-2" style="padding-right: 0px;">
                             {{ form.valor_cabeca.label_tag }}
                             {{ form.valor_cabeca }}
                             {{ form.valor_cabeca.errors }}
@@ -1493,12 +1493,12 @@
                             {{ form.quantidade_cabecas_consumo }}
                             {{ form.quantidade_cabecas_consumo.errors }}
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-3" style="padding-right: 0px;">
                             {{ form.quantidade_cabecas_comercio.label_tag }}
                             {{ form.quantidade_cabecas_comercio }}
                             {{ form.quantidade_cabecas_comercio.errors }}
                           </div>
-                          <div class="col-md-2" style="padding-right: 0px;">
+                          <div class="col-md-2">
                             {{ form.valor_cabeca.label_tag }}
                             {{ form.valor_cabeca }}
                             {{ form.valor_cabeca.errors }}
@@ -2216,22 +2216,43 @@
 
     $(document).ready(function () {
       var contatos = document.getElementsByClassName('form-control contatos'),
-        valores = document.getElementsByClassName('form-control valor');
+        valores = document.getElementsByClassName('form-control valor'),
+        datas = document.getElementsByClassName('form-control data'),
+        cpfs = document.getElementsByClassName('form-control cpf');
 
       $( "#my_form" ).submit(function( event ) {
+        [].forEach.call(cpfs, function (cpf) {
+          $(cpf).unmask();
+        });
+
         [].forEach.call(contatos, function (contato) {
           $(contato).unmask();
         });
+
         [].forEach.call(valores, function (valor) {
+          {#alert($(valor).val());#}
           {#$(valor).unmask();#}
+          var value = $(valor).val().replace(".", "");
+          value = value.replace(",", ".");
+          $(valor).val(value);
+          {#alert($(valor).val());#}
         });
+      });
+
+      [].forEach.call(datas, function (data) {
+        $(data).mask('00/00/0000');
+      });
+
+      [].forEach.call(cpfs, function (cpf) {
+        $(cpf).mask('000.000.000-00', {reverse: true});
       });
 
       [].forEach.call(contatos, function (contato) {
         $(contato).mask('(00) 00000-0000');
       });
+
       [].forEach.call(valores, function (valor) {
-        {#$(valor).mask("#.##0,00", {reverse: true});#}
+        $(valor).mask("#.##0,00", {reverse: true});
       });
     });
   </script>
