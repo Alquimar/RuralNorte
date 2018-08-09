@@ -94,8 +94,8 @@ class Lote(AuditoriaAbstractModel):
     area = models.DecimalField('Área (ha)', max_digits=10, decimal_places=4)
     numero = models.IntegerField('Lote N.º')
     entrevistador = models.CharField('Nome do Entrevistador', max_length=50)
-    coordenada_x = models.CharField('Coordenada "X"', max_length=30)
-    coordenada_y = models.CharField('Coordenada "Y"', max_length=30)
+    coordenada_x = models.CharField('Coordenada "X" (UTM)', max_length=30)
+    coordenada_y = models.CharField('Coordenada "Y" (UTM)', max_length=30)
     banda_coordenada = models.CharField('Banda', max_length=30, blank=True, null=True)
 
     CHOICE_SIM = 1
@@ -201,12 +201,14 @@ class Lote(AuditoriaAbstractModel):
     QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_NENHUMA = 10
     QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_UMA_OUTRA_FAMILIA_ALEM_DA_SUA = 20
     QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_MAIS_DE_UMA = 30
+    QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_NAO_SE_APLICA = 40
 
     quantas_familias_utilizam_mesma_fonte_agua_choices = Choices(
         (QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_NENHUMA, 'Nenhuma'),
         (QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_UMA_OUTRA_FAMILIA_ALEM_DA_SUA,
          'Uma outra família, além da sua família'),
-        (QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_MAIS_DE_UMA, 'Mais de uma')
+        (QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_MAIS_DE_UMA, 'Mais de uma'),
+        (QUANTAS_FAMILIAS_UTILIZAM_MESMA_FONTE_DE_AGUA_NAO_SE_APLICA, 'Não se aplica')
     )
     quantas_familias_utilizam_mesma_fonte_agua = models.IntegerField(
         '15. Quantas famílias (além da sua) fazem o uso da mesma fonte de água que abastece o seu lote?',
@@ -214,38 +216,6 @@ class Lote(AuditoriaAbstractModel):
     )
     quantidade_familias_utilizacao_mesma_fonte_agua = models.IntegerField('Mais de uma. Quantas?', blank=True,
                                                                           null=True)
-
-    AGUA_PARA_ANIMAIS_PLANTIO_SIM_OS_ANIMAIS_VAO_ATE_CURSO_DAGUA_OU_REPRESA = 10
-    AGUA_PARA_ANIMAIS_PLANTIO_SIM_AGUA_PUXADA_DE_CURSO_DAGUA_OU_REPRESA = 20
-    AGUA_PARA_ANIMAIS_PLANTIO_SIM_TEMOS_POCO_EXCLUSIVO_PARA_ANIMAIS = 30
-    AGUA_PARA_ANIMAIS_PLANTIO_SIM_MESMA_AGUA_QUE_VEM_PARA_CASA = 40
-    AGUA_PARA_ANIMAIS_PLANTIO_NAO_HA_AGUA_PARA_ANIMAIS = 50
-    AGUA_PARA_ANIMAIS_PLANTIO_SIM_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO = 60
-    AGUA_PARA_ANIMAIS_PLANTIO_NAO_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO = 70
-    AGUA_PARA_ANIMAIS_PLANTIO_OUTROS = 80
-
-    agua_para_animais_plantio_choices = Choices(
-        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_OS_ANIMAIS_VAO_ATE_CURSO_DAGUA_OU_REPRESA,
-         "Sim, os animais vão até um curso d'água ou represa"),
-        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_AGUA_PUXADA_DE_CURSO_DAGUA_OU_REPRESA,
-         "Sim, a água é puxada de um curso d'água ou represa"),
-        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_TEMOS_POCO_EXCLUSIVO_PARA_ANIMAIS,
-         'Sim, temos um poço exclusivo para os animais'),
-        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_MESMA_AGUA_QUE_VEM_PARA_CASA, 'Sim, é a mesma água que vem para a casa'),
-        (AGUA_PARA_ANIMAIS_PLANTIO_NAO_HA_AGUA_PARA_ANIMAIS, 'Não há água para animais'),
-        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO,
-         'Sim, existe água para plantio(s) irrigado(s)'),
-        (
-            AGUA_PARA_ANIMAIS_PLANTIO_NAO_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO,
-            'Não existe água para plantio(s) irrigado(s)'),
-        (AGUA_PARA_ANIMAIS_PLANTIO_OUTROS, 'Outros')
-    )
-    agua_para_animais_plantio = models.IntegerField(
-        '16. No lote tem água para os animais / Plantio?', choices=agua_para_animais_plantio_choices
-    )
-    agua_para_animais_plantio_outros = models.CharField(
-        'Água para animais/plantio (Outros)', max_length=50, blank=True, null=True
-    )
 
     REGULARIDADE_ABASTECIMENTO_AGUA_SEMPRE_TEM_AGUA = 10
     REGULARIDADE_ABASTECIMENTO_AGUA_FALTA_AGUA_AS_VEZES = 20
@@ -323,46 +293,6 @@ class Lote(AuditoriaAbstractModel):
     )
     area_preservacao_permanente_cercada = models.IntegerField(
         '39. A Área de Preservação Permanente está cercada ou isolada?', choices=sim_nao_choices
-    )
-
-    DESTINO_LIXO_DOMESTICO_ESPALHADO_NO_LOTE = 10
-    DESTINO_LIXO_DOMESTICO_QUEIMA = 20
-    DESTINO_LIXO_DOMESTICO_ENTERRA = 30
-    DESTINO_LIXO_DOMESTICO_JOGA_NOS_CURSOS_DAGUA = 40
-    DESTINO_LIXO_DOMESTICO_RECICLA_REAPROVEITA_LIXO_INORGANICO = 50
-    DESTINO_LIXO_DOMESTICO_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 60
-    DESTINO_LIXO_DOMESTICO_NAO_SE_APLICA = 999
-
-    destino_lixo_domestico_nao_organico_choices = Choices(
-        (DESTINO_LIXO_DOMESTICO_ESPALHADO_NO_LOTE, 'Espalhado no lote'),
-        (DESTINO_LIXO_DOMESTICO_QUEIMA, 'Queima'),
-        (DESTINO_LIXO_DOMESTICO_ENTERRA, 'Enterra'),
-        (DESTINO_LIXO_DOMESTICO_JOGA_NOS_CURSOS_DAGUA, "Joga nos cursos d'água"),
-        (DESTINO_LIXO_DOMESTICO_RECICLA_REAPROVEITA_LIXO_INORGANICO, 'Recicla/reaproveita lixo inorgânico'),
-        (DESTINO_LIXO_DOMESTICO_DEPOSITA_A_CEU_ABERTO_NO_LOTE, 'Deposita a céu aberto no lote'),
-        (DESTINO_LIXO_DOMESTICO_NAO_SE_APLICA, 'Não se aplica'),
-    )
-
-    destino_lixo_domestico_nao_organico = models.IntegerField(
-        '42. Qual o destino do lixo doméstico não orgânico?', choices=destino_lixo_domestico_nao_organico_choices
-    )
-
-    DESTINO_MATERIAL_ORGANICO_USO_PARA_ALIMENTACAO_DE_ANIMAIS = 10
-    DESTINO_MATERIAL_ORGANICO_FAZ_COMPOSTAGEM = 20
-    DESTINO_MATERIAL_ENTERRA_JUNTO_COM_INORGANICO = 30
-    DESTINO_MATERIAL_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 40
-    DESTINO_MATERIAL_NAO_SE_APLICA = 999
-
-    destino_material_organico_choices = Choices(
-        (DESTINO_MATERIAL_ORGANICO_USO_PARA_ALIMENTACAO_DE_ANIMAIS, 'Uso para alimentação de animais'),
-        (DESTINO_MATERIAL_ORGANICO_FAZ_COMPOSTAGEM, 'Faz compostagem'),
-        (DESTINO_MATERIAL_ENTERRA_JUNTO_COM_INORGANICO, 'Enterra junto com inorgânico'),
-        (DESTINO_MATERIAL_DEPOSITA_A_CEU_ABERTO_NO_LOTE, "Deposita a céu aberto no lote"),
-        (DESTINO_MATERIAL_NAO_SE_APLICA, 'Não se aplica'),
-    )
-
-    destino_material_organico = models.IntegerField(
-        '43. Qual o destino do material orgânico?', choices=destino_material_organico_choices
     )
     possui_capineira = models.IntegerField(
         'Possui Capineira?', choices=sim_nao_choices, default=CHOICE_NAO
@@ -631,6 +561,53 @@ class TratamentoAgua(AuditoriaAbstractModel):
     class Meta:
         verbose_name = ''
         verbose_name_plural = '12. Qual a forma tratamento da água para consumo?'
+
+
+class AguaParaAnimaisPlantio(AuditoriaAbstractModel):
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='aguasParaAnimaisPlantio', on_delete=models.CASCADE)
+
+    AGUA_PARA_ANIMAIS_PLANTIO_SIM_OS_ANIMAIS_VAO_ATE_CURSO_DAGUA_OU_REPRESA = 10
+    AGUA_PARA_ANIMAIS_PLANTIO_SIM_AGUA_PUXADA_DE_CURSO_DAGUA_OU_REPRESA = 20
+    AGUA_PARA_ANIMAIS_PLANTIO_SIM_TEMOS_POCO_EXCLUSIVO_PARA_ANIMAIS = 30
+    AGUA_PARA_ANIMAIS_PLANTIO_SIM_MESMA_AGUA_QUE_VEM_PARA_CASA = 40
+    AGUA_PARA_ANIMAIS_PLANTIO_NAO_HA_AGUA_PARA_ANIMAIS = 50
+    AGUA_PARA_ANIMAIS_PLANTIO_SIM_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO = 60
+    AGUA_PARA_ANIMAIS_PLANTIO_NAO_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO = 70
+    AGUA_PARA_ANIMAIS_PLANTIO_OUTROS = 80
+
+    agua_para_animais_plantio_choices = Choices(
+        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_OS_ANIMAIS_VAO_ATE_CURSO_DAGUA_OU_REPRESA,
+         "Sim, os animais vão até um curso d'água ou represa"),
+        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_AGUA_PUXADA_DE_CURSO_DAGUA_OU_REPRESA,
+         "Sim, a água é puxada de um curso d'água ou represa"),
+        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_TEMOS_POCO_EXCLUSIVO_PARA_ANIMAIS,
+         'Sim, temos um poço exclusivo para os animais'),
+        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_MESMA_AGUA_QUE_VEM_PARA_CASA, 'Sim, é a mesma água que vem para a casa'),
+        (AGUA_PARA_ANIMAIS_PLANTIO_NAO_HA_AGUA_PARA_ANIMAIS, 'Não há água para animais'),
+        (AGUA_PARA_ANIMAIS_PLANTIO_SIM_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO,
+         'Sim, existe água para plantio(s) irrigado(s)'),
+        (
+            AGUA_PARA_ANIMAIS_PLANTIO_NAO_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO,
+            'Não existe água para plantio(s) irrigado(s)'),
+        (AGUA_PARA_ANIMAIS_PLANTIO_OUTROS, 'Outros')
+    )
+    agua_para_animais_plantio = models.IntegerField(
+        'Tem água para os animais / Plantio?', choices=agua_para_animais_plantio_choices, blank=True, null=True
+    )
+    outros = models.CharField(
+        'Água para animais/plantio (Outros)', max_length=50, blank=True, null=True
+    )
+
+    def __str__(self):
+        retorno = ''
+        if self.outros:
+            retorno = '{} ({}) - {}'.format(self.agua_para_animais_plantio[self.agua_para_animais_plantio], self.agua_para_animais_plantio_outros)
+        retorno = '{} - {}'.format(self.agua_para_animais_plantio_choices[self.agua_para_animais_plantio])
+        return retorno
+
+    class Meta:
+        verbose_name = 'Água para animais / Plantio'
+        verbose_name_plural = '16. No lote tem água para os animais / Plantio?'
 
 
 class ConstrucaoLote(AuditoriaAbstractModel):
@@ -979,12 +956,12 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     CANAL_COMERCIALIZACAO_OUTROS = 60
 
     canal_comercializacao_choices = Choices(
-        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, 'Venda direta ao consumidor (de casa em casa)'),
-        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, 'Venda em feiras'),
-        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES, 'Entrega para supermercados, mercearias, açougues, etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS, 'Venda p/ indústrias, e/ou agroindústrias (laticínios etc)'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
-        (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
+        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, '(1) Venda direta ao consumidor (de casa em casa)'),
+        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, '(2) Venda em feiras'),
+        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES, '(3) Entrega para supermercados, mercearias, açougues, etc'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS, '(4) Venda p/ indústrias, e/ou agroindústrias (laticínios etc)'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, '(5) Venda para agentes "atravessadores"'),
+        (CANAL_COMERCIALIZACAO_OUTROS, '(6) Outros')
     )
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização', choices=canal_comercializacao_choices, blank=True, null=True)
 
@@ -995,11 +972,11 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     MERCADO_INSTITUCIONAL_OUTROS = 50
 
     mercado_institucional_choices = Choices(
-        (MERCADO_INSTITUCIONAL_PAA_CONAB, 'PAA-CONAB'),
-        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, 'PAA-Prefeitura / MDS'),
-        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, 'Alimentação Escolar - PNAE'),
-        (MERCADO_INSTITUCIONAL_BIODIESEL, 'Biodiesel'),
-        (MERCADO_INSTITUCIONAL_OUTROS, 'Outros')
+        (MERCADO_INSTITUCIONAL_PAA_CONAB, '(7) PAA-CONAB'),
+        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, '(8) PAA-Prefeitura / MDS'),
+        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, '(9) Alimentação Escolar - PNAE'),
+        (MERCADO_INSTITUCIONAL_BIODIESEL, '(10) Biodiesel'),
+        (MERCADO_INSTITUCIONAL_OUTROS, '(11) Outros')
     )
     mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices, blank=True, null=True)
 
@@ -1119,14 +1096,14 @@ class AtividadeExtrativista(AuditoriaAbstractModel):
     CANAL_COMERCIALIZACAO_OUTROS = 60
 
     canal_comercializacao_choices = Choices(
-        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, 'Venda direta ao consumidor (de casa em casa)'),
-        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, 'Venda em feiras'),
+        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, '(1) Venda direta ao consumidor (de casa em casa)'),
+        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, '(2) Venda em feiras'),
         (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES,
-         'Entrega para supermercados, mercearias, açougues, etc'),
+         '(3) Entrega para supermercados, mercearias, açougues, etc'),
         (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS,
-         'Venda p/ indústrias, e/ou agroindústrias (laticínios etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
-        (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
+         '(4) Venda p/ indústrias, e/ou agroindústrias (laticínios etc'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, '(5) Venda para agentes "atravessadores"'),
+        (CANAL_COMERCIALIZACAO_OUTROS, '(6) Outros')
     )
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
@@ -1138,11 +1115,11 @@ class AtividadeExtrativista(AuditoriaAbstractModel):
     MERCADO_INSTITUCIONAL_OUTROS = 50
 
     mercado_institucional_choices = Choices(
-        (MERCADO_INSTITUCIONAL_PAA_CONAB, 'PAA-CONAB'),
-        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, 'PAA-Prefeitura / MDS'),
-        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, 'Alimentação Escolar - PNAE'),
-        (MERCADO_INSTITUCIONAL_BIODIESEL, 'Biodiesel'),
-        (MERCADO_INSTITUCIONAL_OUTROS, 'Outros')
+        (MERCADO_INSTITUCIONAL_PAA_CONAB, '(7) PAA-CONAB'),
+        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, '(8) PAA-Prefeitura / MDS'),
+        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, '(9) Alimentação Escolar - PNAE'),
+        (MERCADO_INSTITUCIONAL_BIODIESEL, '(10) Biodiesel'),
+        (MERCADO_INSTITUCIONAL_OUTROS, '(11) Outros')
     )
     mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices,
                                                 blank=True, null=True)
@@ -1181,22 +1158,19 @@ class ProducaoFlorestal(AuditoriaAbstractModel):
     area_plantada = models.DecimalField('Área plantada (ha)', max_digits=10, decimal_places=4, blank=True, null=True)
     valor = models.DecimalField('R$/Unidade colhida', max_digits=10, decimal_places=2, blank=True, null=True)
 
-    CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR = 10
-    CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS = 20
-    CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES = 30
-    CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS = 40
-    CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES = 50
-    CANAL_COMERCIALIZACAO_OUTROS = 60
+    CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_BENEFICIAMENTO_PRIMARIO = 10
+    CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_DE_TRATAMENTO_DE_MADEIRA = 20
+    CANAL_COMERCIALIZACAO_VENDA_PARA_SETOR_DE_CONSTRUCAO_CIVIL = 30
+    CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES = 40
+    CANAL_COMERCIALIZACAO_OUTROS = 50
 
     canal_comercializacao_choices = Choices(
-        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, 'Venda direta ao consumidor (de casa em casa)'),
-        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, 'Venda em feiras'),
-        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES,
-         'Entrega para supermercados, mercearias, açougues, etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS,
-         'Venda p/ indústrias, e/ou agroindústrias (laticínios etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
-        (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_BENEFICIAMENTO_PRIMARIO, '(1) Venda p/ indústrias de beneficiamento primário-madeira (serraria, laminadora) indústria de beneficiamento de borracha natural, etc'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_DE_TRATAMENTO_DE_MADEIRA, '(2) Venda para indústria de tratamento de madeira'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_SETOR_DE_CONSTRUCAO_CIVIL,'(3) Venda para setor de construção civil'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_SETOR_DE_CONSTRUCAO_CIVIL,'(3) Venda para setor de construção civil'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, '(4) Venda para agentes "atravessadores"'),
+        (CANAL_COMERCIALIZACAO_OUTROS, '(5) Outros')
     )
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
@@ -1351,10 +1325,10 @@ class DescarteAnimal(AuditoriaAbstractModel):
     CANAL_COMERCIALIZACAO_OUTROS = 40
 
     canal_comercializacao_choices = Choices(
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_OUTRO_PRODUTOR, 'Venda para outro produtor'),
-        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_FRIGORIFICO_ACOUGUE, 'Entrega para frigorífico/açougue'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
-        (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_OUTRO_PRODUTOR, '(1) Venda para outro produtor'),
+        (CANAL_COMERCIALIZACAO_ENTREGA_PARA_FRIGORIFICO_ACOUGUE, '(2) Entrega para frigorífico/açougue'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, '(3) Venda para agentes "atravessadores"'),
+        (CANAL_COMERCIALIZACAO_OUTROS, '(4) Outros')
     )
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
@@ -1464,14 +1438,14 @@ class Produto(AuditoriaAbstractModel):
     CANAL_COMERCIALIZACAO_OUTROS = 60
 
     canal_comercializacao_choices = Choices(
-        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, 'Venda direta ao consumidor (de casa em casa)'),
-        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, 'Venda em feiras'),
+        (CANAL_COMERCIALIZACAO_VENDA_DIRETA_AO_CONSUMIDOR, '(1) Venda direta ao consumidor (de casa em casa)'),
+        (CANAL_COMERCIALIZACAO_VENDA_EM_FEIRAS, '(2) Venda em feiras'),
         (CANAL_COMERCIALIZACAO_ENTREGA_PARA_SUPERMERCADOS_MERCEARIAS_AÇOUGUES,
-         'Entrega para supermercados, mercearias, açougues, etc'),
+         '(3) Entrega para supermercados, mercearias, açougues, etc'),
         (CANAL_COMERCIALIZACAO_VENDA_PARA_INDUSTRIAS_AGROINDUSTRIAS_LATICINIOS,
-         'Venda p/ indústrias, e/ou agroindústrias (laticínios etc'),
-        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, 'Venda para agentes "atravessadores"'),
-        (CANAL_COMERCIALIZACAO_OUTROS, 'Outros')
+         '(4) Venda p/ indústrias, e/ou agroindústrias (laticínios etc'),
+        (CANAL_COMERCIALIZACAO_VENDA_PARA_AGENTES_ATRAVESSADORES, '(5) Venda para agentes "atravessadores"'),
+        (CANAL_COMERCIALIZACAO_OUTROS, '(6) Outros')
     )
     canal_comercializacao = models.IntegerField('Formas/Canais de Comercialização',
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
@@ -1483,11 +1457,11 @@ class Produto(AuditoriaAbstractModel):
     MERCADO_INSTITUCIONAL_OUTROS = 50
 
     mercado_institucional_choices = Choices(
-        (MERCADO_INSTITUCIONAL_PAA_CONAB, 'PAA-CONAB'),
-        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, 'PAA-Prefeitura / MDS'),
-        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, 'Alimentação Escolar - PNAE'),
-        (MERCADO_INSTITUCIONAL_BIODIESEL, 'Biodiesel'),
-        (MERCADO_INSTITUCIONAL_OUTROS, 'Outros')
+        (MERCADO_INSTITUCIONAL_PAA_CONAB, '(7) PAA-CONAB'),
+        (MERCADO_INSTITUCIONAL_PAA_PREFEITURA_MDS, '(8) PAA-Prefeitura / MDS'),
+        (MERCADO_INSTITUCIONAL_ALIMENTACAO_ESCOLAR_PNAE, '(9) Alimentação Escolar - PNAE'),
+        (MERCADO_INSTITUCIONAL_BIODIESEL, '(10) Biodiesel'),
+        (MERCADO_INSTITUCIONAL_OUTROS, '(11) Outros')
     )
     mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices,
                                                 blank=True, null=True)
@@ -1642,6 +1616,70 @@ class PraticaConservacionista(AuditoriaAbstractModel):
         verbose_name_plural = '41. Quais são as práticas conservacionistas praticadas na propriedade?'
 
 
+class DestinoLixoDomesticoNaoOrganico(AuditoriaAbstractModel):
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='destinosLixoDomesticoNaoOrganico',
+                             on_delete=models.CASCADE)
+
+    DESTINO_ESPALHADO_NO_LOTE = 10
+    DESTINO_QUEIMA = 20
+    DESTINO_ENTERRA = 30
+    DESTINO_JOGA_NOS_CURSOS_DAGUA = 40
+    DESTINO_RECICLA_REAPROVEITA_LIXO_INORGANICO = 50
+    DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 60
+    DESTINO_NAO_SE_APLICA = 999
+
+    destino_choices = Choices(
+        (DESTINO_ESPALHADO_NO_LOTE, 'Espalhado no lote'),
+        (DESTINO_QUEIMA, 'Queima'),
+        (DESTINO_ENTERRA, 'Enterra'),
+        (DESTINO_JOGA_NOS_CURSOS_DAGUA, "Joga nos cursos d'água"),
+        (DESTINO_RECICLA_REAPROVEITA_LIXO_INORGANICO, 'Recicla/reaproveita lixo inorgânico'),
+        (DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE, 'Deposita a céu aberto no lote'),
+        (DESTINO_NAO_SE_APLICA, 'Não se aplica'),
+    )
+
+    destino_lixo_domestico_nao_organico = models.IntegerField(
+        'Destino do lixo doméstico não orgânico', choices=destino_choices, blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.destino_choices[self.destino_lixo_domestico_nao_organico]
+
+    class Meta:
+        verbose_name = ''
+        verbose_name_plural = '42. Qual o destino do lixo doméstico não orgânico?'
+
+
+class DestinoMaterialOrganico(AuditoriaAbstractModel):
+    lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='destinosMaterialOrganico',
+                             on_delete=models.CASCADE)
+
+    DESTINO_USO_PARA_ALIMENTACAO_DE_ANIMAIS = 10
+    DESTINO_FAZ_COMPOSTAGEM = 20
+    DESTINO_ENTERRA_JUNTO_COM_INORGANICO = 30
+    DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE = 40
+    DESTINO_NAO_SE_APLICA = 999
+
+    destino_choices = Choices(
+        (DESTINO_USO_PARA_ALIMENTACAO_DE_ANIMAIS, 'Uso para alimentação de animais'),
+        (DESTINO_FAZ_COMPOSTAGEM, 'Faz compostagem'),
+        (DESTINO_ENTERRA_JUNTO_COM_INORGANICO, 'Enterra junto com inorgânico'),
+        (DESTINO_DEPOSITA_A_CEU_ABERTO_NO_LOTE, "Deposita a céu aberto no lote"),
+        (DESTINO_NAO_SE_APLICA, 'Não se aplica'),
+    )
+
+    destino_material_organico = models.IntegerField(
+        'Destino do material orgânico', choices=destino_choices, blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.destino_choices[self.destino_material_organico]
+
+    class Meta:
+        verbose_name = ''
+        verbose_name_plural = '43. Qual o destino do material orgânico?'
+
+
 class LicenciamentoAmbiental(AuditoriaAbstractModel):
     lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='licenciamentosAmbientais',
                              on_delete=models.CASCADE)
@@ -1690,10 +1728,12 @@ class AtendimentoSaude(AuditoriaAbstractModel):
 
     LOCAL_PA = 1
     LOCAL_CIDADE = 2
+    LOCAL_NAO_SE_APLICA = 3
 
     local_choices = Choices(
         (LOCAL_PA, 'P.A'),
-        (LOCAL_CIDADE, 'Cidade')
+        (LOCAL_CIDADE, 'Cidade'),
+        (LOCAL_NAO_SE_APLICA, 'Não se aplica')
     )
     hospital = models.IntegerField('Hospital', choices=local_choices, blank=True, null=True)
     posto_saude = models.IntegerField('Posto de saúde', choices=local_choices, blank=True, null=True)
@@ -1853,10 +1893,11 @@ class Membro(AuditoriaAbstractModel):
     PARENTESCO_TIO_TIA = 40
     PARENTESCO_PRIMO_PRIMA = 50
     PARENTESCO_FILHO_FILHA = 60
-    PARENTESCO_CUNHADO_CUNHADA = 70
-    PARENTESCO_GENRO_NORA = 80
-    PARENTESCO_NETO_NETA = 90
-    PARENTESCO_AGREGADO = 100
+    PARENTESCO_ENTEADO_ENTEADA = 70
+    PARENTESCO_CUNHADO_CUNHADA = 80
+    PARENTESCO_GENRO_NORA = 90
+    PARENTESCO_NETO_NETA = 100
+    PARENTESCO_AGREGADO = 110
 
     parentesco_choices = Choices(
         (PARENTESCO_TITULAR, 'Titular'),
@@ -1865,6 +1906,7 @@ class Membro(AuditoriaAbstractModel):
         (PARENTESCO_TIO_TIA, 'Tio(a)'),
         (PARENTESCO_PRIMO_PRIMA, 'Primo(a)'),
         (PARENTESCO_FILHO_FILHA, 'Filho(a)'),
+        (PARENTESCO_ENTEADO_ENTEADA, 'Enteado(a)'),
         (PARENTESCO_CUNHADO_CUNHADA, 'Cunhado(a)'),
         (PARENTESCO_GENRO_NORA, 'Genro/Nora'),
         (PARENTESCO_NETO_NETA, 'Neto(a)'),

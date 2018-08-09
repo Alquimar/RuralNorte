@@ -164,6 +164,10 @@ def novo_diagnostico(request, pa_id):
         prefix='tratamentos_agua',
         queryset=models.TratamentoAgua.objects.none()
     )
+    aguas_para_animais_plantio_forms = forms.AguaParaAnimaisPlantioInlineFormSet(
+        prefix='aguas_para_animais_plantio',
+        queryset=models.AguaParaAnimaisPlantio.objects.none()
+    )
     construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
         prefix='construcoes_lote',
         queryset=models.ConstrucaoLote.objects.none()
@@ -235,6 +239,14 @@ def novo_diagnostico(request, pa_id):
     praticas_conservacionistas_forms = forms.PraticaConservacionistaInlineFormSet(
         prefix='praticas_conservacionistas',
         queryset=models.PraticaConservacionista.objects.none()
+    )
+    destinos_lixo_domestico_nao_organico_forms = forms.DestinoLixoDomesticoNaoOrganicoInlineFormSet(
+        prefix='destinos_lixo_domestico_nao_organico',
+        queryset=models.DestinoLixoDomesticoNaoOrganico.objects.none()
+    )
+    destinos_material_organico_forms = forms.DestinoMaterialOrganicoInlineFormSet(
+        prefix='destinos_material_organico',
+        queryset=models.DestinoMaterialOrganico.objects.none()
     )
     licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
         prefix='licenciamentos_ambientais',
@@ -330,6 +342,13 @@ def novo_diagnostico(request, pa_id):
             queryset=models.TratamentoAgua.objects.none()
         )
         inlines.append(tratamentos_agua_forms)
+
+        aguas_para_animais_plantio_forms = forms.AguaParaAnimaisPlantioInlineFormSet(
+            request.POST,
+            prefix='aguas_para_animais_plantio',
+            queryset=models.AguaParaAnimaisPlantio.objects.none()
+        )
+        inlines.append(aguas_para_animais_plantio_forms)
 
         construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
             request.POST,
@@ -457,6 +476,20 @@ def novo_diagnostico(request, pa_id):
         )
         inlines.append(praticas_conservacionistas_forms)
 
+        destinos_lixo_domestico_nao_organico_forms = forms.DestinoLixoDomesticoNaoOrganicoInlineFormSet(
+            request.POST,
+            prefix='destinos_lixo_domestico_nao_organico',
+            queryset=models.DestinoLixoDomesticoNaoOrganico.objects.none()
+        )
+        inlines.append(destinos_lixo_domestico_nao_organico_forms)
+
+        destinos_material_organico_forms = forms.DestinoMaterialOrganicoInlineFormSet(
+            request.POST,
+            prefix='destinos_material_organico',
+            queryset=models.DestinoMaterialOrganico.objects.none()
+        )
+        inlines.append(destinos_material_organico_forms)
+
         licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
             request.POST,
             prefix='licenciamentos_ambientais',
@@ -542,6 +575,7 @@ def novo_diagnostico(request, pa_id):
         'EstruturaOrganizativaInlineFormSet': estruturas_organizativas_forms,
         'FonteAguaInlineFormSet': fontes_agua_forms,
         'TratamentoAguaInlineFormSet': tratamentos_agua_forms,
+        'AguaParaAnimaisPlantioInlineFormSet': aguas_para_animais_plantio_forms,
         'ConstrucaoLoteInlineFormSet': construcoes_lote_forms,
         'BemProdutivoInlineFormSet': bens_produtivos_forms,
         'AplicacaoCreditoInlineFormSet': aplicacoes_creditos_forms,
@@ -560,6 +594,8 @@ def novo_diagnostico(request, pa_id):
         'ProcessadoBeneficiadoInlineFormSet': processados_beneficiados_forms,
         'ProblemaAmbientalInlineFormSet': problemas_ambientais_forms,
         'PraticaConservacionistaInlineFormSet': praticas_conservacionistas_forms,
+        'DestinoLixoDomesticoNaoOrganicoInlineFormSet': destinos_lixo_domestico_nao_organico_forms,
+        'DestinoMaterialOrganicoInlineFormSet': destinos_material_organico_forms,
         'LicenciamentoAmbientalInlineFormSet': licenciamentos_ambientais_forms,
         'AtendimentoSaudeForm': atendimento_saude_forms,
         'ProgramaSaudeInlineFormSet': programas_saude_forms,
@@ -614,6 +650,10 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
     tratamentos_agua_forms = forms.TratamentoAguaInlineFormSet(
         prefix='tratamentos_agua',
         queryset=form.instance.tratamentosAgua.all()
+    )
+    aguas_para_animais_plantio_forms = forms.AguaParaAnimaisPlantioInlineFormSet(
+        prefix='aguas_para_animais_plantio',
+        queryset=form.instance.aguasParaAnimaisPlantio.all()
     )
     construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
         prefix='construcoes_lote',
@@ -690,6 +730,14 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
     praticas_conservacionistas_forms = forms.PraticaConservacionistaInlineFormSet(
         prefix='praticas_conservacionistas',
         queryset=form.instance.praticasConservacionistas.all()
+    )
+    destinos_lixo_domestico_nao_organico_forms = forms.DestinoLixoDomesticoNaoOrganicoInlineFormSet(
+        prefix='destinos_lixo_domestico_nao_organico',
+        queryset=form.instance.destinosLixoDomesticoNaoOrganico.all()
+    )
+    destinos_material_organico_forms = forms.DestinoMaterialOrganicoInlineFormSet(
+        prefix='destinos_material_organico',
+        queryset=form.instance.destinosMaterialOrganico.all()
     )
     licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
         prefix='licenciamentos_ambientais',
@@ -786,6 +834,13 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
             queryset=form.instance.tratamentosAgua.all()
         )
         inlines.append(tratamentos_agua_forms)
+
+        aguas_para_animais_plantio_forms = forms.AguaParaAnimaisPlantioInlineFormSet(
+            request.POST,
+            prefix='aguas_para_animais_plantio',
+            queryset=form.instance.aguasParaAnimaisPlantio.all()
+        )
+        inlines.append(aguas_para_animais_plantio_forms)
 
         construcoes_lote_forms = forms.ConstrucaoLoteInlineFormSet(
             request.POST,
@@ -919,6 +974,20 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         )
         inlines.append(praticas_conservacionistas_forms)
 
+        destinos_lixo_domestico_nao_organico_forms = forms.DestinoLixoDomesticoNaoOrganicoInlineFormSet(
+            request.POST,
+            prefix='destinos_lixo_domestico_nao_organico',
+            queryset=form.instance.destinosLixoDomesticoNaoOrganico.all()
+        )
+        inlines.append(destinos_lixo_domestico_nao_organico_forms)
+
+        destinos_material_organico_forms = forms.DestinoMaterialOrganicoInlineFormSet(
+            request.POST,
+            prefix='destinos_material_organico',
+            queryset=form.instance.destinosMaterialOrganico.all()
+        )
+        inlines.append(destinos_material_organico_forms)
+
         licenciamentos_ambientais_forms = forms.LicenciamentoAmbientalInlineFormSet(
             request.POST,
             prefix='licenciamentos_ambientais',
@@ -1008,6 +1077,7 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         'EstruturaOrganizativaInlineFormSet': estruturas_organizativas_forms,
         'FonteAguaInlineFormSet': fontes_agua_forms,
         'TratamentoAguaInlineFormSet': tratamentos_agua_forms,
+        'AguaParaAnimaisPlantioInlineFormSet': aguas_para_animais_plantio_forms,
         'ConstrucaoLoteInlineFormSet': construcoes_lote_forms,
         'BemProdutivoInlineFormSet': bens_produtivos_forms,
         'AplicacaoCreditoInlineFormSet': aplicacoes_creditos_forms,
@@ -1026,6 +1096,8 @@ def editar_diagnostico(request, pa_id, diagnostico_id):
         'ProcessadoBeneficiadoInlineFormSet': processados_beneficiados_forms,
         'ProblemaAmbientalInlineFormSet': problemas_ambientais_forms,
         'PraticaConservacionistaInlineFormSet': praticas_conservacionistas_forms,
+        'DestinoLixoDomesticoNaoOrganicoInlineFormSet': destinos_lixo_domestico_nao_organico_forms,
+        'DestinoMaterialOrganicoInlineFormSet': destinos_material_organico_forms,
         'LicenciamentoAmbientalInlineFormSet': licenciamentos_ambientais_forms,
         'AtendimentoSaudeForm': atendimento_saude_forms,
         'ProgramaSaudeInlineFormSet': programas_saude_forms,

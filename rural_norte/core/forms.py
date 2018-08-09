@@ -241,6 +241,41 @@ TratamentoAguaInlineFormSet = forms.inlineformset_factory(
     }
 )
 
+class AguaParaAnimaisPlantioForm(forms.ModelForm):
+    class Meta:
+        model = models.AguaParaAnimaisPlantio
+        fields = '__all__'
+
+AguaParaAnimaisPlantioFormSet = forms.modelformset_factory(
+    models.AguaParaAnimaisPlantio,
+    form=AguaParaAnimaisPlantioForm,
+    extra=0
+)
+
+AguaParaAnimaisPlantioInlineFormSet = forms.inlineformset_factory(
+    models.Lote,
+    models.AguaParaAnimaisPlantio,
+    extra=0,
+    min_num=1,
+    fields=('agua_para_animais_plantio', 'outros'),
+    formset=AguaParaAnimaisPlantioFormSet,
+    can_delete=True,
+    widgets={
+        'agua_para_animais_plantio': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        ),
+        'outros': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Especifique'
+            }
+        )
+    }
+)
+
 class ConstrucaoLoteForm(forms.ModelForm):
     class Meta:
         model = models.ConstrucaoLote
@@ -867,6 +902,12 @@ ProducaoFlorestalInlineFormSet = forms.inlineformset_factory(
 )
 
 class BovinoculturaForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(BovinoculturaForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['especificacao'].required = False
+
     especificacao = forms.ChoiceField(
         choices=(('', '---------'),) + models.Bovinocultura.BOVINOCULTURA + ((999, 'Outros'),), widget=forms.Select(
             attrs={
@@ -923,6 +964,12 @@ BovinoculturaInlineFormSet = forms.inlineformset_factory(
 )
 
 class OutraCriacaoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(OutraCriacaoForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['especificacao'].required = False
+
     especificacao = forms.ChoiceField(
         choices=(('', '---------'),) + models.OutraCriacao.OUTRA_CRIACAO + ((999, 'Outros'),), widget=forms.Select(
             attrs={
@@ -1097,6 +1144,12 @@ BovinoculturaCorteInlineFormSet = forms.inlineformset_factory(
 )
 
 class OrigemAnimalForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(OrigemAnimalForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['especificacao'].required = False
+
     especificacao = forms.ChoiceField(
         choices=(('', '---------'),) + models.OrigemAnimal.ORIGEM_ANIMAL + ((999, 'Outros'),), widget=forms.Select(
             attrs={
@@ -1336,6 +1389,64 @@ PraticaConservacionistaInlineFormSet = forms.inlineformset_factory(
     can_delete=True,
     widgets={
         'tipo_pratica': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        )
+    }
+)
+
+class DestinoLixoDomesticoNaoOrganicoForm(forms.ModelForm):
+    class Meta:
+        model = models.DestinoLixoDomesticoNaoOrganico
+        fields = '__all__'
+
+DestinoLixoDomesticoNaoOrganicoFormSet = forms.modelformset_factory(
+    models.DestinoLixoDomesticoNaoOrganico,
+    form=DestinoLixoDomesticoNaoOrganicoForm,
+    extra=0
+)
+
+DestinoLixoDomesticoNaoOrganicoInlineFormSet = forms.inlineformset_factory(
+    models.Lote,
+    models.DestinoLixoDomesticoNaoOrganico,
+    extra=0,
+    min_num=1,
+    fields=('destino_lixo_domestico_nao_organico',),
+    formset=DestinoLixoDomesticoNaoOrganicoFormSet,
+    can_delete=True,
+    widgets={
+        'destino_lixo_domestico_nao_organico': forms.Select(
+            attrs={
+                'class': 'form-control',
+                'style': 'margin-bottom: 1rem;'
+            }
+        )
+    }
+)
+
+class DestinoMaterialOrganicoForm(forms.ModelForm):
+    class Meta:
+        model = models.DestinoMaterialOrganico
+        fields = '__all__'
+
+DestinoMaterialOrganicoFormSet = forms.modelformset_factory(
+    models.DestinoMaterialOrganico,
+    form=DestinoMaterialOrganicoForm,
+    extra=0
+)
+
+DestinoMaterialOrganicoInlineFormSet = forms.inlineformset_factory(
+    models.Lote,
+    models.DestinoMaterialOrganico,
+    extra=0,
+    min_num=1,
+    fields=('destino_material_organico',),
+    formset=DestinoMaterialOrganicoFormSet,
+    can_delete=True,
+    widgets={
+        'destino_material_organico': forms.Select(
             attrs={
                 'class': 'form-control',
                 'style': 'margin-bottom: 1rem;'
@@ -1709,13 +1820,12 @@ class DiagnosticoForm(forms.ModelForm):
             'banda_coordenada', 'outra_familia_no_lote', 'cad_unico', 'recebe_beneficio_social', 'moradia_assentamento',
             'tipo_parede_externa', 'tipo_instalacao_eletrica', 'tipo_instalacao_sanitaria', 'localizacao_fonte_agua',
             'abastecimento_agua_suficiente', 'quantas_familias_utilizam_mesma_fonte_agua',
-            'quantidade_familias_utilizacao_mesma_fonte_agua', 'agua_para_animais_plantio',
-            'agua_para_animais_plantio_outros', 'regularidade_abastecimento_agua', 'tipo_estrada_acesso',
+            'quantidade_familias_utilizacao_mesma_fonte_agua', 'regularidade_abastecimento_agua', 'tipo_estrada_acesso',
             'situacao_estrada_acesso', 'situacao_cercado_lote', 'possui_pastagem_em_pastejo_rotacionado',
             'pratica_inseminacao_artificial_no_rebanho_leiteiro', 'area_preservacao_permanente',
-            'area_preservacao_permanente_cercada', 'destino_lixo_domestico_nao_organico', 'destino_material_organico',
-            'area_pastejo_rotacionado', 'necessita_autoriacao_exploracao_florestal_queima_controlada',
-            'qualidade_servico_saude', 'frequencia_atividade_fisica', 'oferta_transporte_interno'
+            'area_preservacao_permanente_cercada', 'area_pastejo_rotacionado',
+            'necessita_autoriacao_exploracao_florestal_queima_controlada', 'qualidade_servico_saude',
+            'frequencia_atividade_fisica', 'oferta_transporte_interno'
         ]
 
         widgets = {
@@ -1863,7 +1973,8 @@ class DiagnosticoForm(forms.ModelForm):
             ),
             'tipo_estrada_acesso': forms.Select(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'style': "margin-top: 1.5rem;"
                 }
             ),
             'situacao_estrada_acesso': forms.Select(
@@ -1873,7 +1984,8 @@ class DiagnosticoForm(forms.ModelForm):
             ),
             'situacao_cercado_lote': forms.Select(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'style': "margin-top: 1.5rem;"
                 }
             ),
             'possui_pastagem_em_pastejo_rotacionado': forms.Select(

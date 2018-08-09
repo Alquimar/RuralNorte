@@ -26,49 +26,49 @@
 
         <div class="form-row">
           <div class="form-group col-md-3">
-            {{ form.codigo_sipra.label_tag }}
+            <b>{{ form.codigo_sipra.label_tag }}</b>
             {{ form.codigo_sipra }}
             {{ form.codigo_sipra.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.data_homologacao.label_tag }}
+            <b>{{ form.data_homologacao.label_tag }}</b>
             {{ form.data_homologacao }}
             {{ form.data_homologacao.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.data_visita.label_tag }}
+            <b>{{ form.data_visita.label_tag }}</b>
             {{ form.data_visita }}
             {{ form.data_visita.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.area.label_tag }}
+            <b>{{ form.area.label_tag }}</b>
             {{ form.area }}
             {{ form.area.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.numero.label_tag }}
+            <b>{{ form.numero.label_tag }}</b>
             {{ form.numero }}
             {{ form.numero.errors }}
           </div>
           <div class="form-group col-md-6">
-            {{ form.entrevistador.label_tag }}
+            <b>{{ form.entrevistador.label_tag }}</b>
             {{ form.entrevistador }}
             {{ form.entrevistador.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.coordenada_x.label_tag }}
+            <b>{{ form.banda_coordenada.label_tag }}</b>
+            {{ form.banda_coordenada }}
+            {{ form.banda_coordenada.errors }}
+          </div>
+          <div class="form-group col-md-2">
+            <b>{{ form.coordenada_x.label_tag }}</b>
             {{ form.coordenada_x }}
             {{ form.coordenada_x.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.coordenada_y.label_tag }}
+            <b>{{ form.coordenada_y.label_tag }}</b>
             {{ form.coordenada_y }}
             {{ form.coordenada_y.errors }}
-          </div>
-          <div class="form-group col-md-2">
-            {{ form.banda_coordenada.label_tag }}
-            {{ form.banda_coordenada }}
-            {{ form.banda_coordenada.errors }}
           </div>
 
           <div class="card card-register mx-auto" style="width: 99%; margin-left: 0%; margin-right: 0%; margin-bottom: 2rem;">
@@ -285,22 +285,22 @@
 
           <div class="form-group col-md-6">
             <div class="form-group col-md-12" style="margin-top: -0.3rem; margin-bottom: 0.5rem;">
-              {{ form.outra_familia_no_lote.label_tag }}
+              <b>{{ form.outra_familia_no_lote.label_tag }}</b>
               {{ form.outra_familia_no_lote }}
               {{ form.outra_familia_no_lote.errors }}
             </div>
             <div class="form-group col-md-12" style="margin-bottom: 0.5rem;">
-              {{ form.cad_unico.label_tag }}
+              <b>{{ form.cad_unico.label_tag }}</b>
               {{ form.cad_unico }}
               {{ form.cad_unico.errors }}
             </div>
             <div class="form-group col-md-12" style="margin-bottom: 0.5rem;">
-              {{ form.ocupante_irregular.label_tag }}
+              <b>{{ form.ocupante_irregular.label_tag }}</b>
               {{ form.ocupante_irregular }}
               {{ form.ocupante_irregular.errors }}
             </div>
             <div class="form-group col-md-12">
-              {{ form.ocupante_irregular_tempo.label_tag }}
+              <b>{{ form.ocupante_irregular_tempo.label_tag }}</b>
               {{ form.ocupante_irregular_tempo }}
               {{ form.ocupante_irregular_tempo.errors }}
             </div>
@@ -340,8 +340,8 @@
             </div>
           </div>
 
-          <div class="form-group col-md-6">
-            {{ form.recebe_beneficio_social.label_tag }}
+          <div class="form-group col-md-6" style="padding-right: 20px; padding-left: 20px;">
+            <b>{{ form.recebe_beneficio_social.label_tag }}</b>
             {{ form.recebe_beneficio_social }}
             {{ form.recebe_beneficio_social.errors }}
           </div>
@@ -469,22 +469,22 @@
           </div>
 
           <div class="form-group col-md-3">
-            {{ form.moradia_assentamento.label_tag }}
+            <b>{{ form.moradia_assentamento.label_tag }}</b>
             {{ form.moradia_assentamento }}
             {{ form.moradia_assentamento.errors }}
           </div>
           <div class="form-group col-md-3">
-            {{ form.tipo_parede_externa.label_tag }}
+            <b>{{ form.tipo_parede_externa.label_tag }}</b>
             {{ form.tipo_parede_externa }}
             {{ form.tipo_parede_externa.errors }}
           </div>
           <div class="form-group col-md-3">
-            {{ form.tipo_instalacao_eletrica.label_tag }}
+            <b>{{ form.tipo_instalacao_eletrica.label_tag }}</b>
             {{ form.tipo_instalacao_eletrica }}
             {{ form.tipo_instalacao_eletrica.errors }}
           </div>
           <div class="form-group col-md-3">
-            {{ form.tipo_instalacao_sanitaria.label_tag }}
+            <b>{{ form.tipo_instalacao_sanitaria.label_tag }}</b>
             {{ form.tipo_instalacao_sanitaria }}
             {{ form.tipo_instalacao_sanitaria.errors }}
           </div>
@@ -568,52 +568,91 @@
           </div>
 
           <div class="form-group col-md-3">
-            {{ form.localizacao_fonte_agua.label_tag }}
+            <b>{{ form.localizacao_fonte_agua.label_tag }}</b>
             {{ form.localizacao_fonte_agua }}
             {{ form.localizacao_fonte_agua.errors }}
           </div>
           <div class="form-group col-md-3">
-            {{ form.abastecimento_agua_suficiente.label_tag }}
+            <b>{{ form.abastecimento_agua_suficiente.label_tag }}</b>
             {{ form.abastecimento_agua_suficiente }}
             {{ form.abastecimento_agua_suficiente.errors }}
           </div>
           <div class="form-group col-md-4">
-            {{ form.quantas_familias_utilizam_mesma_fonte_agua.label_tag }}
+            <b>{{ form.quantas_familias_utilizam_mesma_fonte_agua.label_tag }}</b>
             {{ form.quantas_familias_utilizam_mesma_fonte_agua }}
             {{ form.quantas_familias_utilizam_mesma_fonte_agua.errors }}
           </div>
           <div class="form-group col-md-2">
-            {{ form.quantidade_familias_utilizacao_mesma_fonte_agua.label_tag }}
+            <b>{{ form.quantidade_familias_utilizacao_mesma_fonte_agua.label_tag }}</b>
             {{ form.quantidade_familias_utilizacao_mesma_fonte_agua }}
             {{ form.quantidade_familias_utilizacao_mesma_fonte_agua.errors }}
           </div>
-          <div class="form-group col-md-4">
-            {{ form.agua_para_animais_plantio.label_tag }}
-            {{ form.agua_para_animais_plantio }}
-            {{ form.agua_para_animais_plantio.errors }}
+
+          <div class="form-group col-md-12">
+
+            {{ AguaParaAnimaisPlantioInlineFormSet.management_form }}
+
+            <div class="card card-register">
+              <div class="card-header"><b>16. No lote tem água para os animais / Plantio?</b></div>
+              <div class="card-body">
+                <div>
+                  {% for form in AguaParaAnimaisPlantioInlineFormSet %}
+                    <div id="{{ form.prefix }}-row" class="dynamic-form-aguas_para_animais_plantio form-row">
+                      {{ form.id }}
+                      {#                    <fieldset class="border p-2" style="width: 100%;">#}
+                      {#                      {% if forloop.last %}#}
+                      {#                        <legend><b style="font-size: 1rem;">Construção #</b></legend>#}
+                      {#                      {% else %}#}
+                      {#                        <legend><b style="font-size: 1rem;">Construção #{{ forloop.counter }}</b></legend>#}
+                      {#                      {% endif %}#}
+                      {#                      <div class="row">#}
+                      <div class="col-md-4">
+                        {{ form.agua_para_animais_plantio.label_tag }}
+                        {{ form.agua_para_animais_plantio }}
+                        {{ form.agua_para_animais_plantio.errors }}
+                      </div>
+                      <div class="col-md-4">
+                        {{ form.outros.label_tag }}
+                        {{ form.outros }}
+                        {{ form.outros.errors }}
+                      </div>
+                      <div class="col-md-1" style="margin-top: 2.7%;">
+                        <a id="aguas_para_animais_plantio" href="javascript:void(0)" class="btn btn-danger delete-row" title="Excluir">
+                          <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                        </a>
+                        <div hidden="true">{{ form.DELETE }}</div>
+                      </div>
+                      {#                      </div>#}
+                      {#                    </fieldset>#}
+                    </div>
+                  {% endfor %}
+                </div>
+                <div>
+                  <a id="aguas_para_animais_plantio" href="javascript:void(0)" class="btn btn-success add-row" title="Novo">
+                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md-4">
-            {{ form.agua_para_animais_plantio_outros.label_tag }}
-            {{ form.agua_para_animais_plantio_outros }}
-            {{ form.agua_para_animais_plantio_outros.errors }}
-          </div>
-          <div class="form-group col-md-4">
-            {{ form.regularidade_abastecimento_agua.label_tag }}
+
+          <div class="form-group col-md-3">
+            <b>{{ form.regularidade_abastecimento_agua.label_tag }}</b>
             {{ form.regularidade_abastecimento_agua }}
             {{ form.regularidade_abastecimento_agua.errors }}
           </div>
-          <div class="form-group col-md-4">
-            {{ form.tipo_estrada_acesso.label_tag }}
+          <div class="form-group col-md-3">
+            <b>{{ form.tipo_estrada_acesso.label_tag }}</b>
             {{ form.tipo_estrada_acesso }}
             {{ form.tipo_estrada_acesso.errors }}
           </div>
-          <div class="form-group col-md-4">
-            {{ form.situacao_estrada_acesso.label_tag }}
+          <div class="form-group col-md-3">
+            <b>{{ form.situacao_estrada_acesso.label_tag }}</b>
             {{ form.situacao_estrada_acesso }}
             {{ form.situacao_estrada_acesso.errors }}
           </div>
-          <div class="form-group col-md-4">
-            {{ form.situacao_cercado_lote.label_tag }}
+          <div class="form-group col-md-3">
+            <b>{{ form.situacao_cercado_lote.label_tag }}</b>
             {{ form.situacao_cercado_lote }}
             {{ form.situacao_cercado_lote.errors }}
           </div>
@@ -1650,19 +1689,19 @@
 
           <div class="form-group col-md-6">
             <div class="form-group col-md-12">
-              {{ form.possui_pastagem_em_pastejo_rotacionado.label_tag }}
+              <b>{{ form.possui_pastagem_em_pastejo_rotacionado.label_tag }}</b>
               {{ form.possui_pastagem_em_pastejo_rotacionado }}
               {{ form.possui_pastagem_em_pastejo_rotacionado.errors }}
             </div>
             <div>
               <div class="form-group col-md-12">
-                {{ form.area_pastejo_rotacionado.label_tag }}
+                <b>{{ form.area_pastejo_rotacionado.label_tag }}</b>
                 {{ form.area_pastejo_rotacionado }}
                 {{ form.area_pastejo_rotacionado.errors }}
               </div>
             </div>
             <div class="form-group col-md-12">
-              {{ form.pratica_inseminacao_artificial_no_rebanho_leiteiro.label_tag }}
+              <b>{{ form.pratica_inseminacao_artificial_no_rebanho_leiteiro.label_tag }}</b>
               {{ form.pratica_inseminacao_artificial_no_rebanho_leiteiro }}
               {{ form.pratica_inseminacao_artificial_no_rebanho_leiteiro.errors }}
             </div>
@@ -1742,12 +1781,12 @@
           </div>
 
           <div class="form-group col-md-6">
-            {{ form.area_preservacao_permanente.label_tag }}
+            <b>{{ form.area_preservacao_permanente.label_tag }}</b>
             {{ form.area_preservacao_permanente }}
             {{ form.area_preservacao_permanente.errors }}
           </div>
           <div class="form-group col-md-6">
-            {{ form.area_preservacao_permanente_cercada.label_tag }}
+            <b>{{ form.area_preservacao_permanente_cercada.label_tag }}</b>
             {{ form.area_preservacao_permanente_cercada }}
             {{ form.area_preservacao_permanente_cercada.errors }}
           </div>
@@ -1791,7 +1830,7 @@
             </div>
           </div>
 
-          <div class="form-group col-md-8">
+          <div class="form-group col-md-6">
 
             {{ PraticaConservacionistaInlineFormSet.management_form }}
 
@@ -1825,20 +1864,75 @@
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div class="form-group col-md-12">
-              {{ form.destino_lixo_domestico_nao_organico.label_tag }}
-              {{ form.destino_lixo_domestico_nao_organico }}
-              {{ form.destino_lixo_domestico_nao_organico.errors }}
-            </div>
-            <div class="form-group col-md-12">
-              {{ form.destino_material_organico.label_tag }}
-              {{ form.destino_material_organico }}
-              {{ form.destino_material_organico.errors }}
+          <div class="form-group col-md-6">
+
+            {{ DestinoLixoDomesticoNaoOrganicoInlineFormSet.management_form }}
+
+            <div class="card card-register">
+              <div class="card-header"><b>42. Qual o destino do lixo doméstico não orgânico?</b><br/></div>
+              <div class="card-body">
+                <div>
+                  {% for form in DestinoLixoDomesticoNaoOrganicoInlineFormSet %}
+                    <div id="{{ form.prefix }}-row" class="dynamic-form-destinos_lixo_domestico_nao_organico form-row">
+                      {{ form.id }}
+                      <div class="col-md-10">
+                        {{ form.destino_lixo_domestico_nao_organico.label_tag }}
+                        {{ form.destino_lixo_domestico_nao_organico }}
+                        {{ form.destino_lixo_domestico_nao_organico.errors }}
+                      </div>
+                      <div class="col-md-1" style="margin-top: 2rem; padding-left: 2rem;">
+                        <a id="destinos_lixo_domestico_nao_organico" href="javascript:void(0)" class="btn btn-danger delete-row" title="Excluir Destino">
+                          <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                        </a>
+                        <div hidden="true">{{ form.DELETE }}</div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div>
+                  <a id="destinos_lixo_domestico_nao_organico" href="javascript:void(0)" class="btn btn-success add-row" title="Novo Destino" style="margin-top: 1rem;">
+                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="form-group col-md-8">
+          <div class="form-group col-md-6">
+
+            {{ DestinoMaterialOrganicoInlineFormSet.management_form }}
+
+            <div class="card card-register">
+              <div class="card-header"><b>43. Qual o destino do material orgânico?</b><br/></div>
+              <div class="card-body">
+                <div>
+                  {% for form in DestinoMaterialOrganicoInlineFormSet %}
+                    <div id="{{ form.prefix }}-row" class="dynamic-form-destinos_material_organico form-row">
+                      {{ form.id }}
+                      <div class="col-md-10">
+                        {{ form.destino_material_organico.label_tag }}
+                        {{ form.destino_material_organico }}
+                        {{ form.destino_material_organico.errors }}
+                      </div>
+                      <div class="col-md-1" style="margin-top: 2rem; padding-left: 2rem;">
+                        <a id="destinos_material_organico" href="javascript:void(0)" class="btn btn-danger delete-row" title="Excluir Destino">
+                          <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                        </a>
+                        <div hidden="true">{{ form.DELETE }}</div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div>
+                  <a id="destinos_material_organico" href="javascript:void(0)" class="btn btn-success add-row" title="Novo Destino" style="margin-top: 1rem;">
+                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
 
             {{ LicenciamentoAmbientalInlineFormSet.management_form }}
 
@@ -1877,9 +1971,9 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group col-md-12">
-              {{ form.necessita_autoriacao_exploracao_florestal_queima_controlada.label_tag }}
+              <b>{{ form.necessita_autoriacao_exploracao_florestal_queima_controlada.label_tag }}</b>
               {{ form.necessita_autoriacao_exploracao_florestal_queima_controlada }}
               {{ form.necessita_autoriacao_exploracao_florestal_queima_controlada.errors }}
             </div>
@@ -1924,12 +2018,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-group col-md-12" style="margin-top: 3rem; padding-left: 0px; padding-left: 0px;">
-              {{ form.qualidade_servico_saude.label_tag }}
-              {{ form.qualidade_servico_saude }}
-              {{ form.qualidade_servico_saude.errors }}
-            </div>
           </div>
 
           <div class="form-group col-md-6">
@@ -1966,7 +2054,13 @@
             </div>
           </div>
 
-          <div class="form-group col-md-8">
+          <div class="form-group col-md-6" style="padding-left: 5px;">
+            <b>{{ form.qualidade_servico_saude.label_tag }}</b>
+            {{ form.qualidade_servico_saude }}
+            {{ form.qualidade_servico_saude.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
 
             {{ AtividadeFisicaInlineFormSet.management_form }}
 
@@ -2005,9 +2099,9 @@
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div class="form-group col-md-12">
-              {{ form.frequencia_atividade_fisica.label_tag }}
+          <div class="col-md-6">
+            <div class="form-group col-md-12" style="padding-left: 5px;">
+              <b>{{ form.frequencia_atividade_fisica.label_tag }}</b>
               {{ form.frequencia_atividade_fisica }}
               {{ form.frequencia_atividade_fisica.errors }}
             </div>
@@ -2088,7 +2182,7 @@
 
         <div class="form-row">
           <div class="form-group col-md-6">
-            {{ form.oferta_transporte_interno.label_tag }}
+            <b>{{ form.oferta_transporte_interno.label_tag }}</b>
             {{ form.oferta_transporte_interno }}
             {{ form.oferta_transporte_interno.errors }}
           </div>
