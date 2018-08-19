@@ -365,13 +365,15 @@ class DocumentoLote(AuditoriaAbstractModel):
     TIPO_DOCUMENTO_TITULO_DEFINITIVO_NAO_REGISTRADO = 30
     TIPO_DOCUMENTO_TITULO_DEFINITIVO_REGISTRADO_CARTORIO = 40
     TIPO_DOCUMENTO_MATRICULA_DA_PROPRIEDADE = 50
+    TIPO_DOCUMENTO_NAO_POSSUI = 999
 
     tipo_documento_choices = Choices(
         (TIPO_DOCUMENTO_CONTRATO_DE_ASSENTAMENTO, 'Contrato de Assentamento'),
         (TIPO_DOCUMENTO_CONTRATO_DE_CONCESSAO_DE_USO, 'Contrato de Concessão de Uso - CCU'),
         (TIPO_DOCUMENTO_TITULO_DEFINITIVO_NAO_REGISTRADO, 'Título Definitivo - não registrado'),
         (TIPO_DOCUMENTO_TITULO_DEFINITIVO_REGISTRADO_CARTORIO, 'Título Definitivo - registrado cartório'),
-        (TIPO_DOCUMENTO_MATRICULA_DA_PROPRIEDADE, 'Matrícula da Propriedade')
+        (TIPO_DOCUMENTO_MATRICULA_DA_PROPRIEDADE, 'Matrícula da Propriedade'),
+        (TIPO_DOCUMENTO_NAO_POSSUI, 'Não possui')
     )
     tipo_documento = models.IntegerField('Documento', choices=tipo_documento_choices, blank=True, null=True)
 
@@ -1550,6 +1552,7 @@ class ProblemaAmbiental(AuditoriaAbstractModel):
     TIPO_PROBLEMA_QUEIMADAS = 90
     TIPO_PROBLEMA_DESMATAMENTO = 100
     TIPO_PROBLEMA_OUTROS = 110
+    TIPO_PROBLEMA_NAO_SE_APLICA = 999
 
     tipo_problema_choices = Choices(
         (TIPO_PROBLEMA_EROSAO, 'Erosão (laminar, sulco, voçoroca)'),
@@ -1566,7 +1569,8 @@ class ProblemaAmbiental(AuditoriaAbstractModel):
         (TIPO_PROBLEMA_ASSOREAMENTO_DE_RIO_CORREGO, 'Assoreamento de rio/córrego'),
         (TIPO_PROBLEMA_QUEIMADAS, 'Queimadas'),
         (TIPO_PROBLEMA_DESMATAMENTO, 'Desmatamento'),
-        (TIPO_PROBLEMA_OUTROS, 'Outros')
+        (TIPO_PROBLEMA_OUTROS, 'Outros'),
+        (TIPO_PROBLEMA_NAO_SE_APLICA, 'Não se aplica')
     )
     tipo_problema = models.IntegerField('Tipo de problema', choices=tipo_problema_choices, blank=True, null=True)
     outros = models.CharField('Outros (Especificar)', max_length=50, blank=True, null=True)
@@ -1594,6 +1598,7 @@ class PraticaConservacionista(AuditoriaAbstractModel):
     TIPO_PRATICA_CONTROLE_ALTERNATIVO_DE_PRAGAS_E_DOENCAS = 60
     TIPO_PRATICA_AGROFLORESTA = 70
     TIPO_PRATICA_PLANTIOS_DE_ARVORES_PARA_PROTECAO_DE_MANACIAIS_AREAS_DEGRADADAS = 80
+    TIPO_PRATICA_NAO_SE_APLICA = 90
 
     tipo_pratica_choices = Choices(
         (TIPO_PRATICA_ADUBACAO_VERDE, 'Adubação verde'),
@@ -1604,7 +1609,8 @@ class PraticaConservacionista(AuditoriaAbstractModel):
         (TIPO_PRATICA_CONTROLE_ALTERNATIVO_DE_PRAGAS_E_DOENCAS, 'Controle alternativo de pragas e doenças'),
         (TIPO_PRATICA_AGROFLORESTA, 'Agrofloresta'),
         (TIPO_PRATICA_PLANTIOS_DE_ARVORES_PARA_PROTECAO_DE_MANACIAIS_AREAS_DEGRADADAS,
-         'Plantios de árvores para proteção de mananciais / áreas degradadas')
+         'Plantios de árvores para proteção de mananciais / áreas degradadas'),
+        (TIPO_PRATICA_NAO_SE_APLICA, 'Não se aplica'),
     )
     tipo_pratica = models.IntegerField('Prática Conservacionista', choices=tipo_pratica_choices, blank=True, null=True)
 
@@ -1980,12 +1986,14 @@ class Membro(AuditoriaAbstractModel):
     OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_NA_CIDADE_MAIS_PRÓXIMA = 20
     OPCAO_ENSINO_UTILIZADA_DEIXA_DE_FREQUENTAR_A_ESCOLA = 30
     OPCAO_ENSINO_UTILIZADA_OUTROS = 99
+    OPCAO_ENSINO_UTILIZADA_NAO_SE_APLICA = 199
 
     opcao_ensino_utilizada_choices = Choices(
         (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Frequenta escola em outro assentamento'),
         (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_NA_CIDADE_MAIS_PRÓXIMA, 'Frequenta escola na cidade mais próxima'),
         (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Deixa de frequentar a escola'),
-        (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Outros')
+        (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Outros'),
+        (OPCAO_ENSINO_UTILIZADA_NAO_SE_APLICA, 'Não se aplica')
     )
     opcao_ensino_utilizada = models.IntegerField('Opção de ensino utilizada', choices=opcao_ensino_utilizada_choices,
                                                  blank=True, null=True)
