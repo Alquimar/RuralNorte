@@ -53,10 +53,14 @@
     </thead>
     <tbody>
     <tr>
-      <td>{{ object.entrevistador }}</td>
+      <td style="width: 55%;">{{ object.entrevistador }}</td>
       <td>
         <div class="container">
           <div class="row">
+            <div class="col-sm">
+              <b>Banda:</b>
+              {{ object.banda_coordenada }}
+            </div>
             <div class="col-sm">
               <b>X</b>
               {{ object.coordenada_x }}
@@ -289,7 +293,7 @@
             {% if object.recebe_beneficio_social == object.CHOICE_SIM %}
               {% for beneficio in object.beneficios.all %}
                 <tr>
-                  {% if beneficio.tipo_beneficio == TIPO_BENEFICIO_OUTROS %}
+                  {% if beneficio.tipo_beneficio == beneficio.TIPO_BENEFICIO_OUTROS %}
                     <td scope="col">{{ beneficio.get_tipo_beneficio_display }}: {{ beneficio.outros }}</td>
                   {% else %}
                     <td scope="col">{{ beneficio.get_tipo_beneficio_display }}</td>
@@ -667,76 +671,21 @@
       </div>
 
       <div class="form-group col-md-6">
-        <div class="row" style="margin-bottom: 5px;">
+        <div class="row" style="margin-bottom: 0.5rem;">
           <b>16. No lote tem água para os animais / Plantio?</b>
         </div>
-        <div class="row" style="padding-right: 2rem;">
+        <div class="row" style="margin-right: -5px;">
           <table class="table table-bordered">
             <tbody>
-            <tr>
-              <td scope="col">Sim, os animais vão até um curso d'água ou represa</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_SIM_OS_ANIMAIS_VAO_ATE_CURSO_DAGUA_OU_REPRESA %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Sim, a água é puxada de um curso d'água ou represa</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_SIM_AGUA_PUXADA_DE_CURSO_DAGUA_OU_REPRESA %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Sim, temos um poço exclusivo para os animais</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_SIM_TEMOS_POCO_EXCLUSIVO_PARA_ANIMAIS %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Sim, é a mesma água que vem para a casa</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_SIM_MESMA_AGUA_QUE_VEM_PARA_CASA %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Não há água para animais</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_NAO_HA_AGUA_PARA_ANIMAIS %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Sim, existe água para plantio(s) irrigado(s)</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_SIM_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Não existe água para plantio(s) irrigado(s)</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_NAO_EXISTE_AGUA_PARA_PLANTIO_IRRIGADO %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
-            <tr>
-              <td scope="col">Outros: {{ object.agua_para_animais_plantio_outros|default:"" }}</td>
-              {% if object.agua_para_animais_plantio == object.AGUA_PARA_ANIMAIS_PLANTIO_OUTROS %}
-                <td scope="col" style="text-align: center;">Sim</td>
-              {% else %}
-                <td scope="col" style="text-align: center;">Não</td>
-              {% endif %}
-            </tr>
+            {% for aguaAnimalPlantio in object.aguasParaAnimaisPlantio.all %}
+              <tr>
+                {% if aguaAnimalPlantio.agua_para_animais_plantio == aguaAnimalPlantio.AGUA_PARA_ANIMAIS_PLANTIO_OUTROS %}
+                  <td scope="col">{{ aguaAnimalPlantio.get_agua_para_animais_plantio_display }}: {{ aguaAnimalPlantio.outros }}</td>
+                {% else %}
+                  <td scope="col">{{ aguaAnimalPlantio.get_agua_para_animais_plantio_display }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>
