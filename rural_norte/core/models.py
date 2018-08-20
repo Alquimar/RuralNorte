@@ -924,7 +924,7 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     producao_unidade_medida = models.IntegerField(
         'Unidade de medida', choices=unidade_medida_choices, blank=True, null=True
     )
-    valor = models.DecimalField('Valor (R$)', max_digits=10, decimal_places=4, blank=True, null=True)
+    valor = models.DecimalField('Valor (R$)', max_digits=10, decimal_places=2, blank=True, null=True)
 
     IRRIGACAO_SIM = 1
     IRRIGACAO_NAO = 0
