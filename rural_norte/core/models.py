@@ -743,10 +743,10 @@ class AplicacaoCredito(AuditoriaAbstractModel):
     def __str__(self):
         return '{} - R$ {}'.format(self.tipo_aplicacao_credito_choices[self.tipo_aplicacao_credito], self.valor)
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
     class Meta:
         verbose_name = ''
@@ -793,10 +793,10 @@ class CreditoBancario(AuditoriaAbstractModel):
         retorno = '{} - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario], self.valor, self.sim_nao_choices[self.adimplente])
         return retorno
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
     class Meta:
         verbose_name = ''
@@ -992,10 +992,10 @@ class ProducaoVegetal(AuditoriaAbstractModel):
     )
     mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices, blank=True, null=True)
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
 class CulturaManager(models.Manager):
     def get_queryset(self):
@@ -1147,10 +1147,10 @@ class AtividadeExtrativista(AuditoriaAbstractModel):
         retorno = '{} - {} fruto(s), {} palmito(s)'.format(self.especificacao_choices[self.especificacao], self.quantidade_frutos_ano, self.quantidade_palmitos_ano)
         return retorno
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
     class Meta:
         verbose_name = ''
@@ -1205,10 +1205,10 @@ class ProducaoFlorestal(AuditoriaAbstractModel):
         retorno = '{} - {}'.format(self.especificacao_choices[self.especificacao], self.quantidade_produzida_ano)
         return retorno
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
     class Meta:
         verbose_name = ''
@@ -1271,10 +1271,10 @@ class ProducaoAnimal(AuditoriaAbstractModel):
     quantidade_cabecas = models.IntegerField('Nº de Cabeça(s)', blank=True, null=True)
     valor_cabeca = models.DecimalField('R$/Cabeça', max_digits=7, decimal_places=2, blank=True, null=True)
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
 
 class BovinoculturaManager(models.Manager):
@@ -1364,10 +1364,10 @@ class DescarteAnimal(AuditoriaAbstractModel):
                                                 choices=canal_comercializacao_choices, blank=True, null=True)
     canal_comercializacao_outros = models.CharField('Outros (Especificar)', max_length=30, blank=True, null=True)
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor_cabeca, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor_cabeca, grouping=True, symbol=None)
 
 
 class BovinoculturaLeiteiraManager(models.Manager):
@@ -1501,10 +1501,10 @@ class Produto(AuditoriaAbstractModel):
     mercado_institucional = models.IntegerField('Mercado Institucional', choices=mercado_institucional_choices,
                                                 blank=True, null=True)
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
 
 class OrigemAnimalManager(models.Manager):
@@ -2043,10 +2043,10 @@ class Membro(AuditoriaAbstractModel):
     def __str__(self):
         return self.nome
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.trabalho_fora_lote_valor_diaria, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.trabalho_fora_lote_valor_diaria, grouping=True, symbol=None)
 
 
 class Contato(AuditoriaAbstractModel):

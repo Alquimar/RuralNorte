@@ -956,7 +956,7 @@
               {% for aplicacao_credito in object.aplicacoesCredito.all %}
                 <tr>
                   <td scope="col">{{ aplicacao_credito.get_tipo_aplicacao_credito_display }}</td>
-                  <td scope="col" style="text-align: center;">{{ aplicacao_credito.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ aplicacao_credito.valor }}</td>
                 </tr>
               {% endfor %}
               </tbody>
@@ -1053,7 +1053,7 @@
                         {{ producao_vegetal.get_producao_unidade_medida_display|default_if_none:"" }}
                       {% endif %}
                     </td>
-                    <td scope="col" style="text-align: center;">{{ producao_vegetal.format_valor|default_if_none:"" }}</td>
+                    <td scope="col" style="text-align: center;">{{ producao_vegetal.valor|default_if_none:"" }}</td>
                     <td scope="col">{{ producao_vegetal.get_canal_comercializacao_display|default:"-" }}</td>
                     <td scope="col">{{ producao_vegetal.get_mercado_institucional_display|default:"-" }}</td>
                   </tr>
@@ -1103,7 +1103,7 @@
                         {{ producao_vegetal.get_producao_unidade_medida_display|default_if_none:"" }}
                       {% endif %}
                     </td>
-                    <td scope="col" style="text-align: center;">{{ producao_vegetal.format_valor|default_if_none:"" }}</td>
+                    <td scope="col" style="text-align: center;">{{ producao_vegetal.valor|default_if_none:"" }}</td>
                     <td scope="col">{{ producao_vegetal.get_canal_comercializacao_display|default:"-" }}</td>
                     <td scope="col">{{ producao_vegetal.get_mercado_institucional_display|default:"-" }}</td>
                   </tr>
@@ -1153,7 +1153,7 @@
                         {{ producao_vegetal.get_producao_unidade_medida_display|default_if_none:"" }}
                       {% endif %}
                     </td>
-                    <td scope="col" style="text-align: center;">{{ producao_vegetal.format_valor|default_if_none:"" }}</td>
+                    <td scope="col" style="text-align: center;">{{ producao_vegetal.valor|default_if_none:"" }}</td>
                     <td scope="col">{{ producao_vegetal.get_canal_comercializacao_display|default:"-" }}</td>
                     <td scope="col">{{ producao_vegetal.get_mercado_institucional_display|default:"-" }}</td>
                   </tr>
@@ -1220,7 +1220,7 @@
                   {% endif %}
                   <td scope="col" style="text-align: center;">{{ atividade_extrativista.quantidade_frutos_ano }} Kg</td>
                   <td scope="col" style="text-align: center;">{{ atividade_extrativista.quantidade_palmitos_ano }} Kg</td>
-                  <td scope="col" style="text-align: center;">{{ atividade_extrativista.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ atividade_extrativista.valor }}</td>
                   <td scope="col">{{ atividade_extrativista.get_canal_comercializacao_display|default:"-" }}</td>
                   <td scope="col">{{ atividade_extrativista.get_mercado_institucional_display|default:"-" }}</td>
                 </tr>
@@ -1259,7 +1259,7 @@
                   {% endif %}
                   <td scope="col" style="text-align: center;">{{ producao_florestal.quantidade_produzida_ano }}</td>
                   <td scope="col" style="text-align: center;">{{ producao_florestal.area_plantada }}</td>
-                  <td scope="col" style="text-align: center;">{{ producao_florestal.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ producao_florestal.valor }}</td>
                   <td scope="col">{{ producao_florestal.get_canal_comercializacao_display|default:"-" }}</td>
                 </tr>
               {% endfor %}
@@ -1305,7 +1305,7 @@
                       <td scope="col" style="text-align: center;">-</td>
                       <td scope="col" style="text-align: center;">-</td>
                       <td scope="col" style="text-align: center;">{{ producao_animal.quantidade_cabecas }}</td>
-                      <td scope="col" style="text-align: center;">{{ producao_animal.format_valor }}</td>
+                      <td scope="col" style="text-align: center;">{{ producao_animal.valor_cabeca }}</td>
                     {% endif %}
                   </tr>
                 {% endif %}
@@ -1338,7 +1338,7 @@
                   <tr>
                     <td scope="col">{{ producao_animal.get_especificacao_display }}</td>
                     <td scope="col" style="text-align: center;">{{ producao_animal.quantidade_cabecas }}</td>
-                    <td scope="col" style="text-align: center;">{{ producao_animal.format_valor }}</td>
+                    <td scope="col" style="text-align: center;">{{ producao_animal.valor_cabeca }}</td>
                   </tr>
                 {% endif %}
               {% endfor %}
@@ -1372,7 +1372,7 @@
                   <td scope="col">{{ descarte_animal.get_especificacao_display }}</td>
                   <td scope="col" style="text-align: center;">{{ descarte_animal.quantidade_cabecas_consumo }}</td>
                   <td scope="col" style="text-align: center;">{{ descarte_animal.quantidade_cabecas_comercio }}</td>
-                  <td scope="col" style="text-align: center;">{{ descarte_animal.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ descarte_animal.valor_cabeca }}</td>
                   <td scope="col">{{ descarte_animal.get_canal_comercializacao_display|default:"-" }}</td>
                 </tr>
                 </tbody>
@@ -1400,7 +1400,7 @@
                   <td scope="col">{{ descarte_animal.get_especificacao_display }}</td>
                   <td scope="col" style="text-align: center;">{{ descarte_animal.quantidade_cabecas_consumo }}</td>
                   <td scope="col" style="text-align: center;">{{ descarte_animal.quantidade_cabecas_comercio }}</td>
-                  <td scope="col" style="text-align: center;">{{ descarte_animal.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ descarte_animal.valor_cabeca }}</td>
                   <td scope="col">{{ descarte_animal.get_canal_comercializacao_display|default:"-" }}</td>
                 </tr>
                 </tbody>
@@ -1513,7 +1513,7 @@
                   {% endif %}
                   <td scope="col" style="text-align: center;">{{ produto_processado.producao_consumo }}</td>
                   <td scope="col" style="text-align: center;">{{ produto_processado.producao_comercio }}</td>
-                  <td scope="col" style="text-align: center;">{{ produto_processado.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ produto_processado.valor }}</td>
                   <td scope="col">{{ produto_processado.get_canal_comercializacao_display|default:"-" }}</td>
                   <td scope="col">{{ produto_processado.get_mercado_institucional_display|default:"-" }}</td>
                 </tr>
@@ -1543,7 +1543,7 @@
                 <tr>
                   <td scope="col">{{ membro.id }} - {{ membro.nome }}</td>
                   <td scope="col" style="text-align: center;">{{ membro.trabalho_fora_lote_quantidade_dias_ano }}</td>
-                  <td scope="col" style="text-align: center;">{{ membro.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ membro.trabalho_fora_lote_valor_diaria }}</td>
                 </tr>
                 </tbody>
               </table>
