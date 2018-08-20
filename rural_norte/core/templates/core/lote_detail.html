@@ -989,7 +989,7 @@
                   {% else %}
                     <td scope="col">{{ credito_bancario.get_credito_bancario_display }}</td>
                   {% endif %}
-                  <td scope="col" style="text-align: center;">{{ credito_bancario.format_valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ credito_bancario.valor }}</td>
                   {% if credito_bancario.adimplente %}
                     <td scope="col" style="text-align: center;">{{ credito_bancario.get_adimplente_display }}</td>
                   {% else %}
