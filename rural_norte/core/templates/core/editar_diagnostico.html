@@ -2324,12 +2324,9 @@
         });
 
         [].forEach.call(valores, function (valor) {
-          {#alert($(valor).val());#}
-          {#$(valor).unmask();#}
           var value = $(valor).val().replace(".", "");
           value = value.replace(",", ".");
           $(valor).val(value);
-          {#alert($(valor).val());#}
         });
       });
 

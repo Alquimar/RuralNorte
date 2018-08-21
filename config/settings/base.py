@@ -297,3 +297,5 @@ STRONGHOLD_PUBLIC_NAMED_URLS = (
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+DECIMAL_SEPARATOR = ','
+USE_THOUSAND_SEPARATOR = True
