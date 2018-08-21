@@ -113,30 +113,41 @@
     <tbody>
 
     {% for membro in object.membros.all %}
-      {% if membro.codigo_familia == familia %}
-        <tr>
-          <td style="text-align: center;">{{ membro.id }}</td>
-          <td>{{ membro.nome }}</td>
-          <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>
-          <td style="text-align: center;">{{ membro.idade|default:"" }}</td>
-          <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
-          <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
-        </tr>
+      {% if membro.codigo_familia %}
+        {% if membro.codigo_familia == familia %}
+          <tr>
+            <td style="text-align: center;">{{ membro.id }}</td>
+            <td>{{ membro.nome }}</td>
+            <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.idade|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
+          </tr>
+        {% else %}
+          {% increment familia %}
+          <tr>
+            <td style="border-color: #FFFFFF">
+              <h4>Família #{{ familia }}</h4>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="table-secondary" style="text-align: center;">Código</th>
+            <th scope="col" class="table-secondary" style="text-align: center;">Nome</th>
+            <th scope="col" class="table-secondary" style="text-align: center;">Parentesco</th>
+            <th scope="col" class="table-secondary" style="text-align: center;">Idade</th>
+            <th scope="col" class="table-secondary" style="text-align: center;">Escolaridade</th>
+            <th scope="col" class="table-secondary" style="text-align: center;">Estuda?</th>
+          </tr>
+          <tr>
+            <td style="text-align: center;">{{ membro.id }}</td>
+            <td>{{ membro.nome }}</td>
+            <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.idade|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
+            <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
+          </tr>
+        {% endif %}
       {% else %}
-        {% increment familia %}
-        <tr>
-          <td style="border-color: #FFFFFF">
-            <h4>Família #{{ familia }}</h4>
-          </td>
-        </tr>
-        <tr>
-          <th scope="col" class="table-secondary" style="text-align: center;">Código</th>
-          <th scope="col" class="table-secondary" style="text-align: center;">Nome</th>
-          <th scope="col" class="table-secondary" style="text-align: center;">Parentesco</th>
-          <th scope="col" class="table-secondary" style="text-align: center;">Idade</th>
-          <th scope="col" class="table-secondary" style="text-align: center;">Escolaridade</th>
-          <th scope="col" class="table-secondary" style="text-align: center;">Estuda?</th>
-        </tr>
         <tr>
           <td style="text-align: center;">{{ membro.id }}</td>
           <td>{{ membro.nome }}</td>
@@ -145,39 +156,6 @@
           <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
           <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
         </tr>
-        {#        </tbody>#}
-        {#        </table>#}
-        {##}
-        {#        <table class="table table-bordered" style="margin-bottom: 0;">#}
-        {#          <thead>#}
-        {#          <tr>#}
-        {#            <th scope="col" class="table-secondary" style="text-align: center;">Família {{ familia }}</th>#}
-        {#          </tr>#}
-        {#          </thead>#}
-        {#        </table>#}
-        {##}
-        {#        <table class="table table-bordered">#}
-        {#        <thead>#}
-        {#        <tr>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Família</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Código</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Nome</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Parentesco</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Idade</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Escolaridade</th>#}
-        {#          <th scope="col" class="table-secondary" style="text-align: center;">Estuda?</th>#}
-        {#        </tr>#}
-        {#        </thead>#}
-        {#        <div c>#}
-        {#        <tr>#}
-        {#          <td style="text-align: center;">{{ membro.codigo_familia }}</td>#}
-        {#          <td style="text-align: center;">{{ membro.id }}</td>#}
-        {#          <td>{{ membro.nome }}</td>#}
-        {#          <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>#}
-        {#          <td style="text-align: center;">{{ membro.idade|default:"" }}</td>#}
-        {#          <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>#}
-        {#          <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>#}
-        {#        </tr>#}
       {% endif %}
     {% endfor %}
 
