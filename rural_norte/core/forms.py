@@ -1704,7 +1704,7 @@ MembroInlineFormSet = forms.inlineformset_factory(
     extra=0,
     min_num=1,
     fields=(
-        'nome', 'parentesco', 'idade', 'escolaridade', 'estuda', 'cpf', 'trabalho_antes_do_lote',
+        'codigo_familia', 'nome', 'parentesco', 'idade', 'escolaridade', 'estuda', 'cpf', 'trabalho_antes_do_lote',
         'trabalho_fora_lote_quantidade_dias_ano', 'trabalho_fora_lote_valor_diaria', 'uso_frequente_bebida_alcoolica',
         'uso_frequente_cigarro', 'uso_frequente_remedios_alto_custo', 'uso_frequente_outros', 'opcao_ensino_utilizada',
         'opcao_ensino_utilizada_distancia_ate_escola', 'opcao_ensino_utilizada_oferta_de_transporte'
@@ -1712,6 +1712,12 @@ MembroInlineFormSet = forms.inlineformset_factory(
     formset=MembroFormSet,
     can_delete=True,
     widgets={
+        'codigo_familia': forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Informe o código'
+            }
+        ),
         'nome': forms.TextInput(
             attrs={
                 'class': 'form-control',

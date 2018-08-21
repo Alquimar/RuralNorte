@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load set_variavel_template %}
 
 {% block title %}Campo Diagnóstico: {{ object }}{% endblock %}
 
@@ -92,6 +93,12 @@
     </thead>
   </table>
 
+  {% set familia = 1 %}
+
+  <div class="form-group col-md-12" style="margin-top: 1rem;">
+    <h4>Família #{{ familia }}</h4>
+  </div>
+
   <table class="table table-bordered">
     <thead>
     <tr>
@@ -104,71 +111,133 @@
     </tr>
     </thead>
     <tbody>
+
     {% for membro in object.membros.all %}
-      <tr>
-        <td style="text-align: center;">{{ membro.id }}</td>
-        <td>{{ membro.nome }}</td>
-        <td style="text-align: center;">{{ membro.get_parentesco_display }}</td>
-        <td style="text-align: center;">{{ membro.idade }}</td>
-        <td style="text-align: center;">{{ membro.get_escolaridade_display }}</td>
-        <td style="text-align: center;">{{ membro.get_estuda_display }}</td>
-      </tr>
+      {% if membro.codigo_familia == familia %}
+        <tr>
+          <td style="text-align: center;">{{ membro.id }}</td>
+          <td>{{ membro.nome }}</td>
+          <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.idade|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
+        </tr>
+      {% else %}
+        {% increment familia %}
+        <tr>
+          <td style="border-color: #FFFFFF">
+            <h4>Família #{{ familia }}</h4>
+          </td>
+        </tr>
+        <tr>
+          <th scope="col" class="table-secondary" style="text-align: center;">Código</th>
+          <th scope="col" class="table-secondary" style="text-align: center;">Nome</th>
+          <th scope="col" class="table-secondary" style="text-align: center;">Parentesco</th>
+          <th scope="col" class="table-secondary" style="text-align: center;">Idade</th>
+          <th scope="col" class="table-secondary" style="text-align: center;">Escolaridade</th>
+          <th scope="col" class="table-secondary" style="text-align: center;">Estuda?</th>
+        </tr>
+        <tr>
+          <td style="text-align: center;">{{ membro.id }}</td>
+          <td>{{ membro.nome }}</td>
+          <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.idade|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>
+          <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>
+        </tr>
+        {#        </tbody>#}
+        {#        </table>#}
+        {##}
+        {#        <table class="table table-bordered" style="margin-bottom: 0;">#}
+        {#          <thead>#}
+        {#          <tr>#}
+        {#            <th scope="col" class="table-secondary" style="text-align: center;">Família {{ familia }}</th>#}
+        {#          </tr>#}
+        {#          </thead>#}
+        {#        </table>#}
+        {##}
+        {#        <table class="table table-bordered">#}
+        {#        <thead>#}
+        {#        <tr>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Família</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Código</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Nome</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Parentesco</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Idade</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Escolaridade</th>#}
+        {#          <th scope="col" class="table-secondary" style="text-align: center;">Estuda?</th>#}
+        {#        </tr>#}
+        {#        </thead>#}
+        {#        <div c>#}
+        {#        <tr>#}
+        {#          <td style="text-align: center;">{{ membro.codigo_familia }}</td>#}
+        {#          <td style="text-align: center;">{{ membro.id }}</td>#}
+        {#          <td>{{ membro.nome }}</td>#}
+        {#          <td style="text-align: center;">{{ membro.get_parentesco_display|default:"" }}</td>#}
+        {#          <td style="text-align: center;">{{ membro.idade|default:"" }}</td>#}
+        {#          <td style="text-align: center;">{{ membro.get_escolaridade_display|default:"" }}</td>#}
+        {#          <td style="text-align: center;">{{ membro.get_estuda_display|default:"" }}</td>#}
+        {#        </tr>#}
+      {% endif %}
     {% endfor %}
+
     </tbody>
   </table>
 
-  <div class="container" style="padding-left: 0px; margin-left: 1rem;">
-    <div class="row" style="margin-bottom: 10px;">
-      <b>Contato:</b>
-    </div>
-    <div class="row">
-      {% for contato in object.contatos.all %}
-        <div style="margin-left: 10px; margin-right: 5px;">
-          <b>Telefone {{ forloop.counter }}:</b>
-        </div>
-        <div style="margin-right: 10px;">
-          {{ contato.telefone }}
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
-    <div class="row">
-      <div style="margin-right: 5px;">
-        <b>CAD - Único:</b>
-      </div>
-      <div>
-        {{ object.get_cad_unico_display }}
-      </div>
-    </div>
-  </div>
-
-  <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
-    <div class="row">
-      <div style="margin-right: 5px;">
-        <b>Situação do Ocupante:</b>
-      </div>
-      <div>
-        {{ object.get_ocupante_irregular_display }}
-      </div>
-    </div>
-  </div>
-
-  {% if object.ocupante_irregular == object.STATUS_IRREGULAR %}
-    <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
-      <div class="row">
-        <div style="margin-right: 5px;">
-          <b>Em caso afirmativo, há quanto tempo?</b>
-        </div>
-        <div>
-          {{ object.ocupante_irregular_tempo|default:"" }}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
   <div class="form-row" style="margin-left: 0.7rem; margin-right: 0px; margin-top: 10px;">
+    <div class="form-group col-md-6">
+      <div class="container" style="padding-left: 0px; margin-left: 1rem;">
+        <div class="row" style="margin-bottom: 10px;">
+          <b>Contato:</b>
+        </div>
+        <div class="row">
+          {% for contato in object.contatos.all %}
+            <div style="margin-left: 10px; margin-right: 5px;">
+              <b>Telefone {{ forloop.counter }}:</b>
+            </div>
+            <div style="margin-right: 10px;">
+              {{ contato.telefone }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
+        <div class="row">
+          <div style="margin-right: 5px;">
+            <b>CAD - Único:</b>
+          </div>
+          <div>
+            {{ object.get_cad_unico_display }}
+          </div>
+        </div>
+      </div>
+
+      <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
+        <div class="row">
+          <div style="margin-right: 5px;">
+            <b>Situação do Ocupante:</b>
+          </div>
+          <div>
+            {{ object.get_ocupante_irregular_display }}
+          </div>
+        </div>
+      </div>
+
+      {% if object.ocupante_irregular == object.STATUS_IRREGULAR %}
+        <div class="container" style="padding-left: 0px; margin-left: 1rem; margin-top: 1rem;">
+          <div class="row">
+            <div style="margin-right: 5px;">
+              <b>Em caso afirmativo, há quanto tempo?</b>
+            </div>
+            <div>
+              {{ object.ocupante_irregular_tempo|default:"" }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
     <div class="form-group col-md-6" style="margin-bottom: 0px; padding-right: 2rem;">
       <div class="row" style="margin-bottom: 0.5rem;">
         <b>1. Qual documento o lote possui?</b>
@@ -194,44 +263,44 @@
       <div class="row" style="margin-bottom: 0.5rem;">
         <b>2. Antes entrarem no lote, trabalhava onde?</b>
       </div>
-      <div class="form-group row-md-12" style="margin-left: -15px; margin-right: -5px;">
+      <div class="form-group row-md-6" style="margin-left: -15px; margin-right: -5px; padding-right: 2rem;">
         {% for membro in object.membros.all %}
-          {% if membro.get_parentesco_display == 'Titular' %}
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th scope="col">Titular: {{ membro.nome }}</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td scope="col">Sempre trabalhou no campo</td>
-                {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_SEMPRE_TRABALHOU_NO_CAMPO %}
-                  <td scope="col" style="text-align: center;">Sim</td>
-                {% else %}
-                  <td scope="col" style="text-align: center;">Não</td>
-                {% endif %}
-              </tr>
-              <tr>
-                <td scope="col">Trabalhou parte do tempo na cidade</td>
-                {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_TRABALHOU_PARTE_DO_TEMPO_NA_CIDADE %}
-                  <td scope="col" style="text-align: center;">Sim</td>
-                {% else %}
-                  <td scope="col" style="text-align: center;">Não</td>
-                {% endif %}
-              </tr>
-              <tr>
-                <td scope="col">Nunca trabalhou no campo antes</td>
-                {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_NUNCA_TRABALHOU_NO_CAMPO_ANTES %}
-                  <td scope="col" style="text-align: center;">Sim</td>
-                {% else %}
-                  <td scope="col" style="text-align: center;">Não</td>
-                {% endif %}
-              </tr>
-              </tbody>
-            </table>
-          {% elif membro.get_parentesco_display == 'Cônjuge' %}
-            <div class="col">
+          {% if membro.codigo_familia == 1 %}
+            {% if membro.get_parentesco_display == 'Titular' %}
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <th scope="col">Titular: {{ membro.nome }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td scope="col">Sempre trabalhou no campo</td>
+                  {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_SEMPRE_TRABALHOU_NO_CAMPO %}
+                    <td scope="col" style="text-align: center;">Sim</td>
+                  {% else %}
+                    <td scope="col" style="text-align: center;">Não</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <td scope="col">Trabalhou parte do tempo na cidade</td>
+                  {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_TRABALHOU_PARTE_DO_TEMPO_NA_CIDADE %}
+                    <td scope="col" style="text-align: center;">Sim</td>
+                  {% else %}
+                    <td scope="col" style="text-align: center;">Não</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <td scope="col">Nunca trabalhou no campo antes</td>
+                  {% if membro.trabalho_antes_do_lote == membro.TRABALHO_ANTES_DO_LOTE_NUNCA_TRABALHOU_NO_CAMPO_ANTES %}
+                    <td scope="col" style="text-align: center;">Sim</td>
+                  {% else %}
+                    <td scope="col" style="text-align: center;">Não</td>
+                  {% endif %}
+                </tr>
+                </tbody>
+              </table>
+            {% elif membro.get_parentesco_display == 'Cônjuge' %}
               <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -265,83 +334,85 @@
                 </tr>
                 </tbody>
               </table>
-            </div>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
     </div>
 
     <div class="form-group col-md-6">
-      <div class="row" style="margin-bottom: 0.5rem;">
-        <div>
-          <b>3. Algum dos membros da família recebe algun tipo de Benefício Social?</b>
-        </div>
-        <div class="row" style="margin-left: 5px;">
-          {{ object.get_recebe_beneficio_social_display }}
+      <div class="form-group col-md-12">
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <div>
+            <b>3. Algum dos membros da família recebe algun tipo de Benefício Social?</b>
+          </div>
+          <div class="row" style="margin-left: 5px;">
+            {{ object.get_recebe_beneficio_social_display }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group col-md-6">
-      <div class="form-group row-md-12">
-        <div class="row" style="margin-bottom: 0.5rem;">
-          <b>4. Qual o Tipo de benefício?</b>
+      <div class="form-group col-md-12">
+        <div class="form-group row-md-12">
+          <div class="row" style="margin-bottom: 0.5rem;">
+            <b>4. Qual o Tipo de benefício?</b>
+          </div>
+          <div class="row" style="margin-right: -5px;">
+            <table class="table table-bordered">
+              <tbody>
+              {% if object.recebe_beneficio_social == object.CHOICE_SIM %}
+                {% for beneficio in object.beneficios.all %}
+                  <tr>
+                    {% if beneficio.tipo_beneficio == beneficio.TIPO_BENEFICIO_OUTROS %}
+                      <td scope="col">{{ beneficio.get_tipo_beneficio_display }}: {{ beneficio.outros }}</td>
+                    {% else %}
+                      <td scope="col">{{ beneficio.get_tipo_beneficio_display }}</td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td scope="col">Os membros não recebem nenhum tipo de benefício social</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <div class="row" style="margin-bottom: 5px;">
+          <b>5. Quantos moradores se declaram:</b>
         </div>
         <div class="row" style="margin-right: -5px;">
-          <table class="table table-bordered">
-            <tbody>
-            {% if object.recebe_beneficio_social == object.CHOICE_SIM %}
-              {% for beneficio in object.beneficios.all %}
+          {% if object.autoDeclaracoes.all.count > 0 %}
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th scope="col" style="text-align: center;">Auto Declaração</th>
+                <th scope="col" style="text-align: center;">Quantidade</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for autodeclaracao in object.autoDeclaracoes.all %}
                 <tr>
-                  {% if beneficio.tipo_beneficio == beneficio.TIPO_BENEFICIO_OUTROS %}
-                    <td scope="col">{{ beneficio.get_tipo_beneficio_display }}: {{ beneficio.outros }}</td>
+                  {% if autodeclaracao.tipo_declaracao_etnia == autodeclaracao.TIPO_DECLARACAO_ETNIA_OUTROS %}
+                    <td scope="col" style="text-align: center;">{{ autodeclaracao.get_tipo_declaracao_etnia_display }}: {{ autodeclaracao.outros }}</td>
                   {% else %}
-                    <td scope="col">{{ beneficio.get_tipo_beneficio_display }}</td>
+                    <td scope="col" style="text-align: center;">{{ autodeclaracao.get_tipo_declaracao_etnia_display }}</td>
                   {% endif %}
+                  <td scope="col" style="text-align: center;">
+                    {{ autodeclaracao.quantidade }}
+                  </td>
                 </tr>
               {% endfor %}
-            {% else %}
-              <tr>
-                <td scope="col">Os membros não recebem nenhum tipo de benefício social</td>
-              </tr>
-            {% endif %}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          {% else %}
+            Não existem respostas registradas para essa questão
+          {% endif %}
         </div>
-      </div>
-    </div>
-
-    <div class="form-group col-md-12">
-      <div class="row" style="margin-bottom: 5px;">
-        <b>5. Quantos moradores se declaram:</b>
-      </div>
-      <div class="row" style="margin-right: -5px;">
-        {% if object.autoDeclaracoes.all.count > 0 %}
-          <table class="table table-bordered">
-            <thead>
-            <tr>
-              <th scope="col" style="text-align: center;">Auto Declaração</th>
-              <th scope="col" style="text-align: center;">Quantidade</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for autodeclaracao in object.autoDeclaracoes.all %}
-              <tr>
-                {% if autodeclaracao.tipo_declaracao_etnia == autodeclaracao.TIPO_DECLARACAO_ETNIA_OUTROS %}
-                  <td scope="col" style="text-align: center;">{{ autodeclaracao.get_tipo_declaracao_etnia_display }}: {{ autodeclaracao.outros }}</td>
-                {% else %}
-                  <td scope="col" style="text-align: center;">{{ autodeclaracao.get_tipo_declaracao_etnia_display }}</td>
-                {% endif %}
-                <td scope="col" style="text-align: center;">
-                  {{ autodeclaracao.quantidade }}
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          Não existem respostas registradas para essa questão
-        {% endif %}
       </div>
     </div>
   </div>

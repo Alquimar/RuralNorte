@@ -1929,6 +1929,7 @@ class NaoPossuiDocumento(AuditoriaAbstractModel):
 
 class Membro(AuditoriaAbstractModel):
     lote = models.ForeignKey(Lote, verbose_name='Lote', related_name='membros', on_delete=models.CASCADE)
+    codigo_familia = models.IntegerField('Código da Família', blank=True, null=True)
     nome = models.CharField('Nome', max_length=100)
 
     PARENTESCO_TITULAR = 10
@@ -2042,6 +2043,9 @@ class Membro(AuditoriaAbstractModel):
 
     def __str__(self):
         return self.nome
+
+    class Meta:
+        ordering = ['codigo_familia', 'pk']
 
     # def format_valor(self):
     #     import locale
