@@ -793,10 +793,10 @@ class CreditoBancario(AuditoriaAbstractModel):
         retorno = '{} - R$ {} - Adimplente: {}'.format(self.credito_bancario_choices[self.credito_bancario], self.valor, self.sim_nao_choices[self.adimplente])
         return retorno
 
-    def format_valor(self):
-        import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        return locale.currency(self.valor, grouping=True, symbol=None)
+    # def format_valor(self):
+    #     import locale
+    #     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    #     return locale.currency(self.valor, grouping=True, symbol=None)
 
     class Meta:
         verbose_name = ''
