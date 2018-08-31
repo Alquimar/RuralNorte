@@ -50,14 +50,6 @@ class LoteDetailView(DetailView):
     model = models.Lote
 
 
-def login(request):
-    template_name = 'core/login.html'
-    context = {
-
-    }
-    return render(request, template_name, context)
-
-
 def listar_contratos(request):
     atualizado_em = datetime.now()
     contratos = models.Contrato.objects.all()

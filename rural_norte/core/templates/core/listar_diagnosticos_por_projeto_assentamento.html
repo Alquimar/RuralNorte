@@ -113,10 +113,13 @@
                       </a>
                     </div>
                     <div>
+                      {% if request.user.is_staff %}
                       <a href="{% url 'core:editar_diagnostico' projeto_assentamento.pk diagnostico.id %}"
                          title="Editar" style="margin: 2px;">
                         <i class="fa fa-pencil fa-lg text-primary"></i>
                       </a>
+                      {% else %}
+                      {% endif %}
                     </div>
                     {#                    <div>#}
                     {#                      <a href="{% url 'core:excluir_diagnostico' projeto_assentamento.pk diagnostico.id %}"#}
