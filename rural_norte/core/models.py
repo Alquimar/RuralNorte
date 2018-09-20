@@ -2030,8 +2030,8 @@ class Membro(AuditoriaAbstractModel):
     opcao_ensino_utilizada_choices = Choices(
         (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Frequenta escola em outro assentamento'),
         (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_NA_CIDADE_MAIS_PRÓXIMA, 'Frequenta escola na cidade mais próxima'),
-        (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Deixa de frequentar a escola'),
-        (OPCAO_ENSINO_UTILIZADA_FREQUENTA_ESCOLA_EM_OUTRO_ASSENTAMENTO, 'Outros'),
+        (OPCAO_ENSINO_UTILIZADA_DEIXA_DE_FREQUENTAR_A_ESCOLA, 'Deixa de frequentar a escola'),
+        (OPCAO_ENSINO_UTILIZADA_OUTROS, 'Outros'),
         (OPCAO_ENSINO_UTILIZADA_NAO_SE_APLICA, 'Não se aplica')
     )
     opcao_ensino_utilizada = models.IntegerField('Opção de ensino utilizada', choices=opcao_ensino_utilizada_choices,
