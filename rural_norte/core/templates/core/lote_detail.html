@@ -1041,11 +1041,11 @@
               {% for credito_bancario in object.creditosBancarios.all %}
                 <tr>
                   {% if credito_bancario.credito_bancario == credito_bancario.CREDITO_BANCARIO_OUTROS %}
-                    <td scope="col">{{ credito_bancario.get_credito_bancario_display }}: {{ credito_bancario.outros }}</td>
+                    <td scope="col">{{ credito_bancario.get_credito_bancario_display }}: {{ credito_bancario.outros|default_if_none:"Não informado" }}</td>
                   {% else %}
                     <td scope="col">{{ credito_bancario.get_credito_bancario_display }}</td>
                   {% endif %}
-                  <td scope="col" style="text-align: center;">{{ credito_bancario.valor }}</td>
+                  <td scope="col" style="text-align: center;">{{ credito_bancario.valor|default_if_none:"Não informado" }}</td>
                   {% if credito_bancario.adimplente %}
                     <td scope="col" style="text-align: center;">{{ credito_bancario.get_adimplente_display }}</td>
                   {% else %}

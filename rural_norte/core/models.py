@@ -1934,8 +1934,11 @@ class Membro(AuditoriaAbstractModel):
 
     PARENTESCO_TITULAR = 10
     PARENTESCO_CONJUGE = 20
+    PARENTESCO_PAI = 24
+    PARENTESCO_MAE = 28
     PARENTESCO_IRMAO_IRMA = 30
     PARENTESCO_TIO_TIA = 40
+    PARENTESCO_SOBRINHO_SOBRINHA = 45
     PARENTESCO_PRIMO_PRIMA = 50
     PARENTESCO_FILHO_FILHA = 60
     PARENTESCO_ENTEADO_ENTEADA = 70
@@ -1947,8 +1950,11 @@ class Membro(AuditoriaAbstractModel):
     parentesco_choices = Choices(
         (PARENTESCO_TITULAR, 'Titular'),
         (PARENTESCO_CONJUGE, 'Cônjuge'),
+        (PARENTESCO_PAI, 'Pai'),
+        (PARENTESCO_MAE, 'Mãe'),
         (PARENTESCO_IRMAO_IRMA, 'Irmão(a)'),
         (PARENTESCO_TIO_TIA, 'Tio(a)'),
+        (PARENTESCO_SOBRINHO_SOBRINHA, 'Sobrinho(a)'),
         (PARENTESCO_PRIMO_PRIMA, 'Primo(a)'),
         (PARENTESCO_FILHO_FILHA, 'Filho(a)'),
         (PARENTESCO_ENTEADO_ENTEADA, 'Enteado(a)'),
